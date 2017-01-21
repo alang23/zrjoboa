@@ -615,7 +615,7 @@ hr {
 .container,
 .navbar-fixed-top .container,
 .navbar-fixed-bottom .container {
-  width: 950px;
+  width: 95%;
 }
 .span24 {
   width: 950px;

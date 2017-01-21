@@ -146,22 +146,10 @@ function flush(msg,url){
           </tbody>
         </table>
         <div>
-          <ul class="toolbar pull-left">
-            <li><label class="checkbox"><input type="checkbox"><a href="#">全选</a></label></li>
-            <li><button class="button button-danger"><i class="icon-white icon-trash"></i>批量删除</button></li>
-            <li><button class="button button-success">审核通过</button></li>
-            <li><button class="button button-inverse">审核不通过</button></li>
-          </ul>
+
           <div class="pagination pull-right">
             <ul>
-            <!--
-              <li class="disabled"><a href="#">« 上一页</a></li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">下一页 »</a></li>
-              -->
+
               <?=$page?>
             </ul>
           </div>

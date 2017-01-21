@@ -15,13 +15,17 @@ class Zrjoboa extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->check_login();
 	}
 
 
 	//判断登录
 	public function check_login()
 	{
-		
+		$token = $this->userlib->check_user_login();
+		if(empty($token)){
+			redirect('/login');
+		}
 	}
 
 

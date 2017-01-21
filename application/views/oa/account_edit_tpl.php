@@ -28,13 +28,13 @@
       <div class="span24">
         <h3>添加账号</h3>
         <hr>
-        <form id="J_Form" class="form-horizontal" method="post" action="<?=base_url()?>account/add">
+        <form id="J_Form" class="form-horizontal" method="post" action="<?=base_url()?>account/edit">
    
  
             <div class="control-group">
               <label class="control-label"><s>*</s>登陆账号：</label>
               <div class="controls">
-              <input class="input-large control-text" type="text" name="username" id="username" onchange="check_username();">
+              <input class="input-large control-text" type="text" name="username" id="username" readonly="true" value="<?=$info['username']?>" onchange="check_username();">
               </div>
             </div>
             <div class="control-group">
@@ -49,7 +49,7 @@
                   <?php
                     foreach($company as $ck => $cv){
                   ?>
-                  <option value="<?=$cv['id']?>"><?=$cv['name']?></option>
+                  <option value="<?=$cv['id']?>" <?php if($info['company_id'] == $cv['id']){ ?> selected <?php } ?>><?=$cv['name']?></option>
                   <?php
                     }
                   ?>
@@ -59,7 +59,7 @@
             <div class="control-group">
               <label class="control-label"><s>*</s>姓名：</label>
               <div class="controls">
-              <input class="input-normal control-text" type="text" name="realname">
+              <input class="input-normal control-text" type="text" name="realname" value="<?=$info['realname']?>">
                 <span class="x-field-error">
                 <span class="x-icon x-icon-mini x-icon-error">!</span>
                 <label class="x-field-error-text">输入值长度不小于5！</label>
@@ -70,35 +70,36 @@
             <div class="control-group">
             <label class="control-label"><s>*</s>性别：</label>
               <label class="control-label radio">
-                <input type="radio" name="gender" value="1" checked> 男
-                <input type="radio" name="gender" value="2"> 女
+                <input type="radio" name="gender" value="1" <?php if($info['gender'] == 1){ ?> checked <?php } ?>> 男
+                <input type="radio" name="gender" value="2" <?php if($info['gender'] == 2){ ?> checked <?php } ?>> 女
               </label>
              
             </div>
 
             <div class="control-group">
               <label class="control-label"><s>*</s>职位：</label>
-              <div class="controls"><input class="input-normal control-text" type="text" name="works"></div>
+              <div class="controls"><input class="input-normal control-text" type="text" name="works" value="<?=$info['works']?>"></div>
             </div>
  
              <div class="control-group">
               <label class="control-label"><s>*</s>电话：</label>
-              <div class="controls"><input class="input-normal control-text" type="text" name="phone"></div>
+              <div class="controls"><input class="input-normal control-text" type="text" name="phone" value="<?=$info['phone']?>"></div>
             </div>
 
             <div class="control-group">
               <label class="control-label"><s>*</s>Email：</label>
-              <div class="controls"><input class="input-normal control-text" type="text" name="email"></div>
+              <div class="controls"><input class="input-normal control-text" type="text" name="email" value="<?=$info['email']?>"></div>
             </div>
  
             <div class="control-group">
               <label class="control-label">备注：</label>
               <div class="controls control-row4">
-                <textarea type="text" class="input-large" data-valid="{}" name="remark"></textarea>
+                <textarea type="text" class="input-large" data-valid="{}" name="remark"><?=$info['remark']?></textarea>
               </div>
             </div>
             <hr>
             <div class="form-actions span5 offset3">
+            <input type="hidden" value="<?=$info['id']?>" name="id" />
               <button id="btnSearch" type="submit" class="button button-primary">提交</button>
             </div>
         </form> 

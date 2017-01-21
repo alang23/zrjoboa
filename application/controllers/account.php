@@ -18,6 +18,8 @@ class Account extends Zrjoboa
 
 		$company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
 		$data['company_id'] = $company_id;
+		$kw = isset($_GET['kw']) ? $_GET['kw'] : '';
+		$data['kw'] = $kw;
 
 		$page = isset($_GET['page']) ? $_GET['page'] : 0;
         $page = ($page && is_numeric($page)) ? intval($page) : 1;
@@ -25,16 +27,20 @@ class Account extends Zrjoboa
         $limit = 20;
         $offset = ($page - 1) * $limit;
         $pagination = '';
+      
+        
+        $where['sql'] = " where (1=1 AND a.isdel='0')";     
         if(!empty($company_id)){
-        	$where['where']['a.company_id'] = $company_id;
-        	$countwhere['company_id'] = $company_id;
 
-        }       
-        $countwhere['isdel'] = '0';
-        $count = $this->account->get_count($countwhere);
-        $data['count'] = $count;
+        	$where['sql'] .= ' AND a.company_id = '.$company_id;      	
+        }   
+        if(!empty($kw)){
+        	$where['sql'] .= " and a.username LIKE '%".$kw."%' OR a.realname LIKE '%".$kw."%' OR a.phone LIKE '%".$kw."%' ";
+        }
+        $count = $this->account->get_count_ar($where);
+        $data['count'] = $count;    
 
-        $pageconfig['base_url'] = base_url('/account/index?');
+        $pageconfig['base_url'] = base_url('/account/index?kw='.$kw);
         $pageconfig['count'] = $count;
         $pageconfig['limit'] = $limit;
         $data['page'] = home_page($pageconfig);
@@ -43,13 +49,22 @@ class Account extends Zrjoboa
 		$where['page'] = true;
         $where['limit'] = $limit;
         $where['offset'] = $offset;
-        $where['where'] = array('a.isdel'=>'0');
-
-		$list = $this->account->get_list_join_company($where);
+		$list = $this->account->get_list_by_ar($where);
 		
 		$data['list'] = $list;
 		$this->tpl('oa/account_tpl',$data);
 
+	}
+
+	public function detail()
+	{
+		$id = $this->input->get('id');
+		$config['where'] = array('id'=>$id);
+		$info = array();
+		$info = $this->account->get_one_by_where($config);
+		$data['info'] = $info;
+
+		$this->tpl('oa/account_detail',$data);
 	}
 
 	public function add()
@@ -69,13 +84,21 @@ class Account extends Zrjoboa
 
 			if(!empty($username) && !empty($pawd) && !empty($realname) && !empty($phone)){
 
+				//判断用户名是否重复
+				$check_config['where'] = array('username'=>$username);
+				$check_inifo = $this->account->get_one_by_where($check_config);
+				if(!empty($check_inifo)){
+					exit('username is haved');
+				}
+
 				$add['username'] = $username;
-				$add['pawd'] = $pawd;
+				$add['pawd'] = user_pawd($pawd);
 				$add['realname'] = $realname;
 				$add['gender'] = $gender;
 				$add['email'] = $email;
 				$add['remark'] = $remark;
 				$add['phone'] = $phone;
+				$add['works'] = $works;
 				$add['company_id'] = $company_id;
 				$add['addtime'] = time();
 				
@@ -107,25 +130,34 @@ class Account extends Zrjoboa
 	{
 		if(!empty($_POST)){
 
-			$name = $this->input->post('name');
-			$address = $this->input->post('address');
-			$contacts = $this->input->post('contacts');
+			//$username = $this->input->post('username');
+			$pawd = $this->input->post('pawd');
+			$realname = $this->input->post('realname');
+			$gender = $this->input->post('gender');
 			$phone = $this->input->post('phone');
+			$works = $this->input->post('works');
 			$email = $this->input->post('email');
+			$company_id = $this->input->post('company_id');
+			$role = $this->input->post('role');
 			$remark = $this->input->post('remark');
 			$id = $this->input->post('id');
 
-			if(!empty($name) && !empty($address) && !empty($contacts) && !empty($phone) && !empty($id)){
+			if(!empty($realname) && !empty($works) && !empty($phone) && !empty($id)){
 
-				$update_data['name'] = $name;
-				$update_data['address'] = $address;
-				$update_data['contacts'] = $contacts;
+				$update_data['realname'] = $realname;
+				$update_data['gender'] = $gender;
+				$update_data['works'] = $works;
 				$update_data['phone'] = $phone;
 				$update_data['email'] = $email;
 				$update_data['remark'] = $remark;
 
+				if(!empty($pawd)){
+
+					$update_data['pawd'] = user_pawd($pawd);
+				}
+
 				$update_config = array('id'=>$id);
-				if($this->company->update($update_config,$update_data)){
+				if($this->account->update($update_config,$update_data)){
 					exit('ok');
 				}else{
 					exit('error');
@@ -137,12 +169,16 @@ class Account extends Zrjoboa
 		}else{
 
 			$id = $this->input->get('id');
-
 			$where['where'] = array('id'=>$id);
-			$info = $this->company->get_one_by_where($where);
+			$info = $this->account->get_one_by_where($where);
 			$data['info'] = $info;
 
-			$this->tpl('oa/company_edit_tpl',$data);
+			$company = array();
+			$where['where'] = array('isdel'=>'0');
+			$company = $this->company->getList($where);
+			$data['company'] = $company;
+
+			$this->tpl('oa/account_edit_tpl',$data);
 		}
 	}
 
@@ -156,6 +192,39 @@ class Account extends Zrjoboa
 		}else{
 			echo 'err';
 		}
+	}
+
+	//ajax验证用户名
+	public function check_username()
+	{
+
+		$username = $this->input->post('username');
+		if(empty($username)){
+			$msg = array(
+				'code'=>2,
+				'msg'=>'用户名不能为空'
+				);
+			responseData($msg);
+		}
+
+		$check_config['where'] = array('username'=>$username);
+		$userinfo = array();
+		$userinfo = $this->account->get_one_by_where($check_config);
+		if(!empty($userinfo)){
+			$msg = array(
+				'code'=>1,
+				'msg'=>'用户名已存在'
+				);
+		}else{
+			$msg = array(
+				'code'=>0,
+				'msg'=>'用户名已存在'
+				);
+		}
+
+		responseData($msg);
+		exit;
+
 	}
 
 

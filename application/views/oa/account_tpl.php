@@ -35,18 +35,18 @@ function flush(msg,url){
             <a href="#">首页</a> <span class="divider">/</span>
           </li>
           <li>
-            <a href="#">商家管理</a> <span class="divider">/</span>
+            <a href="#">账号列表</a> 
           </li>
-          <li class="active">价格规则列表</li>
+         
         </ul>
-        <form class="form-panel" action="post">
+        <form class="form-panel" method="get" action="<?=base_url()?>account/index">
           <div class="panel-title">
             <span>
-              <label>报名日期：</label><input type="text" class="calendar" /> <label>至</label> <input type="text" class="calendar" />
-            </span>
-            <span>
-              <label>上阶段审核日期：</label><input type="text" class="calendar" /> <label>至</label> <input type="text" class="calendar" />
-            </span>
+              <label>搜索：</label><input type="text" name="kw" value="<?=$kw?>" class="input-large control-text bui-form-field" /> 
+
+              <button id="btnSearch" type="submit" class="button button-primary">搜索</button>
+            
+           </span>
           </div>
           <ul class="panel-content">
 
@@ -57,15 +57,13 @@ function flush(msg,url){
           <thead>
             <tr><th colspan="8">
             <ul class="toolbar">
-              <li><label class="checkbox"><input type="checkbox"><a href="#">全选</a></label></li>
               <li><label class="checkbox"><a href="<?=base_url()?>account/add?company_id=<?=$company_id?>">添加账号</a></label></li>
             </ul>
             </th>
             </tr>
 
             <tr>
-              <th width="15"></th>
-              <th>ID</th>
+              <th width="30">ID</th>            
               <th>用户名</th>
               <th>姓名</th>
               <th>公司</th>
@@ -79,9 +77,9 @@ function flush(msg,url){
               foreach($list as $k => $v){
             ?>
             <tr>
-              <td><input type="checkbox"></td>
+             
               <td ><?=$v['id']?></td>
-              <td><?=$v['username']?></td>
+              <td><a href="<?=base_url()?>account/detail?id=<?=$v['id']?>"><?=$v['username']?></a></td>
               <td><?=$v['realname']?></td>
               <td><?=$v['name']?></td>
               <td><?=$v['phone']?></td>
@@ -117,5 +115,6 @@ function flush(msg,url){
     </div> 
 <!-- script end -->
   </div>
+
     </body>
     </html>       
