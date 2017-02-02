@@ -13,6 +13,9 @@ class Defaults extends Zrjoboa
 
 	public function index()
 	{
-		$this->tpl('defaults');
+		$userinfo = $this->userinfo;
+		$data['userinfo'] = $userinfo;
+
+		$this->tpl('defaults',$data);
 	}
 }

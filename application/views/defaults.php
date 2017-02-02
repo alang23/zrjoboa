@@ -17,7 +17,7 @@
         </a>
       </div>
 
-    <div class="dl-log">欢迎您，<span class="dl-log-user">**.**@alibaba-inc.com</span><a href="<?=base_url()?>login/logout" title="退出系统" class="dl-log-quit">[退出]</a><a href="http://http://www.builive.com/" title="文档库" class="dl-log-quit">文档库</a>
+    <div class="dl-log">欢迎您，<span class="dl-log-user"><?=$userinfo['realname']?>(<?=$userinfo['works']?>)</span><a href="<?=base_url()?>login/logout" title="退出系统" class="dl-log-quit">[退出]</a><a href="http://http://www.builive.com/" title="文档库" class="dl-log-quit">文档库</a>
     </div>
   </div>
    <div class="content">
@@ -45,21 +45,22 @@
           id:'menu', 
           homePage : 'members',
           menu:[{
-              text:'首页内容',
+              text:'业务管理',
               items:[
-                {id:'main',text:'首页代码',href:'<?=base_url()?>main',closeable : false},
-                {id:'members',text:'会员管理',href:'<?=base_url()?>members'},
-                {id:'second-menu',text:'右边菜单',href:'main/second-menu.html'},
-                {id:'dyna-menu',text:'动态菜单',href:'main/dyna-menu.html'}
+                {id:'main',text:'客户列表',href:'<?=base_url()?>customer',closeable : false},
+                {id:'members',text:'添加客户',href:'<?=base_url()?>customer/add'},
+                {id:'add_bussiness',text:'办理业务',href:'<?=base_url()?>bussiness/index'},
+                {id:'second-menu',text:'现场视图',href:'<?=base_url()?>bussiness/scene'},
+                {id:'dyna-menu',text:'广告视图',href:'<?=base_url()?>bussiness/ad'}
               ]
             },{
-              text:'页面操作',
+              text:'财务管理',
               items:[
-                {id:'operation',text:'页面常见操作',href:'main/operation.html'},
-                {id:'quick',text:'页面操作快捷方式',href:'main/quick.html'}  
+                {id:'operation',text:'现场视图',href:'<?=base_url()?>bussiness/scene'},
+                {id:'quick',text:'广告视图',href:'<?=base_url()?>bussiness/ad'}  
               ]
             },{
-              text:'文件结构',
+              text:'广告管理',
               items:[
                 {id:'resource',text:'资源文件结构',href:'main/resource.html'},
                 {id:'loader',text:'引入JS方式',href:'main/loader.html'}  

@@ -19,9 +19,9 @@
               <a href="#">首页</a> <span class="divider">/</span>
             </li>
             <li>
-              <a href="#">商家管理</a> <span class="divider">/</span>
+              <a href="#">账号列表</a> <span class="divider">/</span>
             </li>
-            <li class="active">价格规则列表</li>
+            <li class="active">账号详情</li>
           </ul>
 
           <div class="detail-section">  
@@ -44,7 +44,7 @@
             <div class="control-group">
               <label class="control-label">性别：</label>
               <div class="controls">
-              <span class="control-text"><?=$info['gender']?></span>
+              <span class="control-text"><?=get_gender($info['gender'])?></span>
               </div>
             </div>
             <div class="control-group">
@@ -65,7 +65,12 @@
               <span class="control-text"><?=$info['email']?></span>
               </div>
             </div>
-
+            <div class="control-group">
+              <label class="control-label">权限：</label>
+              <div class="controls">
+              <span class="control-text"><?=$info['role_name']?></span>
+              </div>
+            </div>
             <div class="control-group">
               <label class="control-label">备注：</label>
               <div class="controls">
@@ -73,7 +78,12 @@
               </div>
             </div>
 
-
+            <div class="control-group">
+              <label class="control-label">创建时间：</label>
+              <div class="controls">
+              <span class="control-text"><?=date("Y-m-d H:i:s",$info['addtime'])?></span>
+              </div>
+            </div>
             <div class="actions-bar">
               <div class="row form-actions ">
                 <div class="span13 offset3 ">

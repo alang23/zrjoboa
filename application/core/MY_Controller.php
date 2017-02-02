@@ -10,7 +10,7 @@ class Zrjoboa extends CI_Controller
 {
 	
 
-
+	var $userinfo = array();
 
 	public function __construct()
 	{
@@ -26,6 +26,8 @@ class Zrjoboa extends CI_Controller
 		if(empty($token)){
 			redirect('/login');
 		}
+
+		$this->userinfo = $token;
 	}
 
 

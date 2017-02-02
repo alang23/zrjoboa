@@ -12,6 +12,7 @@ class Login extends CI_Controller
 		parent::__construct();
 		$this->load->model('account_mdl','account');
 		$this->load->model('login_log_mdl','login_log');
+		$this->load->model('role_mdl','role');
 
 	}
 
@@ -19,7 +20,7 @@ class Login extends CI_Controller
 	public function index()
 	{
 
-		$this->load->view('login');
+		$this->load->view('login2_tpl');
 
 	}
 
@@ -33,7 +34,7 @@ class Login extends CI_Controller
 		if(empty($username) || empty($pawd)){
 			$msg = array(
 				'code'=>1,
-				'msg'=>$username
+				'msg'=>'用户名和密码不能为空'
 			);
 			responseData($msg);
 		}
@@ -61,6 +62,11 @@ class Login extends CI_Controller
 
 			//修改登录信息
 		unset($account_info['pawd']);
+		
+		$role_where['where'] = array('id'=>$account_info['role']);
+		$_role = $this->role->get_one_by_where($role_where);
+		$account_info['role_tag'] = $_role['role_tag'];
+		
 		$user = $this->userlib->user_login($account_info);
 
 		//记录登陆

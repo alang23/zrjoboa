@@ -16,6 +16,12 @@ class Account extends Zrjoboa
 	public function index()
 	{
 
+		//权限
+		$check_role = $this->userlib->check_role('root');
+
+		$userinfo = $this->userinfo;
+		$data['userinfo'] = $userinfo;
+
 		$company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
 		$data['company_id'] = $company_id;
 		$kw = isset($_GET['kw']) ? $_GET['kw'] : '';
@@ -36,6 +42,12 @@ class Account extends Zrjoboa
         }   
         if(!empty($kw)){
         	$where['sql'] .= " and a.username LIKE '%".$kw."%' OR a.realname LIKE '%".$kw."%' OR a.phone LIKE '%".$kw."%' ";
+        }
+
+        if($userinfo['role_tag'] == 'root'){
+        	if($userinfo['company_id'] != '0'){
+        		$where['sql'] .= " and a.company_id = ".$userinfo['company_id'];
+        	}
         }
         $count = $this->account->get_count_ar($where);
         $data['count'] = $count;    
@@ -59,9 +71,9 @@ class Account extends Zrjoboa
 	public function detail()
 	{
 		$id = $this->input->get('id');
-		$config['where'] = array('id'=>$id);
+		$config['where'] = array('a.id'=>$id);
 		$info = array();
-		$info = $this->account->get_one_by_where($config);
+		$info = $this->account->get_one_by_join($config);
 		$data['info'] = $info;
 
 		$this->tpl('oa/account_detail',$data);
@@ -69,6 +81,9 @@ class Account extends Zrjoboa
 
 	public function add()
 	{
+		$userinfo = $this->userinfo;
+		$data['userinfo'] = $userinfo;
+
 		if(!empty($_POST)){
 
 			$username = $this->input->post('username');
@@ -78,11 +93,19 @@ class Account extends Zrjoboa
 			$phone = $this->input->post('phone');
 			$works = $this->input->post('works');
 			$email = $this->input->post('email');
-			$company_id = $this->input->post('company_id');
+			//$company_id = $this->input->post('company_id');
 			$role = $this->input->post('role');
 			$remark = $this->input->post('remark');
+			$role = $this->input->post('role');
 
-			if(!empty($username) && !empty($pawd) && !empty($realname) && !empty($phone)){
+			if($userinfo['role_tag'] == 'root' && $userinfo['company_id'] != '0'){
+				$company_id = $userinfo['company_id'];
+			}else{
+				$company_id = $this->input->post('company_id');
+			}
+
+
+			if(!empty($username) && !empty($pawd) && !empty($realname) && !empty($phone) && !empty($role)){
 
 				//判断用户名是否重复
 				$check_config['where'] = array('username'=>$username);
@@ -100,12 +123,13 @@ class Account extends Zrjoboa
 				$add['phone'] = $phone;
 				$add['works'] = $works;
 				$add['company_id'] = $company_id;
+				$add['role'] = $role;
 				$add['addtime'] = time();
 				
 				if($this->account->add($add)){
-					exit('ok');
+					redirect('msgtips/success');
 				}else{
-					exit('error');
+					redirect('msgtips/errors');
 				}
 			}else{
 				exit('canshu');
@@ -113,13 +137,32 @@ class Account extends Zrjoboa
 
 		}else{
 
+			$roles = $this->userlib->check_role('root');
+			$data['roles'] = $roles;
 			$company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
 			$data['company_id'] = $company_id;
 
-			$company = array();
-			$where['where'] = array('isdel'=>'0');
-			$company = $this->company->getList($where);
-			$data['company'] = $company;
+			if($userinfo['company_id'] == '0'){
+
+				$company = array();
+				$where['where'] = array('isdel'=>'0');
+				$company = $this->company->getList($where);
+				$data['company'] = $company;
+
+			}else{
+
+				$company_info = array();
+				$company_where['where'] = array('id'=>$userinfo['company_id']);
+				$company_info = $this->company->get_one_by_where($company_where);
+				$data['company_info'] = $company_info;
+			}
+
+			//$userinfo = $this->userinfo;
+			//$data['userinfo'] = $userinfo;
+
+			$_role = array();
+			$_role = $this->get_role();
+			$data['_role'] = $_role;
 
 			$this->tpl('oa/account_add_tpl',$data);
 		}
@@ -128,19 +171,29 @@ class Account extends Zrjoboa
 
 	public function edit()
 	{
+
+
+		$userinfo = $this->userinfo;
+		$data['userinfo'] = $userinfo;
+
 		if(!empty($_POST)){
 
-			//$username = $this->input->post('username');
 			$pawd = $this->input->post('pawd');
 			$realname = $this->input->post('realname');
 			$gender = $this->input->post('gender');
 			$phone = $this->input->post('phone');
 			$works = $this->input->post('works');
 			$email = $this->input->post('email');
-			$company_id = $this->input->post('company_id');
 			$role = $this->input->post('role');
 			$remark = $this->input->post('remark');
 			$id = $this->input->post('id');
+			$role = $this->input->post('role');
+
+			if($userinfo['role_tag'] == 'root' && $userinfo['company_id'] != '0'){
+				$company_id = $userinfo['company_id'];
+			}else{
+				$company_id = $this->input->post('company_id');
+			}
 
 			if(!empty($realname) && !empty($works) && !empty($phone) && !empty($id)){
 
@@ -150,6 +203,8 @@ class Account extends Zrjoboa
 				$update_data['phone'] = $phone;
 				$update_data['email'] = $email;
 				$update_data['remark'] = $remark;
+				$update_data['role'] = $role;
+				$update_data['company_id'] = $company_id;
 
 				if(!empty($pawd)){
 
@@ -168,6 +223,9 @@ class Account extends Zrjoboa
 
 		}else{
 
+			$roles = $this->userlib->check_role('root');
+			$data['roles'] = $roles;
+
 			$id = $this->input->get('id');
 			$where['where'] = array('id'=>$id);
 			$info = $this->account->get_one_by_where($where);
@@ -178,6 +236,26 @@ class Account extends Zrjoboa
 			$company = $this->company->getList($where);
 			$data['company'] = $company;
 
+			//权限列表
+			$_role = array();
+			$_role = $this->get_role();
+			$data['_role'] = $_role;
+
+			if($userinfo['company_id'] == '0'){
+
+				$company = array();
+				$where['where'] = array('isdel'=>'0');
+				$company = $this->company->getList($where);
+				$data['company'] = $company;
+
+			}else{
+
+				$company_info = array();
+				$company_where['where'] = array('id'=>$userinfo['company_id']);
+				$company_info = $this->company->get_one_by_where($company_where);
+				$data['company_info'] = $company_info;
+			}
+
 			$this->tpl('oa/account_edit_tpl',$data);
 		}
 	}
@@ -187,8 +265,8 @@ class Account extends Zrjoboa
 		$id = $this->input->get('id');
 		$del_config = array('id'=>$id);
 		$del_data['isdel'] = 1;
-		if($this->company->update($del_config,$del_data)){
-			echo 'ok';
+		if($this->account->update($del_config,$del_data)){
+			redirect('msgtips/success');
 		}else{
 			echo 'err';
 		}
@@ -225,6 +303,15 @@ class Account extends Zrjoboa
 		responseData($msg);
 		exit;
 
+	}
+
+	//权限列表
+	public function get_role()
+	{
+		$_role = array();
+		$_role = $this->role->getList();
+
+		return $_role;
 	}
 
 

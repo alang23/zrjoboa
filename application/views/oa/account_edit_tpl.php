@@ -20,13 +20,13 @@
             <a href="#">首页</a> <span class="divider">/</span>
           </li>
           <li>
-            <a href="#">商家管理</a> <span class="divider">/</span>
+            <a href="#">账号列表</a> <span class="divider">/</span>
           </li>
-          <li class="active">价格规则列表</li>
+          <li class="active">修改信息</li>
         </ul>
     </div>
       <div class="span24">
-        <h3>添加账号</h3>
+        <h3>修改信息</h3>
         <hr>
         <form id="J_Form" class="form-horizontal" method="post" action="<?=base_url()?>account/edit">
    
@@ -34,14 +34,16 @@
             <div class="control-group">
               <label class="control-label"><s>*</s>登陆账号：</label>
               <div class="controls">
-              <input class="input-large control-text" type="text" name="username" id="username" readonly="true" value="<?=$info['username']?>" onchange="check_username();">
+              <?=$info['username']?>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label"><s>*</s>密码：</label>
-              <div class="controls"><input class="input-large control-text" type="text" name="pawd"></div>
-
-            </div>
+              <div class="controls"><input class="input-normal control-text" type="text" name="pawd"></div>
+            <span class="x-field-error"><span class="x-icon x-icon-mini x-icon-question">!</span><label class="x-field-error-text">不修改不需要填写</label></span>            </div>
+            <?php
+              if(in_array('root', $roles) && $userinfo['company_id']=='0'){
+            ?>
              <div class="control-group">
               <label class="control-label">公司：</label>
               <div class="controls">
@@ -49,13 +51,27 @@
                   <?php
                     foreach($company as $ck => $cv){
                   ?>
-                  <option value="<?=$cv['id']?>" <?php if($info['company_id'] == $cv['id']){ ?> selected <?php } ?>><?=$cv['name']?></option>
+                  <option value="<?=$cv['id']?>"><?=$cv['name']?></option>
                   <?php
                     }
                   ?>
                 </select>
               </div>
             </div>
+            <?php
+              }
+            ?>
+
+            <?php
+              if(in_array('root', $roles) && $userinfo['company_id'] != '0'){
+            ?>
+           <div class="control-group">
+              <label class="control-label">公司：</label>
+              <div class="controls"><?=$company_info['name']?></div>
+            </div>            
+            <?php
+              }
+            ?>
             <div class="control-group">
               <label class="control-label"><s>*</s>姓名：</label>
               <div class="controls">
@@ -90,7 +106,23 @@
               <label class="control-label"><s>*</s>Email：</label>
               <div class="controls"><input class="input-normal control-text" type="text" name="email" value="<?=$info['email']?>"></div>
             </div>
+
+            
+         <div class="control-group">
+            <label class="control-label"><s>*</s>权限：</label>
+              <div class="controls">
+              <?php
+                foreach($_role as $_k => $_v){
+              ?>
+                <input type="radio" name="role" value="<?=$_v['id']?>" <?php if($_v['id'] == $info['role']){ ?> checked <?php } ?>> <?=$_v['role_name']?>
+              <?php
+                }
+              ?>
+              </div>
+             
+          </div>
  
+
             <div class="control-group">
               <label class="control-label">备注：</label>
               <div class="controls control-row4">

@@ -55,13 +55,16 @@ function flush(msg,url){
         </form>
         <table cellspacing="0" class="table table-bordered">
           <thead>
-            <tr><th colspan="8">
-            <ul class="toolbar">
-              <li><label class="checkbox"><a href="<?=base_url()?>account/add?company_id=<?=$company_id?>">添加账号</a></label></li>
-            </ul>
+            <th colspan="15">
+                <ul class="bui-bar bui-grid-button-bar" role="toolbar" id="bar7" aria-disabled="false" aria-pressed="false">
+                <a href="<?=base_url()?>account/add?company_id=<?=$company_id?>">
+                <li class="bui-bar-item-button bui-bar-item bui-inline-block" aria-disabled="false" id="bar-item-button1" aria-pressed="false">
+                <button type="button" class="button button-small">
+                <i class="icon-plus"></i>添加账号</button>
+                </li></a>
+                </ul>
             </th>
             </tr>
-
             <tr>
               <th width="30">ID</th>            
               <th>用户名</th>
@@ -83,10 +86,10 @@ function flush(msg,url){
               <td><?=$v['realname']?></td>
               <td><?=$v['name']?></td>
               <td><?=$v['phone']?></td>
-              <td><?=$v['role']?></td>
+              <td><?=$v['role_name']?></td>
               <td>
               <a href="<?=base_url()?>account/edit?id=<?=$v['id']?>">编辑</a> |
-              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>account/del?id=<?=$v['id']?>')">删除</a> |
+              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>account/del?id=<?=$v['id']?>')">删除</a>
 
               </td>
             </tr>

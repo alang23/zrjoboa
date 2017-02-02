@@ -35,79 +35,38 @@ function flush(msg,url){
             <a href="#">首页</a> <span class="divider">/</span>
           </li>
           <li>
-            <a href="#">商家管理</a> <span class="divider">/</span>
+            <a href="#">账号管理</a> <span class="divider">/</span>
           </li>
-          <li class="active">价格规则列表</li>
+          <li class="active">企业列表</li>
         </ul>
-        <form class="form-panel" action="post">
+        <form class="form-panel" method="get" action="<?=base_url()?>company/index">
           <div class="panel-title">
             <span>
-              <label>报名日期：</label><input type="text" class="calendar" /> <label>至</label> <input type="text" class="calendar" />
-            </span>
-            <span>
-              <label>上阶段审核日期：</label><input type="text" class="calendar" /> <label>至</label> <input type="text" class="calendar" />
-            </span>
+              <label>公司名称：</label><input type="text" name="name" value="<?=$name?>" class="input-large control-text bui-form-field" /> 
+              <label>联系人：</label><input type="text" name="contacts" value="<?=$contacts?>" class="input-large control-text bui-form-field" /> 
+              <label>电话：</label><input type="text" name="phone" value="<?=$phone?>" class="input-large control-text bui-form-field" /> 
+
+              <button id="btnSearch" type="submit" class="button button-primary">搜索</button>
+            
+           </span>
           </div>
           <ul class="panel-content">
-            <li>
-              <select name="">
-                <option>省份</option>
-              </select>
-              <select name="">
-                <option>城市</option>
-              </select>
-              <select name="">
-                <option>商品类型</option>
-              </select>
-              <select name="">
-                <option>平台类型</option>
-              </select>
-              <select name="">
-                <option>是否在商品池</option>
-              </select>
-              <select name="">
-                <option>是否看样子</option>
-              </select>
-              <select name="">
-                <option>是否已审核</option>
-              </select>
-            </li>
-            <li>
-              <select name="">
-                <option>一级类目</option>
-              </select>
-              <select name="">
-                <option>二级类目</option>
-              </select>
-              <select name="">
-                <option>三级类目</option>
-              </select>
-              <select name="">
-                <option>四级类目</option>
-              </select>
-              <select name="">
-                <option>五级类目</option>
-              </select>
-              <select name="">
-                <option>商品数字id</option>
-              </select>
-            </li>
-            <li>
-              <select name="">
-                <option>一级类目</option>
-              </select>
-              <input type="text"/>
-              <button type="submit" class="button button-primary">查询>></button>
-            </li>
+
+
           </ul>
         </form>
+
         <table cellspacing="0" class="table table-bordered">
           <thead>
-            <tr><th colspan="7">
-            <ul class="toolbar">
-              <li><label class="checkbox"><input type="checkbox"><a href="#">全选</a></label></li>
-              <li><label class="checkbox"><a href="<?=base_url()?>company/add">添加企业</a></label></li>
-            </ul>
+            <tr>
+            <th colspan="15">
+                <ul class="bui-bar bui-grid-button-bar" role="toolbar" id="bar7" aria-disabled="false" aria-pressed="false">
+                <a href="<?=base_url()?>company/add">
+                <li class="bui-bar-item-button bui-bar-item bui-inline-block" aria-disabled="false" id="bar-item-button1" aria-pressed="false">
+                <button type="button" class="button button-small">
+                <i class="icon-plus"></i>添加企业</button>
+                </li></a>
+                </ul>
             </th>
             </tr>
 

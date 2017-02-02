@@ -38,7 +38,7 @@ class Userlib
 		if(!empty($token)){
 			$userinfo = json_decode($token,true);
 		}
-
+		
 		return $userinfo;
 
 	}
@@ -52,6 +52,38 @@ class Userlib
 		self::$_ci->session->unset_userdata($cookie_key);
 
 		return 1;
+	}
+
+	//权限检查
+	public function check_role($role_tag)
+	{
+
+		$token = $this->check_user_login();
+		$_role = array();
+
+		$_role_where['where'] = array('id'=>$token['role']);
+		self::$_ci->load->model('role_mdl','role');
+		$_role = self::$_ci->role->getList($_role_where);
+
+		if(empty($_role)){
+			$data['msg'] = '无权限';
+			redirect('msgtips/check_role',$data);
+
+		}
+
+		$_role_arr = array();
+		foreach($_role as $_k => $_v){
+			$_role_arr[] = $_v['role_tag'];
+		}
+
+		if(!in_array($role_tag, $_role_arr)){
+			$data['msg'] = '无权限';
+			redirect('msgtips/check_role',$data);
+		}
+
+		return $_role_arr;
+
+
 	}
 
 }

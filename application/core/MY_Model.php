@@ -57,7 +57,7 @@ class Zroa_Model extends CI_Model
             $this->db->select($select);
         }
         $list = $this->db->get($this->table_name)->result_array();
-
+        //echo $this->db->last_query();
         return $list;
 	}
 

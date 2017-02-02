@@ -17,6 +17,13 @@ class Company extends Zrjoboa
 		$page = isset($_GET['page']) ? $_GET['page'] : 0;
         $page = ($page && is_numeric($page)) ? intval($page) : 1;
 
+        $name = isset($_GET['name']) ? $_GET['name'] : '';
+        $phone = isset($_GET['phone']) ? $_GET['phone'] : '';
+        $contacts = isset($_GET['contacts']) ? $_GET['contacts'] : '';
+        $data['name'] = $name;
+        $data['phone'] = $phone;
+        $data['contacts'] = $contacts;
+
         $limit = 20;
         $offset = ($page - 1) * $limit;
         $pagination = '';
@@ -34,7 +41,17 @@ class Company extends Zrjoboa
 		$where['page'] = true;
         $where['limit'] = $limit;
         $where['offset'] = $offset;
-        $where['where'] = array('isdel'=>'0');
+        $where['where']['isdel'] = '0';
+        if(!empty($name)){
+        	$where['like'] = array('key'=>'name','value'=>$name);
+        }
+        if(!empty($contacts)){
+        	$where['where']['contacts'] = $contacts;
+        }
+        if(!empty($phone)){
+        	$where['where']['phone'] = $phone;
+        }
+        $where['order'] = array('key'=>'id','value'=>'DESC');
 		$list = $this->company->getList($where);
 		
 		$data['list'] = $list;
