@@ -20,14 +20,13 @@
             <a href="#">首页</a> <span class="divider">/</span>
           </li>
           <li>
-            <a href="#">商家管理</a> <span class="divider">/</span>
+            <a href="#">账号管理</a> <span class="divider">/</span>
           </li>
-          <li class="active">价格规则列表</li>
+          <li class="active">添加企业</li>
         </ul>
     </div>
       <div class="span24">
-        <h2>添加企业</h2>
-        <hr>
+     
         <form id="J_Form" name="form1" class="form-horizontal" method="post" action="<?=base_url()?>company/add">
           <h3>企业信息：</h3>
  
@@ -109,14 +108,30 @@ function check_address()
   }
 }
 
+function check_phone()
+{
+  var phone = '';
+  phone = $("#phone").val();
+  if(phone == ''){
+      $("#phone-contacts").remove();
+      $("#phone").after('<span class="x-field-error" id="phone-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">请填写联系电话</label></span>');
+      return false;
+  }else{
+
+      $("#phone-err").remove();
+      return true;
+
+  }
+}
+
 function check_contacts()
 {
 
   var contacts = '';
   contacts = $("#contacts").val();
   if(contacts == ''){
-    $("#address-contacts").remove();
-      $("#contacts").after('<span class="x-field-error" id="contacts-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">请填写公司地址</label></span>');
+      $("#address-contacts").remove();
+      $("#contacts").after('<span class="x-field-error" id="contacts-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">请填写联系人姓名</label></span>');
       return false;
   }else{
       $("#contacts-err").remove();

@@ -35,47 +35,38 @@ function flush(msg,url){
             <a href="#">业务管理</a> <span class="divider">/</span>
           </li>
           <li>
-            <a class="active">商家列表</a>
+            <a class="active">客户列表</a>
           </li>
         </ul>
-        <form class="form-panel" action="post">
+        <form class="form-panel" method="get" action="<?=base_url()?>customer/index">
           <div class="panel-title">
             <span>
-              <label>报名日期：</label><input type="text" class="calendar" /> <label>至</label> <input type="text" class="calendar" />
-            </span>
-            <span>
-              <label>上阶段审核日期：</label><input type="text" class="calendar" /> <label>至</label> <input type="text" class="calendar" />
-            </span>
+              <label>公司名称：</label><input type="text" name="c_name" value="<?=$c_name?>" class="input-large control-text bui-form-field" /> 
+              <label>客户代表：</label>
+                <select name="uid">
+                    <option value="">客户代表</option>
+
+                <?php
+                    foreach($account as $_ak => $_av){
+                ?>
+                    <option value="<?=$_av['id']?>" <?php if($_av['id'] == $uid){ ?> selected <?php } ?>><?=$_av['realname']?></option>
+
+                <?php
+                  }
+                ?>
+
+                </select>
+              
+              <label>联系人：</label><input type="text" name="contacts" value="<?=$contacts?>" class="input-large control-text bui-form-field" /> 
+              <label>电话：</label><input type="text" name="phone" value="<?=$phone?>" class="input-large control-text bui-form-field" /> 
+              <button id="btnSearch" type="submit" class="button button-primary">搜索</button>
+              <label><a href="<?=base_url()?>customer/index">全部</a></label>
+
+           </span>
           </div>
           <ul class="panel-content">
-            <li>
-              <select name="">
-                <option>省份</option>
-              </select>
-              <select name="">
-                <option>城市</option>
-              </select>
-              <select name="">
-                <option>商品类型</option>
-              </select>
-              <select name="">
-                <option>平台类型</option>
-              </select>
-              <select name="">
-                <option>是否在商品池</option>
-              </select>
-              <select name="">
-                <option>是否看样子</option>
-              </select>
-              <select name="">
-                <option>是否已审核</option>
-              </select>
-            </li>
-            
-            <li>
-            
-              <button type="submit" class="button button-primary">查询>></button>
-            </li>
+
+
           </ul>
         </form>
         <table cellspacing="0" class="table table-bordered">
@@ -96,8 +87,8 @@ function flush(msg,url){
               <th width="15"></th>
               <th>ID</th>
               <th>企业名称</th>
-              <th>地址</th>
-              <th>联系人</th>
+              <th>客户代表</th>
+              <th>企业联系人</th>
               <th>联系电话</th>
               <th>状态</th>
 
@@ -112,14 +103,14 @@ function flush(msg,url){
               <td><input type="checkbox"></td>
               <td ><?=$v['id']?></td>
               <td><?=$v['c_name']?> <a href="<?=base_url()?>customer/detail?id=<?=$v['id']?>">查看</a></td>
-              <td><?=$v['address']?></td>
+              <td><?=$v['realname']?></td>
               <td><?=$v['contacts']?></td>
               <td><?=$v['tel']?></td>
               <td><?=customer_status($v['status'])?></td>
 
               <td>
-              <a href="<?=base_url()?>company/edit?id=<?=$v['id']?>">编辑</a> |
-              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>company/del?id=<?=$v['id']?>')">删除</a> |
+              <a href="<?=base_url()?>customer/edit?id=<?=$v['id']?>">编辑</a> |
+              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>customer/del?id=<?=$v['id']?>')">删除</a> |
               <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$v['id']?>">办理业务</a>
 
               </td>

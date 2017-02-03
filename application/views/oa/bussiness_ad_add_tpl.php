@@ -103,7 +103,7 @@
         </div>
       </div>
 
-            <div class="control-group">
+      <div class="control-group">
         <label class="control-label">实收金额：</label>
         <div class="controls  control-row-auto">
             <input name="s_amount" type="text"  id="s_amount" class="input-large" >

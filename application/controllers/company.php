@@ -81,7 +81,11 @@ class Company extends Zrjoboa
 				$add['addtime'] = time();
 				
 				if($this->company->add($add)){
-					exit('ok');
+
+					$msg['title'] = '添加成功';
+					$msg['msg'] = '<a href="'.base_url().'company/index">返回列表</a>';
+					redirect('msgtips/success');
+
 				}else{
 					exit('error');
 				}

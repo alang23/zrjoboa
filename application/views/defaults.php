@@ -27,8 +27,8 @@
         <li class="nav-item dl-selected"><div class="nav-item-inner nav-home">办公应用</div></li>
         <li class="nav-item"><div class="nav-item-inner nav-order">CRM</div></li>
         <li class="nav-item"><div class="nav-item-inner nav-inventory">系统设置</div></li>
-        <li class="nav-item"><div class="nav-item-inner nav-supplier">详情页</div></li>
-        <li class="nav-item"><div class="nav-item-inner nav-marketing">图表</div></li>
+        <!--<li class="nav-item"><div class="nav-item-inner nav-supplier">详情页</div></li>
+        <li class="nav-item"><div class="nav-item-inner nav-marketing">图表</div></li>-->
       </ul>
     </div>
     <ul id="J_NavContent" class="dl-tab-conten">
@@ -56,14 +56,14 @@
             },{
               text:'财务管理',
               items:[
-                {id:'operation',text:'现场视图',href:'<?=base_url()?>bussiness/scene'},
-                {id:'quick',text:'广告视图',href:'<?=base_url()?>bussiness/ad'}  
+                {id:'operation',text:'现场视图',href:'<?=base_url()?>finance/scene'},
+                {id:'quick',text:'广告视图',href:'<?=base_url()?>finance/ad'}  
               ]
             },{
-              text:'广告管理',
+              text:'会员录入',
               items:[
-                {id:'resource',text:'资源文件结构',href:'main/resource.html'},
-                {id:'loader',text:'引入JS方式',href:'main/loader.html'}  
+                {id:'resource',text:'会员列表',href:'main/resource.html'},
+                {id:'loader',text:'现场招聘',href:'main/loader.html'}  
               ]
             }]
           },{

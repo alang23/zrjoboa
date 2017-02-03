@@ -15,8 +15,19 @@ class Customer extends Zrjoboa
 	public function index()
 	{
 
+		$userinfo = $this->userinfo;
+
 		$page = isset($_GET['page']) ? $_GET['page'] : 0;
         $page = ($page && is_numeric($page)) ? intval($page) : 1;
+
+        $c_name = isset($_GET['c_name']) ? $_GET['c_name'] : '';
+        $uid = isset($_GET['uid']) ? $_GET['uid'] : '';
+        $contacts = isset($_GET['contacts']) ? $_GET['contacts'] : '';
+        $phone = isset($_GET['phone']) ? $_GET['phone'] : '';
+        $data['c_name'] = $c_name;
+        $data['uid'] = $uid;
+        $data['contacts'] = $contacts;
+        $data['phone'] = $phone;
 
         $limit = 20;
         $offset = ($page - 1) * $limit;
@@ -36,15 +47,46 @@ class Customer extends Zrjoboa
         $where['limit'] = $limit;
         $where['offset'] = $offset;
         $where['where'] = array('isdel'=>'0');
-		$list = $this->customer->getList($where);
-		
+        if($userinfo['company_id'] != '0'){
+        	$where['where']['company_id'] = $userinfo['company_id'];
+        }
+
+        if(!empty($c_name)){
+        	$where['like'] = array('key'=>'c_name','value'=>$c_name);
+        }
+        if(!empty($uid)){
+        	$where['where']['uid'] = $uid;
+        }
+        if(!empty($contacts)){
+        	$where['where']['contacts'] = $contacts;
+        }
+
+        if(!empty($phone)){
+        	$where['where']['phone'] = $phone;
+        }
+        $where['order'] = array('key'=>'id','value'=>'DESC');
+		$list = $this->customer->getList($where);	
 		$data['list'] = $list;
+
+		//客户代表
+		$account = array();
+		$c_where['where'] = array('isdel'=>'0');
+		if(!empty($userinfo['company_id'] != '0')){
+			$c_where['where']['company_id'] = $userinfo['company_id'];
+		}
+		$account = $this->get_account($c_where);
+		$data['account'] = $account;
+
+
 		$this->tpl('oa/customer_tpl',$data);
 
 	}
 
 	public function add()
 	{
+
+		$userinfo = $this->userinfo;
+
 		if(!empty($_POST)){
 
 			$uid = $this->input->post('uid');
@@ -64,6 +106,7 @@ class Customer extends Zrjoboa
 				$add['address'] = $address;
 				$add['remarks'] = $remarks;
 				$add['addtime'] = time();
+				$add['company_id'] = $userinfo['company_id'];
 				
 				if($this->customer->add($add)){
 					exit('ok');
@@ -78,7 +121,11 @@ class Customer extends Zrjoboa
 
 			//客户代表
 			$account = array();
-			$account = $this->get_account();
+			$where['where']['isdel'] = '0';
+			if(!empty($userinfo['company_id'] != '0')){
+				$where['where']['company_id'] = $userinfo['company_id'];
+			}
+			$account = $this->get_account($where);
 			$data['account'] = $account;
 
 			$this->tpl('oa/customer_add_tpl',$data);
@@ -88,27 +135,31 @@ class Customer extends Zrjoboa
 
 	public function edit()
 	{
+		$userinfo = $this->userinfo;
+
 		if(!empty($_POST)){
 
-			$name = $this->input->post('name');
-			$address = $this->input->post('address');
+			$uid = $this->input->post('uid');
+			$c_name = $this->input->post('c_name');
 			$contacts = $this->input->post('contacts');
-			$phone = $this->input->post('phone');
-			$email = $this->input->post('email');
-			$remark = $this->input->post('remark');
+			$tel = $this->input->post('tel');
+			$address = $this->input->post('address');
+			$remarks = $this->input->post('remarks');
 			$id = $this->input->post('id');
 
-			if(!empty($name) && !empty($address) && !empty($contacts) && !empty($phone) && !empty($id)){
+			if(!empty($uid) && !empty($c_name) && !empty($id)){
 
-				$update_data['name'] = $name;
-				$update_data['address'] = $address;
+				$_info = explode('-', $uid);
+				$update_data['uid'] = $_info[0];
+				$update_data['realname'] = $_info[1];
+				$update_data['c_name'] = $c_name;
 				$update_data['contacts'] = $contacts;
-				$update_data['phone'] = $phone;
-				$update_data['email'] = $email;
-				$update_data['remark'] = $remark;
+				$update_data['tel'] = $tel;
+				$update_data['address'] = $address;
+				$update_data['remarks'] = $remarks;
 
 				$update_config = array('id'=>$id);
-				if($this->company->update($update_config,$update_data)){
+				if($this->customer->update($update_config,$update_data)){
 					exit('ok');
 				}else{
 					exit('error');
@@ -122,10 +173,19 @@ class Customer extends Zrjoboa
 			$id = $this->input->get('id');
 
 			$where['where'] = array('id'=>$id);
-			$info = $this->company->get_one_by_where($where);
+			$info = $this->customer->get_one_by_where($where);
 			$data['info'] = $info;
 
-			$this->tpl('oa/company_edit_tpl',$data);
+						//客户代表
+			$account = array();
+			$c_where['where']['isdel'] = '0';
+			if(!empty($userinfo['company_id'] != '0')){
+				$c_where['where']['company_id'] = $userinfo['company_id'];
+			}
+			$account = $this->get_account($c_where);
+			$data['account'] = $account;
+
+			$this->tpl('oa/customer_edit_tpl',$data);
 		}
 	}
 
@@ -153,11 +213,10 @@ class Customer extends Zrjoboa
 		}
 	}
 
-	private function get_account()
+	private function get_account($where = array())
 	{
 			//客户代表
 		$account = array();
-		$where['where'] = array('isdel'=>'0');
 		$account = $this->account->getList($where);
 
 		return $account;
