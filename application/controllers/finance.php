@@ -376,6 +376,7 @@ class Finance extends Zrjoboa
 		$this->tpl('oa/finance_scene_detail_tpl',$data);
 	}
 
+
 	//业务-广告详情
 	public function ad_detail()
 	{
@@ -386,7 +387,7 @@ class Finance extends Zrjoboa
 		$data['info'] = $info;
 
 
-		$this->tpl('oa/ad_detail_tpl',$data);
+		$this->tpl('oa/finance_ad_detail_tpl',$data);
 	}
 
 	//财务审核-现场

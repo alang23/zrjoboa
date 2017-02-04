@@ -111,7 +111,10 @@
               },{
                 text : '系统设置',
                 items : [
-                  {id : 'tab',text : '使用tab过滤',href : 'search/tab.html'}
+                  {id : 'setting_ad',text : '广告位管理',href : '<?=base_url()?>ad_type/index'},
+                  {id : 'setting_noid',text : '展位管理',href : '<?=base_url()?>exhibition/index'},
+                  {id : 'setting_email',text : '邮件设置',href : '<?=base_url()?>setting/email'},
+                  {id : 'setting_print',text : '打印机设置',href : '<?=base_url()?>setting/prints'}
                 ]
               }]
           },{

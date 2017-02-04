@@ -1,10 +1,10 @@
 <?php
 
 
-class Ad_type_mdl extends Zroa_Model
+class Exhibition_mdl extends Zroa_Model
 {
 	
-	var $table_name = 'zroa_ad_type';
+	var $table_name = 'zroa_exhibition';
 	var $table_company = 'zroa_company';
 
 
@@ -24,9 +24,9 @@ class Ad_type_mdl extends Zroa_Model
 
 
 		$info = array();
-		$info = $this->db->select('c.name,ad.*')
-					->from($this->table_name.' as ad')
-					->join($this->table_company.' as c','c.id=ad.company_id','left')
+		$info = $this->db->select('c.name,ex.*')
+					->from($this->table_name.' as ex')
+					->join($this->table_company.' as c','c.id=ex.company_id','left')
 					->get()->result_array();
 
 		return $info;

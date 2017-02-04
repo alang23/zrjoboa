@@ -110,7 +110,7 @@ function flush(msg,url){
               <th>ID</th>
               <th>企业名称</th>
               <th>客户代表</th>
-              <th>参展日期</th>
+              <th>参展时间</th>
               <th>广告类型</th>
               <th>应收</th>
               <th>实收</th>
@@ -139,9 +139,9 @@ function flush(msg,url){
               <td><?=get_invoice($v['invoice'])?></td>
 
               <td>
-              <a href="<?=base_url()?>company/edit?id=<?=$v['id']?>">编辑</a> |
-              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>company/del?id=<?=$v['id']?>')">删除</a> |
-              <a href="<?=base_url()?>bussiness/ad_detail?id=<?=$v['id']?>">查看详情</a>
+              <a href="<?=base_url()?>finance/ad_detail?id=<?=$v['id']?>">出票</a> |
+              <a href="<?=base_url()?>finance/edit?id=<?=$v['id']?>">作废</a> |
+              <a href="<?=base_url()?>finance/edit?id=<?=$v['id']?>">重开</a>
 
               </td>
             </tr>
