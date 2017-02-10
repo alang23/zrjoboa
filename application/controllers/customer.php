@@ -71,7 +71,7 @@ class Customer extends Zrjoboa
 		//客户代表
 		$account = array();
 		$c_where['where'] = array('isdel'=>'0');
-		if(!empty($userinfo['company_id'] != '0')){
+		if( !empty($userinfo['company_id']) ){
 			$c_where['where']['company_id'] = $userinfo['company_id'];
 		}
 		$account = $this->get_account($c_where);
@@ -122,7 +122,7 @@ class Customer extends Zrjoboa
 			//客户代表
 			$account = array();
 			$where['where']['isdel'] = '0';
-			if(!empty($userinfo['company_id'] != '0')){
+			if(!empty($userinfo['company_id'])){
 				$where['where']['company_id'] = $userinfo['company_id'];
 			}
 			$account = $this->get_account($where);
@@ -179,7 +179,7 @@ class Customer extends Zrjoboa
 						//客户代表
 			$account = array();
 			$c_where['where']['isdel'] = '0';
-			if(!empty($userinfo['company_id'] != '0')){
+			if(!empty($userinfo['company_id'])){
 				$c_where['where']['company_id'] = $userinfo['company_id'];
 			}
 			$account = $this->get_account($c_where);
