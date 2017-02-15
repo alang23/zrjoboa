@@ -28,7 +28,7 @@
       <div class="span24">
         <h4>添加客户</h4>
         <hr>
-          <form id="J_Form" name="form1" method="post" action="<?=base_url()?>customer/add" class="form-horizontal">
+       <form id="J_Form" name="form1" method="post" action="<?=base_url()?>customer/add" class="form-horizontal">
       <div class="control-group">
         <label class="control-label"><s>*</s>客户代表：</label>
         <div class="controls bui-form-group-select">

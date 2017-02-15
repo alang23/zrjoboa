@@ -32,36 +32,20 @@ function flush(msg,url){
       <div class="doc-content">
         <ul class="breadcrumb">
           <li>
-            <a href="#">业务管理</a> <span class="divider">/</span>
+            <a href="#">求职者管理</a> <span class="divider">/</span>
           </li>
           <li>
-            <a class="active">客户列表</a>
+            <a href="#">求职者列表</a> 
           </li>
+         
         </ul>
-        <form class="form-panel" method="get" action="<?=base_url()?>customer/index">
+        <form class="form-panel" method="get" action="<?=base_url()?>account/index">
           <div class="panel-title">
             <span>
-              <label>公司名称：</label><input type="text" name="c_name" value="<?=$c_name?>" class="input-large control-text bui-form-field" /> 
-              <label>客户代表：</label>
-                <select name="uid">
-                    <option value="">客户代表</option>
+              <label>搜索：</label><input type="text" name="kw" value="" class="input-large control-text bui-form-field" /> 
 
-                <?php
-                    foreach($account as $_ak => $_av){
-                ?>
-                    <option value="<?=$_av['id']?>" <?php if($_av['id'] == $uid){ ?> selected <?php } ?>><?=$_av['realname']?></option>
-
-                <?php
-                  }
-                ?>
-
-                </select>
-              
-              <label>联系人：</label><input type="text" name="contacts" value="<?=$contacts?>" class="input-large control-text bui-form-field" /> 
-              <label>电话：</label><input type="text" name="phone" value="<?=$phone?>" class="input-large control-text bui-form-field" /> 
               <button id="btnSearch" type="submit" class="button button-primary">搜索</button>
-              <label><a href="<?=base_url()?>customer/index">全部</a></label>
-
+            
            </span>
           </div>
           <ul class="panel-content">
@@ -71,27 +55,25 @@ function flush(msg,url){
         </form>
         <table cellspacing="0" class="table table-bordered">
           <thead>
-            <tr>
             <th colspan="15">
                 <ul class="bui-bar bui-grid-button-bar" role="toolbar" id="bar7" aria-disabled="false" aria-pressed="false">
-                <a href="<?=base_url()?>customer/add">
+                <a href="<?=base_url()?>member/add_info">
                 <li class="bui-bar-item-button bui-bar-item bui-inline-block" aria-disabled="false" id="bar-item-button1" aria-pressed="false">
                 <button type="button" class="button button-small">
-                <i class="icon-plus"></i>添加客户</button>
+                <i class="icon-plus"></i>添加求职者</button>
                 </li></a>
                 </ul>
             </th>
             </tr>
-
             <tr>
-              <th width="15"></th>
-              <th>ID</th>
-              <th>企业名称</th>
-              <th>客户代表</th>
-              <th>企业联系人</th>
-              <th>联系电话</th>
-              <th>状态</th>
-
+              <th width="30">ID</th>            
+              <th>姓名</th>
+              <th>性别</th>
+              <th>年龄</th>
+              <th>电话</th>
+              <th>现居住地</th>
+              <th>籍贯</th>
+              <th>求职意向</th>
               <th>#</th>
             </tr>
           </thead>
@@ -100,18 +82,18 @@ function flush(msg,url){
               foreach($list as $k => $v){
             ?>
             <tr>
-              <td><input type="checkbox"></td>
+             
               <td ><?=$v['id']?></td>
-              <td><?=$v['c_name']?> <a href="<?=base_url()?>customer/detail?id=<?=$v['id']?>"><span class="label label-info">查看</span></a></td>
-              <td><?=$v['realname']?></td>
-              <td><?=$v['contacts']?></td>
-              <td><?=$v['tel']?></td>
-              <td><?=customer_status($v['status'])?></td>
-
+              <td><a href=""><?=$v['realname']?></a></td>
+              <td><?=get_gender($v['sex'])?></td>
+              <td><?=$v['age']?></td>
+              <td><?=$v['phone']?></td>
+              <td><?=$v['province_name']?>-<?=$v['city_name']?></td>
+              <td><?=$v['household']?></td>
+              <td><?=$v['intention']?></td>
               <td>
-              <a href="<?=base_url()?>customer/edit?id=<?=$v['id']?>"><button class="button button-small button-warning">编辑</button></a>
-              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>customer/del?id=<?=$v['id']?>')"><button class="button button-small button-danger">删除</button></a>
-              <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$v['id']?>"><button class="button button-small button-success">办理业务</button></a>
+              <a href="<?=base_url()?>account/edit?id=<?=$v['id']?>">编辑</a> |
+              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>account/del?id=<?=$v['id']?>')">删除</a>
 
               </td>
             </tr>
@@ -124,7 +106,14 @@ function flush(msg,url){
 
           <div class="pagination pull-right">
             <ul>
-
+            <!--
+              <li class="disabled"><a href="#">« 上一页</a></li>
+              <li class="active"><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li><a href="#">下一页 »</a></li>
+              -->
               <?=$page?>
             </ul>
           </div>
@@ -133,5 +122,6 @@ function flush(msg,url){
     </div> 
 <!-- script end -->
   </div>
+
     </body>
     </html>       

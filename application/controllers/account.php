@@ -9,6 +9,7 @@ class Account extends Zrjoboa
 		parent::__construct();
 		$this->load->model('account_mdl','account');
 		$this->load->model('company_mdl','company');
+		$this->load->model('role_mdl','role');
 
 	}
 
@@ -17,7 +18,7 @@ class Account extends Zrjoboa
 	{
 
 		//权限
-		$check_role = $this->userlib->check_role('root');
+		$check_role = $this->userlib->check_role('access_list');
 
 		$userinfo = $this->userinfo;
 		$data['userinfo'] = $userinfo;
@@ -127,17 +128,24 @@ class Account extends Zrjoboa
 				$add['addtime'] = time();
 				
 				if($this->account->add($add)){
-					redirect('msgtips/success');
+					$msg['title'] = '添加成功';
+					$msg['msg'] = '<a href="'.base_url().'account/index">返回列表</a> | <a href="'.base_url().'account/add">继续添加</a>';
+					$this->tpl('msg/msg_success',$msg);
 				}else{
-					redirect('msgtips/errors');
+					$msg['title'] = '添加失败';
+					$msg['msg'] = '<a href="'.base_url().'account/index">返回列表</a> | <a href="'.base_url().'account/add">继续添加</a>';
+					$this->tpl('msg/msg_errors',$msg);
 				}
 			}else{
-				exit('canshu');
+					$msg['title'] = '添加失败,缺少参数';
+					$msg['msg'] = '<a href="'.base_url().'account/index">返回列表</a> | <a href="'.base_url().'account/add">继续添加</a>';
+					$this->tpl('msg/msg_errors',$msg);
 			}
 
 		}else{
 
-			$roles = $this->userlib->check_role('root');
+			$roles = $this->userlib->check_role('access_add');
+
 			$data['roles'] = $roles;
 			$company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
 			$data['company_id'] = $company_id;
@@ -156,9 +164,6 @@ class Account extends Zrjoboa
 				$company_info = $this->company->get_one_by_where($company_where);
 				$data['company_info'] = $company_info;
 			}
-
-			//$userinfo = $this->userinfo;
-			//$data['userinfo'] = $userinfo;
 
 			$_role = array();
 			$_role = $this->get_role();
@@ -223,7 +228,7 @@ class Account extends Zrjoboa
 
 		}else{
 
-			$roles = $this->userlib->check_role('root');
+			$roles = $this->userlib->check_role('access_edit');
 			$data['roles'] = $roles;
 
 			$id = $this->input->get('id');
@@ -247,13 +252,14 @@ class Account extends Zrjoboa
 				$where['where'] = array('isdel'=>'0');
 				$company = $this->company->getList($where);
 				$data['company'] = $company;
-
+				
 			}else{
 
 				$company_info = array();
 				$company_where['where'] = array('id'=>$userinfo['company_id']);
 				$company_info = $this->company->get_one_by_where($company_where);
 				$data['company_info'] = $company_info;
+
 			}
 
 			$this->tpl('oa/account_edit_tpl',$data);
@@ -309,7 +315,8 @@ class Account extends Zrjoboa
 	public function get_role()
 	{
 		$_role = array();
-		$_role = $this->role->getList();
+		$where['where'] = array('enabled'=>'0');
+		$_role = $this->role->getList($where);
 
 		return $_role;
 	}

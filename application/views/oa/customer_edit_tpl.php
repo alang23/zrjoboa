@@ -78,7 +78,7 @@
           <div class="form-actions span13 offset3">
           <input type="hidden" name="id" value="<?=$info['id']?>" />
             <button type="submit" class="button button-primary">保存</button>
-            <button type="reset" class="button">重置</button>
+            <button type="reset" class="button" onclick="history.back();">返回</button>
           </div>
       </div>       
     </form>

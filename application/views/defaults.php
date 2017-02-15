@@ -43,12 +43,12 @@
     BUI.use('common/main',function(){
       var config = [{
           id:'menu', 
-          homePage : 'members',
+          homePage : 'main',
           menu:[{
               text:'业务管理',
               items:[
                 {id:'main',text:'客户列表',href:'<?=base_url()?>customer',closeable : false},
-                {id:'members',text:'添加客户',href:'<?=base_url()?>customer/add'},
+                {id:'customer',text:'添加客户',href:'<?=base_url()?>customer/add'},
                 {id:'add_bussiness',text:'办理业务',href:'<?=base_url()?>bussiness/index'},
                 {id:'second-menu',text:'现场视图',href:'<?=base_url()?>bussiness/scene'},
                 {id:'dyna-menu',text:'广告视图',href:'<?=base_url()?>bussiness/ad'}
@@ -60,13 +60,23 @@
                 {id:'quick',text:'广告视图',href:'<?=base_url()?>finance/ad'}  
               ]
             },{
-              text:'会员录入',
+              text:'求职者管理',
               items:[
-                {id:'resource',text:'会员列表',href:'main/resource.html'},
-                {id:'loader',text:'现场招聘',href:'main/loader.html'}  
+                {id:'member',text:'求职者列表',href:'member/index'},
+                {id:'website_member',text:'网站求职者',href:'member/website'},
+                {id:'add_member',text:'求职者登记',href:'member/add_info'},
+                {id:'add_member_idcard',text:'求职者登记id',href:'member/add_idcard'}  
+ 
+              ]
+            },{
+              text:'会议管理',
+              items:[
+                {id:'meetting',text:'会议列表',href:'meetting/index'},
+                {id:'meetting_add',text:'添加会议',href:'meetting/index'}  
               ]
             }]
-          },{
+          },
+          {
             id:'form',
             menu:[{
                 text:'表单页面',
@@ -104,9 +114,11 @@
                 items:[
                   {id:'company',text:'企业列表',href:'<?=base_url()?>company'},
                   {id:'example',text:'账号列表',href:'<?=base_url()?>account'},
-                  {id:'example-dialog',text:'搜索页面编辑示例',href:'search/example-dialog.html'},
+                  {id:'add_access',text:'添加账户',href:'<?=base_url()?>account/add'},
+                  {id:'log_login',text:'登陆日志',href:'<?=base_url()?>login_log/index'},
+                  /*{id:'example-dialog',text:'搜索页面编辑示例',href:'search/example-dialog.html'},
                   {id:'introduce',text:'搜索页面简介',href:'search/introduce.html'}, 
-                  {id:'config',text:'搜索配置',href:'search/config.html'}
+                  {id:'config',text:'搜索配置',href:'search/config.html'}*/
                 ]
               },{
                 text : '系统设置',

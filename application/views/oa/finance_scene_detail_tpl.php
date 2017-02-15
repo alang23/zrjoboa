@@ -152,8 +152,8 @@
         <div class="detail-row">
           <div class="detail-actions">
           <input type="hidden" name="id" value="<?=$info['id']?>"/>
-            <a class="button button-danger" href="javascript:void(0)" onclick="do_print();" id="auditPass">快速出票</a>
-            <a class="button" href="javascript:void(0)" >后出票据</a>
+            <a class="button button-danger" href="javascript:void(0)" onclick="winopen('<?=$info['id']?>','<?=base_url()?>finance/do_ticket?id=<?=$info['id']?>');" id="auditPass">快速出票</a>
+            <a class="button" href="javascript:void(0)" onclick="winopen('<?=$info['id']?>','<?=base_url()?>finance/do_piaoju?id=<?=$info['id']?>');" >后出票据</a>
             <a class="button" href="javascript:void(0)" >后出餐票</a>
             <a class="button" href="javascript:void(0)" >后出餐票收据</a>
           </div>
@@ -170,6 +170,8 @@
       
 <!-- script end -->
   </div>
+  <script type="text/javascript" src="<?=base_url()?>static/js/jquery.js"></script>
+
   <script>
   function do_post()
   {
@@ -179,45 +181,20 @@
   </script>
 
 <script>
-function do_print(){
-    // set portrait orientation/ /设置纵向方向
 
-    jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation);
+var winopen = function (rid, url) {
+      var s_x = screen.availWidth - 822;
+      var s_y = screen.availHeight - 600;
+      var winX = s_x / 2;
+      var winY = s_y / 2;
+      //var url = url + "?RID=" + rid;
+      //signIn(rid);
+    
+      window.open(url, "Details", "width=830,height=620,resizable=yes,scrollbars=yes,top=" + winY + ",left=" + winX);
 
-    // set top margins in millimeters/ /设置的顶缘毫米
+}
+</script>
 
-    //jsPrintSetup.setOption('marginTop', 15);
-
-    //jsPrintSetup.setOption('marginBottom', 15);
-
-    //jsPrintSetup.setOption('marginLeft', 20);
-
-    //jsPrintSetup.setOption(' marginRight', 10);
-
-    // set page header/ /设置页面标题
-
-    jsPrintSetup.setOption('headerStrLeft', 'My custom header');
-
-    jsPrintSetup.setOption('headerStrCenter', '');
-
-    jsPrintSetup.setOption('headerStrRight', '&PT');
-    // set empty page footer/ /设置空页页脚
-    jsPrintSetup.setOption('footerStrLeft', '');
-    jsPrintSetup.setOption('footerStrCenter', '');
-    jsPrintSetup.setOption('footerStrRight', '');
-    // Suppress print dialog/ /抑制打印对话框
-
-    jsPrintSetup.setSilentPrint(false);
-
-    // Do Print/打印
-
-    jsPrintSetup.print();
-
-    // Restore print dialog/ /恢复打印对话框
-
-    jsPrintSetup.setSilentPrint(false);
-  }
-  </script>
     </body>
     </html>
 

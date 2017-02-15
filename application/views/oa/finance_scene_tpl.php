@@ -22,6 +22,9 @@ function flush(msg,url){
 
   });
 }
+
+
+
   </script>
     </head>
     <body>
@@ -143,7 +146,8 @@ function flush(msg,url){
               <td><?=get_invoice($v['invoice'])?></td>
 
               <td>
-              <a href="<?=base_url()?>finance/scene_detail?id=<?=$v['id']?>">出票</a> |
+              <!--<a href="javascript:void(0);" onclick="winopen('1234','<?=base_url()?>finance/do_ticket?id=<?=$v['id']?>');">出票</a> -->
+              <a href="<?=base_url()?>finance/scene_detail?id=<?=$v['id']?>" >出票</a> |
               <a href="<?=base_url()?>company/edit?id=<?=$v['id']?>">作废</a> |
               <a href="<?=base_url()?>company/edit?id=<?=$v['id']?>">重开</a>
 
@@ -179,6 +183,31 @@ function flush(msg,url){
             autoRender : true
           });
         });
+
+function do_ticket()
+{
+  layer.open({
+  type: 2,
+  title: '出票',
+  shadeClose: true,
+  shade: 0.8,
+  area: ['380px', '90%'],
+  content: "<?=base_url()?>finance/scene_detail?id=<?=$v['id']?>" //iframe的url
+}); 
+}
+
+
+var winopen = function (rid, url) {
+      var s_x = screen.availWidth - 822;
+      var s_y = screen.availHeight - 600;
+      var winX = s_x / 2;
+      var winY = s_y / 2;
+      var url = url + "?RID=" + rid;
+      //signIn(rid);
+      //rprint(rid);
+      window.open(url, "Details", "width=830,height=620,resizable=yes,scrollbars=yes,top=" + winY + ",left=" + winX);
+
+    }
     </script>
 <!-- script end -->
     </body>

@@ -52,7 +52,7 @@
               data:{
                   
                   username : username,
-                  pawd : pawd,
+                  pawd : pawd
                   
               },
               contentType:"application/x-www-form-urlencoded; charset=utf-8",
@@ -60,7 +60,7 @@
               cache:false,
               dataType:'json',
               success:function(data){
-                
+               
                if(data.code == 0){
                		window.location = '<?=base_url()?>defaults';
                }else{

@@ -415,7 +415,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 |
 */
 $config['cookie_prefix']	= 'zroa';
-$config['cookie_domain']	= '.51cnb.xin';
+$config['cookie_domain']	= '.zrjob.cn';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;

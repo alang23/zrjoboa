@@ -140,14 +140,14 @@ function flush(msg,url){
               <td><?=$v['no_name']?></td>
               <td><?=$v['y_amount']?></td>
               <td><?=$v['s_amount']?></td>
-              <td>出票</td>
+              <td><?=do_ticket($v['s_ticket'])?></td>
               <td><?=payment_status($v['payment'])?></td>
               <td><?=bussiness_status($v['status'])?></td>
               <td><?=get_invoice($v['invoice'])?></td>
 
               <td>
-              <a href="<?=base_url()?>company/edit?id=<?=$v['id']?>">编辑</a> |
-              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>company/del?id=<?=$v['id']?>')">删除</a> |
+              <a href="<?=base_url()?>bussiness/edit_ex?id=<?=$v['id']?>">编辑</a> |
+              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>bussiness/del_ex?id=<?=$v['id']?>')">删除</a> |
               <a href="<?=base_url()?>bussiness/scene_detail?id=<?=$v['id']?>">查看详情</a>
 
               </td>

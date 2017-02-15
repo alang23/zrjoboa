@@ -109,12 +109,18 @@ class Customer extends Zrjoboa
 				$add['company_id'] = $userinfo['company_id'];
 				
 				if($this->customer->add($add)){
-					exit('ok');
+					$msg['title'] = '添加成功';
+					$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a> | <a href="'.base_url().'customer/add">继续添加</a>';
+					$this->tpl('msg/msg_success',$msg);
 				}else{
-					exit('error');
+					$msg['title'] = '添加失败';
+					$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a> | <a href="'.base_url().'customer/add">继续添加</a>';
+					$this->tpl('msg/msg_errors',$msg);
 				}
 			}else{
-				exit('canshu');
+					$msg['title'] = '添加失败,缺少参数';
+					$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a> | <a href="'.base_url().'customer/add">继续添加</a>';
+					$this->tpl('msg/msg_errors',$msg);
 			}
 
 		}else{
