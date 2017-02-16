@@ -7,8 +7,9 @@ class Customer extends Zrjoboa
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('customer_mdl','customer');
-		$this->load->model('account_mdl','account');
+		$this->load->model('Customer_mdl','customer');
+		$this->load->model('Account_mdl','account');
+		$this->load->library('Categorylib','categorylib');
 	}
 
 
@@ -16,6 +17,8 @@ class Customer extends Zrjoboa
 	{
 
 		$userinfo = $this->userinfo;
+
+		$data['userinfo'] = $userinfo;
 
 		$page = isset($_GET['page']) ? $_GET['page'] : 0;
         $page = ($page && is_numeric($page)) ? intval($page) : 1;
@@ -95,8 +98,30 @@ class Customer extends Zrjoboa
 			$tel = $this->input->post('tel');
 			$address = $this->input->post('address');
 			$remarks = $this->input->post('remarks');
+			$industry = $this->input->post('industry');
+			$nature = $this->input->post('nature');
+			$scale = $this->input->post('scale');
+
+			//检查企业名称
+			$check_name = $this->check_company_name($c_name);
+			if(!empty($check_name)){
+				$msg['title'] = '添加失败,企业已经存在';
+				$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a> | <a href="'.base_url().'customer/add">继续添加</a>';
+				$this->tpl('msg/msg_errors',$msg);
+				exit;
+			}
+
+			$_nature = array();
+			$_nature = explode('-', $nature);
+
+			$_industry = array();
+			$_industry = explode('-', $industry);
+
+			$_scale = array();
+			$_scale = explode('-', $scale);
 			
 			if(!empty($uid) && !empty($c_name)){
+
 				$_info = explode('-', $uid);
 				$add['uid'] = $_info[0];
 				$add['realname'] = $_info[1];
@@ -107,6 +132,15 @@ class Customer extends Zrjoboa
 				$add['remarks'] = $remarks;
 				$add['addtime'] = time();
 				$add['company_id'] = $userinfo['company_id'];
+
+				$add['industry'] = $_industry[0];
+				$add['industry_cn'] = $_industry[1];
+
+				$add['nature'] = $_nature[0];
+				$add['nature_cn'] = $_nature[1];
+
+				$add['scale'] = $_scale[0];
+				$add['scale_cn'] = $_scale[1]; 
 				
 				if($this->customer->add($add)){
 					$msg['title'] = '添加成功';
@@ -133,6 +167,24 @@ class Customer extends Zrjoboa
 			}
 			$account = $this->get_account($where);
 			$data['account'] = $account;
+
+			//企业性质
+			$nature = array();
+			$key = 'WRZC_company_type';
+			$nature = $this->categorylib->get_category($key);
+			$data['nature'] = $nature;
+
+			//行业
+			$industry = array();
+			$indu_key = 'WRZC_trade';
+			$industry = $this->categorylib->get_category($indu_key);
+			$data['industry'] = $industry;
+
+			//公司规模
+			$scale = array();
+			$scale_key = 'WRZC_scale';
+			$scale = $this->categorylib->get_category($scale_key);
+			$data['scale'] = $scale;
 
 			$this->tpl('oa/customer_add_tpl',$data);
 		}
@@ -217,6 +269,40 @@ class Customer extends Zrjoboa
 		}else{
 			echo 'err';
 		}
+	}
+
+	//ajax检验企业名称
+	public function check_company_ajax()
+	{
+		$c_name = $this->input->post('c_name');
+		$info = array();
+		if(!empty($c_name)){
+			$info = $this->check_company_name($c_name);
+		}
+
+		if(!empty($info)){
+			$msg = array(
+				'code'=>'1',
+				'msg'=>'该企业已经存在'
+				);
+		}else{
+			$msg = array(
+				'code'=>'0',
+				'msg'=>'企业不存在'
+				);
+		}
+
+		echo json_encode($msg);
+		exit;
+	}
+
+	//检查企业名称
+	public function check_company_name($name)
+	{
+		$where['where'] = array('c_name'=>$name);
+		$info = $this->customer->get_one_by_where($where);
+
+		return $info;
 	}
 
 	private function get_account($where = array())

@@ -44,6 +44,7 @@
       var config = [{
           id:'menu', 
           homePage : 'main',
+          //collapsed:true, //默认左侧菜单收缩
           menu:[{
               text:'业务管理',
               items:[
@@ -60,6 +61,13 @@
                 {id:'quick',text:'广告视图',href:'<?=base_url()?>finance/ad'}  
               ]
             },{
+              text:'广告管理',
+              items:[
+                {id:'quick',text:'现场制作视图',href:'<?=base_url()?>advert/scene'},
+                {id:'operation',text:'广告制作视图',href:'<?=base_url()?>advert/ad'}
+              ]
+            }
+            ,{
               text:'求职者管理',
               items:[
                 {id:'member',text:'求职者列表',href:'member/index'},

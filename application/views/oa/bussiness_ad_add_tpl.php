@@ -143,14 +143,14 @@
       <div class="control-group">
         <label class="control-label">联系人：</label>
         <div class="controls  control-row-auto">
-            <input name="contacts" type="text"  id="contacts" class="input-large" value="<?=$company_info['realname']?>" >
+            <input name="contacts" type="text"  id="contacts" class="input-large" value="<?php echo isset($company_info['realname']) ? $company_info['realname'] : '' ;?>" >
         </div>
       </div>
 
             <div class="control-group">
         <label class="control-label">联系电话：</label>
         <div class="controls  control-row-auto">
-          <input name="phone" type="text"  id="phone" class="input-large" value="<?=$company_info['tel']?>">
+          <input name="phone" type="text"  id="phone" class="input-large" value="<?php echo isset($company_info['tel']) ? $company_info['tel'] : '' ;?>">
 
         </div>
       </div>

@@ -159,7 +159,9 @@ class Member extends Zrjoboa
 
 	public function add_idcard()
 	{
-		$this->tpl('oa/member_add_idcard_tpl');
+		$province = $this->get_province();
+		$data['province'] = $province;
+		$this->tpl('oa/member_add_idcard_tpl',$data);
 	}
 
 	//省份

@@ -67,7 +67,52 @@
           <input type="text" class="input-large" name="address" id="address" >
         </div>
       </div>
+      <div class="control-group">
+        <label class="control-label">企业性质：</label>
+        <div class="controls">
+            <select class="input-large" name="nature" id="nature" >
+              <option value="0-无">=企业性质=</option>
+              <?php
+                foreach($nature as $k => $v){
+              ?>
+              <option value="<?=$v['c_id']?>-<?=$v['c_name']?>"><?=$v['c_name']?></option>
+              <?php
+                }
+              ?>
+            </select>
+        </div>
+      </div>
 
+      <div class="control-group">
+        <label class="control-label">公司规模：</label>
+        <div class="controls">
+            <select class="input-large" name="scale" id="scale" >
+              <option value="0-无">=公司规模=</option>
+              <?php
+                foreach($scale as $sk => $sv){
+              ?>
+              <option value="<?=$sv['c_id']?>-<?=$sv['c_name']?>"><?=$sv['c_name']?></option>
+              <?php
+                }
+              ?>
+            </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">行业类型：</label>
+        <div class="controls">
+            <select class="input-large" name="industry" id="industry" >
+              <option value="0-无">=行业类型=</option>
+              <?php
+                foreach($industry as $k => $v){
+              ?>
+              <option value="<?=$v['c_id']?>-<?=$v['c_name']?>"><?=$v['c_name']?></option>
+              <?php
+                }
+              ?>
+            </select>
+        </div>
+      </div>
       <div class="control-group">
         <label class="control-label">备注：</label>
         <div class="controls  control-row-auto">
@@ -93,11 +138,37 @@ function check_name()
 
   var c_name = '';
   c_name = $("#c_name").val();
+
   if(c_name == ''){
     $("#c_name-err").remove();
       $("#c_name").after('<span class="x-field-error" id="c_name-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">单位名称不能为空</label></span>');
       return false;
   }else{
+
+        var aj = $.ajax( {
+              url:'<?=base_url()?>customer/check_company_ajax',
+              data:{                 
+                  c_name : c_name                 
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+                //alert(data.code);
+                if(data.code != 0){
+                  $("#c_name-err").remove();
+                  $("#c_name").after('<span class="x-field-error" id="c_name-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">'+data.msg+'</label></span>');
+                  return false;
+                }else{
+                  $("#c_name-err").remove();
+                  return true;
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
       $("#c_name-err").remove();
       return true;
   }

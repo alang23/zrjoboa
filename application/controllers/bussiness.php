@@ -239,9 +239,13 @@ class Bussiness extends Zrjoboa
 		                    $dataarr['addtime'] = time();
 		                    $dataarr['bussiness_id'] = $bussiness_id;
 		                    $dataarr['bid'] = $bid;
-		                    
+
+		                    $update_config = array('id'=>$bid);
+		                    $update_data = array('is_upload'=>'1');
+
 		                   if( $this->ad_file->add($dataarr) )
 		                   {
+		                   		$this->bussiness_ad->update($update_config,$update_data);
 		                   		exit('ok');
 		                   }else{
 

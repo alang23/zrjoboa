@@ -90,7 +90,6 @@ function flush(msg,url){
               <th>客户代表</th>
               <th>企业联系人</th>
               <th>联系电话</th>
-              <th>状态</th>
 
               <th>#</th>
             </tr>
@@ -106,13 +105,11 @@ function flush(msg,url){
               <td><?=$v['realname']?></td>
               <td><?=$v['contacts']?></td>
               <td><?=$v['tel']?></td>
-              <td><?=customer_status($v['status'])?></td>
 
               <td>
-              <a href="<?=base_url()?>customer/edit?id=<?=$v['id']?>"><button class="button button-small button-warning">编辑</button></a>
-              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>customer/del?id=<?=$v['id']?>')"><button class="button button-small button-danger">删除</button></a>
               <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$v['id']?>"><button class="button button-small button-success">办理业务</button></a>
-
+              <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$v['id']?>"><button class="button button-small button-info" >职位管理</button></a>
+            
               </td>
             </tr>
             <?php
