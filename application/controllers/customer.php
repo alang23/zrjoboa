@@ -10,6 +10,8 @@ class Customer extends Zrjoboa
 		$this->load->model('Customer_mdl','customer');
 		$this->load->model('Account_mdl','account');
 		$this->load->library('Categorylib','categorylib');
+		$this->load->model('District_mdl','district');
+
 	}
 
 
@@ -101,6 +103,8 @@ class Customer extends Zrjoboa
 			$industry = $this->input->post('industry');
 			$nature = $this->input->post('nature');
 			$scale = $this->input->post('scale');
+			$province = $this->input->post('province');
+			$city = $this->input->post('city');
 
 			//检查企业名称
 			$check_name = $this->check_company_name($c_name);
@@ -119,6 +123,18 @@ class Customer extends Zrjoboa
 
 			$_scale = array();
 			$_scale = explode('-', $scale);
+
+						//省
+			if(!empty($province)){
+				$_province = array();
+				$_province = explode('-', $province);
+			}
+
+			//市
+			if(!empty($city)){
+				$_city = array();
+				$_city = explode('-', $city);
+			}
 			
 			if(!empty($uid) && !empty($c_name)){
 
@@ -140,7 +156,13 @@ class Customer extends Zrjoboa
 				$add['nature_cn'] = $_nature[1];
 
 				$add['scale'] = $_scale[0];
-				$add['scale_cn'] = $_scale[1]; 
+				$add['scale_cn'] = $_scale[1];
+
+				$add['province'] = $_province[0];
+				$add['province_cn'] = $_province[1];
+				$add['city'] = $_city[0];
+				$add['city_cn'] = $_city[1];
+ 
 				
 				if($this->customer->add($add)){
 					$msg['title'] = '添加成功';
@@ -185,6 +207,9 @@ class Customer extends Zrjoboa
 			$scale_key = 'WRZC_scale';
 			$scale = $this->categorylib->get_category($scale_key);
 			$data['scale'] = $scale;
+
+			$province = $this->get_province();
+			$data['province'] = $province;
 
 			$this->tpl('oa/customer_add_tpl',$data);
 		}
@@ -313,6 +338,17 @@ class Customer extends Zrjoboa
 
 		return $account;
 	}
+
+		//省份
+	public function get_province()
+	{
+		$list = array();
+		$where['where'] = array('parentid'=>'0');
+		$list = $this->district->getList($where);
+
+		return $list;
+	}
+
 
 
 }

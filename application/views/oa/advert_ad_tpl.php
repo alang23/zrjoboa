@@ -82,7 +82,7 @@ function flush(msg,url){
               <td><?=$v['y_amount']?></td>
               <td><?=$v['s_amount']?></td>
               <td><?=payment_status($v['payment'])?></td>
-              <td><?=$v['is_upload']?></td>
+              <td><?=is_upload($v['is_upload'])?></td>
               <td><?=get_invoice($v['invoice'])?></td>
 
               <td>

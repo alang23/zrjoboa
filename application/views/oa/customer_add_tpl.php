@@ -62,6 +62,26 @@
         </div>
       </div>
       <div class="control-group">
+          <label class="control-label">所在地：</label>
+          <div class="controls">
+            <select class="input-small" name="province" id="province" onchange="get_city(this.value);">
+              <option value="0-无">=省=</option>
+              <?php
+                foreach($province as $k => $v){
+              ?>
+              <option value="<?=$v['id']?>-<?=$v['categoryname']?>"><?=$v['categoryname']?></option>
+              <?php
+                }
+              ?>
+            </select>
+          
+            <select class="input-small" name="city" id="city">
+              <option value="0-无">=市=</option>
+              
+            </select>
+          </div>
+        </div>
+      <div class="control-group">
         <label class="control-label">单位地址：</label>
         <div class="controls">
           <input type="text" class="input-large" name="address" id="address" >
@@ -199,6 +219,44 @@ function add_post()
 
 </script>
 <!-- script end -->
+<!-- script start --> 
+<script type="text/javascript">
+function get_city(id)
+{
+
+    
+    var aj = $.ajax( {
+              url:'<?=base_url()?>member/get_city_select',
+              data:{
+                  
+                  id : id,
+                  
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+               
+               if(data.code == 0){
+
+                    $("#city").html(data.data);
+
+               }else{
+                
+                  alert('error');
+
+               }
+
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
+} 
+ 
+      
+</script>
   </div>
 </body>
 </html>
