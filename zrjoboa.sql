@@ -2,14 +2,14 @@
  Navicat MySQL Data Transfer
 
  Source Server         : localhost
- Source Server Version : 50144
+ Source Server Version : 50505
  Source Host           : localhost
  Source Database       : zrjoboa
 
- Target Server Version : 50144
+ Target Server Version : 50505
  File Encoding         : utf-8
 
- Date: 02/18/2017 13:55:47 PM
+ Date: 02/19/2017 15:27:46 PM
 */
 
 SET NAMES utf8;
@@ -63,18 +63,19 @@ DROP TABLE IF EXISTS `zroa_ad_type`;
 CREATE TABLE `zroa_ad_type` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `company_id` int(8) NOT NULL,
+  `company_name` varchar(200) NOT NULL,
   `ad_name` varchar(200) NOT NULL,
   `rank` int(4) NOT NULL,
   `remarks` varchar(200) NOT NULL,
   `isdel` tinyint(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `zroa_ad_type`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zroa_ad_type` VALUES ('1', '4', 'MX3', '0', '000', '0'), ('2', '4', 'MX4', '0', '', '0'), ('3', '4', '测试广告', '0', '', '0'), ('6', '0', '网易首页', '0', '', '0'), ('7', '10', '测试广告', '0', '', '0');
+INSERT INTO `zroa_ad_type` VALUES ('1', '4', '', 'MX3', '0', '000', '0'), ('2', '4', '', 'MX4', '0', '', '0'), ('3', '4', '', '测试广告', '0', '', '0'), ('6', '0', '', '网易首页', '0', '', '0'), ('7', '10', '', '测试广告', '0', '', '0'), ('8', '0', '', 'A4', '0', '', '0'), ('9', '10', '深圳宏泰创展信息科技有限公司', 'A4', '0', '', '0'), ('10', '12', '深圳指点科技有限公司', 'A4', '0', '', '0'), ('11', '10', '深圳宏泰创展信息科技有限公司', 'A4', '0', '', '0');
 COMMIT;
 
 -- ----------------------------
@@ -97,13 +98,13 @@ CREATE TABLE `zroa_admin` (
   `isdel` tinyint(2) NOT NULL DEFAULT '0',
   `addtime` int(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `zroa_admin`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zroa_admin` VALUES ('4', 'admin', 'c33367701511b4f6020ec61ded352059', '兰总', '1', '经理', '15814073940', 'lanlibin23@163.com', '0', 'beizhu', '5', '0', '0', '1484898960'), ('18', 'admin4', 'e10adc3949ba59abbe56e057f20f883e', '流量公司8', '1', '经理2', '15814073940', 'lanlibin23@163.com', '10', '', '2', '0', '0', '1487049626'), ('19', 'admin5', 'e10adc3949ba59abbe56e057f20f883e', '南康分公司', '1', '经理', '13800138002', 'admin@163.com', '10', '', '3', '0', '0', '1487050060'), ('20', 'admin6', 'e10adc3949ba59abbe56e057f20f883e', '流量公司', '1', '经理', '123123', 'admin@163.com', '10', '', '2', '0', '0', '1487050108'), ('15', 'admin2', 'e10adc3949ba59abbe56e057f20f883e', '赵总', '1', '经理', '13800138000', 'admin@163.com', '10', '', '1', '0', '0', '1486798150'), ('16', 'admin3', 'e10adc3949ba59abbe56e057f20f883e', '流量公司', '1', '经理', '13800138002', 'admin@163.com', '10', '', '2', '0', '0', '1486798735'), ('17', 'nankang1', 'e10adc3949ba59abbe56e057f20f883e', '老总', '1', '经理', '13800138000', 'lanlibin23@163.com', '11', '', '1', '0', '0', '1487038800');
+INSERT INTO `zroa_admin` VALUES ('4', 'admin', 'c33367701511b4f6020ec61ded352059', '兰总', '1', '经理', '15814073940', 'lanlibin23@163.com', '0', 'beizhu', '5', '0', '0', '1484898960'), ('18', 'admin4', 'e10adc3949ba59abbe56e057f20f883e', '流量公司8', '1', '经理2', '15814073940', 'lanlibin23@163.com', '10', '', '2', '0', '0', '1487049626'), ('19', 'admin5', 'e10adc3949ba59abbe56e057f20f883e', '南康分公司', '1', '经理', '13800138002', 'admin@163.com', '10', '', '3', '0', '0', '1487050060'), ('20', 'admin6', 'e10adc3949ba59abbe56e057f20f883e', '流量公司', '1', '经理', '123123', 'admin@163.com', '10', '', '2', '0', '0', '1487050108'), ('15', 'admin2', 'e10adc3949ba59abbe56e057f20f883e', '赵总', '1', '经理', '13800138000', 'admin@163.com', '10', '', '1', '0', '0', '1486798150'), ('16', 'admin3', 'e10adc3949ba59abbe56e057f20f883e', '流量公司', '1', '经理', '13800138002', 'admin@163.com', '10', '', '2', '0', '0', '1486798735'), ('17', 'nankang1', 'e10adc3949ba59abbe56e057f20f883e', '老总', '1', '经理', '13800138000', 'lanlibin23@163.com', '11', '', '1', '0', '0', '1487038800'), ('21', 'admin8', 'e10adc3949ba59abbe56e057f20f883e', '  你好', '1', '老板', '13800138000', '822561700@qq.com', '17', '', '1', '0', '0', '1487475108');
 COMMIT;
 
 -- ----------------------------
@@ -377,19 +378,49 @@ DROP TABLE IF EXISTS `zroa_exhibition`;
 CREATE TABLE `zroa_exhibition` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `company_id` int(8) NOT NULL,
+  `company_name` varchar(200) NOT NULL,
   `ex_name` varchar(200) NOT NULL,
   `rank` int(4) NOT NULL,
   `remarks` varchar(200) NOT NULL,
   `isdel` tinyint(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `zroa_exhibition`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zroa_exhibition` VALUES ('1', '4', 'MX3', '0', '000', '0'), ('2', '4', 'MX4', '0', '', '0'), ('3', '4', '测试广告', '0', '', '0'), ('4', '4', '东1', '0', '', '0');
+INSERT INTO `zroa_exhibition` VALUES ('7', '10', '深圳宏泰创展信息科技有限公司', 'D-6', '0', '', '0'), ('8', '10', '深圳宏泰创展信息科技有限公司', 'D-60', '0', 'D-60', '0'), ('9', '10', '深圳宏泰创展信息科技有限公司', 'D-60', '0', 'D-60', '0');
 COMMIT;
+
+-- ----------------------------
+--  Table structure for `zroa_jobs`
+-- ----------------------------
+DROP TABLE IF EXISTS `zroa_jobs`;
+CREATE TABLE `zroa_jobs` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `company_id` int(8) NOT NULL,
+  `company_name` varchar(100) NOT NULL,
+  `jobs_name` varchar(100) NOT NULL,
+  `nature` int(8) NOT NULL DEFAULT '0',
+  `nature_cn` varchar(40) NOT NULL,
+  `education` int(8) NOT NULL DEFAULT '0',
+  `education_cn` varchar(60) NOT NULL,
+  `age` varchar(20) NOT NULL,
+  `experience` int(8) NOT NULL DEFAULT '0',
+  `experience_cn` varchar(100) NOT NULL,
+  `province` int(8) NOT NULL,
+  `province_cn` varchar(60) NOT NULL,
+  `city` int(8) NOT NULL,
+  `city_cn` varchar(60) NOT NULL,
+  `desc` text NOT NULL,
+  `contacts` varchar(60) NOT NULL,
+  `tel` varchar(60) NOT NULL,
+  `email` varchar(60) NOT NULL,
+  `addtime` int(4) NOT NULL,
+  `isdel` tinyint(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `zroa_login_log`
@@ -404,13 +435,13 @@ CREATE TABLE `zroa_login_log` (
   `addtime` int(4) NOT NULL,
   `ip` varchar(60) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `zroa_login_log`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zroa_login_log` VALUES ('82', '4', 'admin', '登陆系统', '0', '1487046684', '127.0.0.1'), ('83', '15', 'admin2', '登陆系统', '10', '1487048221', '127.0.0.1'), ('84', '4', 'admin', '登陆系统', '0', '1487048333', '127.0.0.1'), ('85', '15', 'admin2', '登陆系统', '10', '1487048664', '127.0.0.1'), ('86', '15', 'admin2', '登陆系统', '10', '1487061958', '127.0.0.1'), ('87', '15', 'admin2', '登陆系统', '10', '1487066931', '127.0.0.1'), ('88', '15', 'admin2', '登陆系统', '10', '1487077394', '127.0.0.1'), ('89', '15', 'admin2', '登陆系统', '10', '1487137431', '127.0.0.1'), ('90', '4', 'admin', '登陆系统', '0', '1487137558', '127.0.0.1'), ('91', '4', 'admin', '登陆系统', '0', '1487138578', '127.0.0.1'), ('92', '4', 'admin', '登陆系统', '0', '1487139388', '127.0.0.1'), ('93', '4', 'admin', '登陆系统', '0', '1487139776', '127.0.0.1'), ('94', '4', 'admin', '登陆系统', '0', '1487148361', '127.0.0.1'), ('95', '4', 'admin', '登陆系统', '0', '1487149144', '127.0.0.1'), ('96', '4', 'admin', '登陆系统', '0', '1487165029', '127.0.0.1'), ('97', '4', 'admin', '登陆系统', '0', '1487212257', '127.0.0.1'), ('98', '15', 'admin2', '登陆系统', '10', '1487216095', '127.0.0.1'), ('99', '4', 'admin', '登陆系统', '0', '1487224506', '127.0.0.1'), ('100', '15', 'admin2', '登陆系统', '10', '1487228812', '127.0.0.1'), ('101', '15', 'admin2', '登陆系统', '10', '1487252246', '127.0.0.1'), ('102', '4', 'admin', '登陆系统', '0', '1487298541', '127.0.0.1'), ('103', '15', 'admin2', '登陆系统', '10', '1487300803', '127.0.0.1'), ('104', '15', 'admin2', '登陆系统', '10', '1487303017', '127.0.0.1'), ('105', '15', 'admin2', '登陆系统', '10', '1487395047', '127.0.0.1');
+INSERT INTO `zroa_login_log` VALUES ('82', '4', 'admin', '登陆系统', '0', '1487046684', '127.0.0.1'), ('83', '15', 'admin2', '登陆系统', '10', '1487048221', '127.0.0.1'), ('84', '4', 'admin', '登陆系统', '0', '1487048333', '127.0.0.1'), ('85', '15', 'admin2', '登陆系统', '10', '1487048664', '127.0.0.1'), ('86', '15', 'admin2', '登陆系统', '10', '1487061958', '127.0.0.1'), ('87', '15', 'admin2', '登陆系统', '10', '1487066931', '127.0.0.1'), ('88', '15', 'admin2', '登陆系统', '10', '1487077394', '127.0.0.1'), ('89', '15', 'admin2', '登陆系统', '10', '1487137431', '127.0.0.1'), ('90', '4', 'admin', '登陆系统', '0', '1487137558', '127.0.0.1'), ('91', '4', 'admin', '登陆系统', '0', '1487138578', '127.0.0.1'), ('92', '4', 'admin', '登陆系统', '0', '1487139388', '127.0.0.1'), ('93', '4', 'admin', '登陆系统', '0', '1487139776', '127.0.0.1'), ('94', '4', 'admin', '登陆系统', '0', '1487148361', '127.0.0.1'), ('95', '4', 'admin', '登陆系统', '0', '1487149144', '127.0.0.1'), ('96', '4', 'admin', '登陆系统', '0', '1487165029', '127.0.0.1'), ('97', '4', 'admin', '登陆系统', '0', '1487212257', '127.0.0.1'), ('98', '15', 'admin2', '登陆系统', '10', '1487216095', '127.0.0.1'), ('99', '4', 'admin', '登陆系统', '0', '1487224506', '127.0.0.1'), ('100', '15', 'admin2', '登陆系统', '10', '1487228812', '127.0.0.1'), ('101', '15', 'admin2', '登陆系统', '10', '1487252246', '127.0.0.1'), ('102', '4', 'admin', '登陆系统', '0', '1487298541', '127.0.0.1'), ('103', '15', 'admin2', '登陆系统', '10', '1487300803', '127.0.0.1'), ('104', '15', 'admin2', '登陆系统', '10', '1487303017', '127.0.0.1'), ('105', '15', 'admin2', '登陆系统', '10', '1487395047', '127.0.0.1'), ('106', '4', 'admin', '登陆系统', '0', '1487474344', '127.0.0.1'), ('107', '15', 'admin2', '登陆系统', '10', '1487474992', '127.0.0.1'), ('108', '4', 'admin', '登陆系统', '0', '1487475009', '127.0.0.1'), ('109', '15', 'admin2', '登陆系统', '10', '1487476473', '127.0.0.1'), ('110', '4', 'admin', '登陆系统', '0', '1487477053', '127.0.0.1'), ('111', '15', 'admin2', '登陆系统', '10', '1487479711', '127.0.0.1'), ('112', '4', 'admin', '登陆系统', '0', '1487480036', '127.0.0.1'), ('113', '15', 'admin2', '登陆系统', '10', '1487480074', '127.0.0.1');
 COMMIT;
 
 -- ----------------------------
