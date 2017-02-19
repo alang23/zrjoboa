@@ -29,7 +29,7 @@
         <h2>修改企业信息</h2>
         <hr>
         <form id="J_Form" class="form-horizontal" method="post" action="<?=base_url()?>company/edit">
-          <h3>企业信息：</h3>
+         
  
             <div class="control-group">
               <label class="control-label"><s>*</s>企业名称：</label>
@@ -68,6 +68,7 @@
             <div class="form-actions span5 offset3">
             <input type="hidden" name="id" value="<?=$info['id']?>" />
               <button id="btnSearch" type="submit" class="button button-primary">提交</button>
+              <button type="reset" class="button" onclick="history.back();">返回</button>
             </div>
         </form> 
       </div>

@@ -29,7 +29,27 @@
         <h3>添加广告位</h3>
         <hr>
         <form id="J_Form" name="form1" class="form-horizontal" method="post" action="<?=base_url()?>ad_type/add">
-   
+             <?php
+            if($userinfo['company_id'] == '0'){
+          ?> 
+            <div class="control-group">
+              <label class="control-label"><s>*</s>公司：</label>
+              <div class="controls">
+                <select name="company_id">
+                    <option value="0-未知">公司</option>
+            <?php
+                foreach($company as $ck => $cv){
+            ?>
+                <option value="<?=$cv['id']?>-<?=$cv['name']?>"><?=$cv['name']?></option>
+            <?php
+                }
+            ?>
+                </select>
+              </div>
+            </div>
+    <?php
+        }
+    ?>
  
             <div class="control-group">
               <label class="control-label"><s>*</s>广告位名称：</label>

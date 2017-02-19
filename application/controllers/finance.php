@@ -377,6 +377,26 @@ class Finance extends Zrjoboa
 	}
 
 
+	//业务-现场详情
+	public function do_ticket()
+	{
+		$id = $this->input->get('id');
+		$info = array();
+		$where['where'] = array('id'=>$id);
+		$info = $this->bussiness_exhibition->get_one_by_where($where);
+		$data['info'] = $info;
+
+
+		$this->tpl('oa/finance_scene_ticket_tpl',$data);
+	}
+
+	//后出票据
+	public function do_piaoju()
+	{
+		$this->tpl('oa/finance_scene_piaoju_tpl');
+	}
+
+
 	//业务-广告详情
 	public function ad_detail()
 	{
@@ -389,6 +409,8 @@ class Finance extends Zrjoboa
 
 		$this->tpl('oa/finance_ad_detail_tpl',$data);
 	}
+
+
 
 	//财务审核-现场
 	public function examine_ex()

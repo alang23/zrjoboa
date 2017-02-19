@@ -11,6 +11,7 @@ class Exhibition extends Zrjoboa
 	{
 		parent::__construct();
 		$this->load->model('exhibition_mdl','exhibition');
+		$this->load->model('Company_mdl','company');
 	}
 
 
@@ -39,13 +40,13 @@ class Exhibition extends Zrjoboa
 		$where['page'] = true;
         $where['limit'] = $limit;
         $where['offset'] = $offset;
-        $where['where'] = array('ex.isdel'=>'0');
+        $where['where'] = array('isdel'=>'0');
         if($userinfo['company_id'] != '0'){
         	$where['where']['company_id'] = $userinfo['company_id'];
         }
 
         $where['order'] = array('key'=>'id','value'=>'DESC');
-		$list = $this->exhibition->get_list_by_join($where);	
+		$list = $this->exhibition->getList($where);	
 		$data['list'] = $list;
 
 
@@ -57,14 +58,27 @@ class Exhibition extends Zrjoboa
 	public function add()
 	{
 		$userinfo = $this->userinfo;
+		$data['userinfo'] = $userinfo;
 		if(!empty($_POST)){
 
 			$ex_name = $this->input->post('ex_name');
 			$remarks = $this->input->post('remarks');
+			$company_id = $this->input->post('company_id');
 
+			if($userinfo['company_id'] == '0'){
+				$_company = explode('-', $company_id);
+				$company_name = $_company[1];
+				$company_id = $_company[0];
+			}else{
+				$config['where'] = array('id'=>$userinfo['company_id']);
+				$_company = $this->company->get_one_by_where($config);
+				$company_name = $_company['name'];
+				$company_id = $userinfo['company_id'];
+			}
 			if(!empty($ex_name)){
 
-				$add['company_id'] = $userinfo['company_id'];
+				$add['company_id'] = $company_id;
+				$add['company_name'] = $company_name;
 				$add['remarks'] = $remarks;
 				$add['ex_name'] = $ex_name;
 
@@ -76,7 +90,12 @@ class Exhibition extends Zrjoboa
 			}
 		}else{
 
-			$this->load->view('oa/exhibition_add_tpl');
+			if($userinfo['company_id'] == '0'){
+				$company = $this->company->getList();
+				$data['company'] = $company;
+
+			}
+			$this->load->view('oa/exhibition_add_tpl',$data);
 		}
 
 	}
@@ -84,16 +103,20 @@ class Exhibition extends Zrjoboa
 	//更新
 	public function edit()
 	{
+		$userinfo = $this->userinfo;
+		$data['userinfo'] = $userinfo;
+
 		if(!empty($_POST)){
-			$ad_name = $this->input->post('ad_name');
+			$ex_name = $this->input->post('ex_name');
 			$id = $this->input->post('id');
 			$remarks = $this->input->post('remarks');
-			if(!empty($ad_name) && !empty($id)){
+
+			if(!empty($ex_name) && !empty($id)){
 				$update_config = array('id'=>$id);
-				$update_data['ad_name'] = $ad_name;
+				$update_data['ex_name'] = $ad_name;
 				$update_data['remarks'] = $remarks;
-				if($this->ad_type->update($update_config,$update_data)){
-					redirect('ad_type/index');
+				if($this->exhibition->update($update_config,$update_data)){
+					redirect('exhibition/index');
 				}
 			}
 		}else{
@@ -101,10 +124,15 @@ class Exhibition extends Zrjoboa
 			$id = $this->input->get('id');
 			$where['where'] = array('id'=>$id);
 			$info = array();
-			$info = $this->ad_type->get_one_by_where($where);
+			$info = $this->exhibition->get_one_by_where($where);
 			$data['info'] = $info;
+			
+			if($userinfo['company_id'] == '0'){
+				$company = $this->company->getList();
+				$data['company'] = $company;
 
-			$this->tpl('oa/ad_type_edit_tpl',$data);
+			}
+			$this->tpl('oa/exhibition_edit_tpl',$data);
 
 		}
 	}
@@ -114,8 +142,8 @@ class Exhibition extends Zrjoboa
 	{
 		$id = $this->input->get('id');
 		$config = array('id'=>$id);
-		if($this->ad_type->del($config)){
-			redirect('ad_type/index');
+		if($this->exhibition->del($config)){
+			redirect('exhibition/index');
 		}else{
 			exit('0');
 		}

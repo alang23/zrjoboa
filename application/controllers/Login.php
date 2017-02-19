@@ -71,6 +71,9 @@ class Login extends CI_Controller
 
 		//记录登陆
 		$log_data['uid'] = $account_info['id'];
+		$log_data['username'] = $account_info['username'];
+		$log_data['company_id'] = $account_info['company_id'];
+		$log_data['msg'] = '登陆系统';
 		$log_data['addtime'] = time();
 		$log_data['ip'] = get_ip();
 		$this->login_log->add($log_data);

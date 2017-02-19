@@ -173,6 +173,60 @@ if(!function_exists('is_member')){
     }
 }
 
+if(!function_exists('customer_type')){
+
+    function customer_type($c_type)
+    {
+        $result = '';
+        switch($c_type){
+            case 1:
+                $result = '<font color="red">新客户</font>';
+                break;
+            case 2:
+                $result = '<font color="green">重点客户</font>';
+                break;
+            case 3:
+                $result = '<font color="green">潜在客户</font>';
+                break;
+            case 4:
+                $result = '<font color="green">成交客户</font>';
+                break;
+            case 5:
+                $result = '<font color="green">无意向客户</font>';
+                break;
+            case 6:
+                $result = '<font color="green">黑名单客户</font>';
+                break;
+            default:
+                $result = '未分类';
+                break;
+        }
+
+        return $result;
+    }
+}
+
+if(!function_exists('is_upload')){
+
+    function is_upload($status)
+    {
+        $result = '';
+        switch($status){
+            case 0:
+                $result = '<font color="red">未上传</font>';
+                break;
+            case 1:
+                $result = '<font color="green">已经上传</font>';
+                break;
+            default:
+                $result = '未知';
+                break;
+        }
+
+        return $result;
+    }
+}
+
 //性别
 if( !function_exists('get_gender') ){
 

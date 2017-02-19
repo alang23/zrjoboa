@@ -14,6 +14,8 @@ class Company extends Zrjoboa
 	public function index()
 	{
 
+		$check_role = $this->userlib->check_role('company_list');
+
 		$page = isset($_GET['page']) ? $_GET['page'] : 0;
         $page = ($page && is_numeric($page)) ? intval($page) : 1;
 
@@ -83,8 +85,8 @@ class Company extends Zrjoboa
 				if($this->company->add($add)){
 
 					$msg['title'] = '添加成功';
-					$msg['msg'] = '<a href="'.base_url().'company/index">返回列表</a>';
-					redirect('msgtips/success');
+					$msg['msg'] = '<a href="'.base_url().'company/index">返回列表</a> | <a href="'.base_url().'company/add">继续添加</a>';
+					$this->tpl('msg/msg_success',$msg);
 
 				}else{
 					exit('error');
@@ -122,7 +124,11 @@ class Company extends Zrjoboa
 
 				$update_config = array('id'=>$id);
 				if($this->company->update($update_config,$update_data)){
-					exit('ok');
+					
+					$msg['title'] = '修改成功';
+					$msg['msg'] = '<a href="'.base_url().'company/index">返回列表</a>';
+					$this->tpl('msg/msg_success',$msg);
+
 				}else{
 					exit('error');
 				}

@@ -39,7 +39,7 @@
             <div class="control-group">
               <label class="control-label">会员：</label>
               <div class="controls">
-              <span class="control-text"><?=$info['is_member']?></span>
+              <span class="control-text"><?=is_member($info['is_member'])?></span>
               </div>
             </div>
 
@@ -79,7 +79,7 @@
             <div class="control-group">
               <label class="control-label">缴费情况：</label>
               <div class="controls">
-              <span class="control-text"><?=$info['payment']?></span>
+              <span class="control-text"><?=payment_status($info['payment'])?></span>
               </div>
             </div>
                         <div class="control-group">
@@ -98,7 +98,7 @@
           <div class="control-group">
               <label class="control-label">出票：</label>
               <div class="controls">
-              <span class="control-text"><?=$info['s_ticket']?></span>
+              <span class="control-text"><?=do_ticket($info['s_ticket'])?></span>
               </div>
             </div>
 

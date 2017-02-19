@@ -27,14 +27,14 @@
     </div>
       <div class="span24">
       <button class="button   button-success">现场业务</button>
-      <a href="<?=base_url()?>bussiness/index?type=ad"><button class="button">广告业务</button></a>       
+      <a href="<?=base_url()?>bussiness/index?type=ad&bussiness_id=<?=$bussiness_id?>"><button class="button">广告业务</button></a>       
       <hr>
-      <form id="J_Form" method="post" action="<?=base_url()?>bussiness/add_ex" class="form-horizontal">
+      <form id="J_Form" name="form1" method="post" action="<?=base_url()?>bussiness/add_ex" class="form-horizontal">
       
       <div class="control-group">
         <label class="control-label">企业：</label>
         <div class="controls  control-row-auto">
-                <select name="bussiness_id" class="input-normal"> 
+                <select name="bussiness_id" class="input-large"> 
                 <?php
                   foreach($bussiness as $bk => $bv){
                 ?>
@@ -49,7 +49,7 @@
       <div class="control-group">
         <label class="control-label">参展时间</label>
         <div class="controls">
-          <input type="text" class="calendar" name="show_time" value="">
+          <input type="text" class="calendar" name="show_time" id="show_time" value="<?=date("Y-m-d")?>">
         </div>
       </div>
       <div class="control-group">
@@ -105,14 +105,14 @@
             <div class="control-group">
         <label class="control-label">应收金额：</label>
         <div class="controls  control-row-auto">
-          <input name="y_amount" type="text"  id="y_amount" class="input-large" >
+          <input name="y_amount" type="text"  id="y_amount" class="input-large" value="0.00" >
         </div>
       </div>
 
             <div class="control-group">
         <label class="control-label">实收金额：</label>
         <div class="controls  control-row-auto">
-            <input name="s_amount" type="text"  id="s_amount" class="input-large" >
+            <input name="s_amount" type="text"  id="s_amount" class="input-large" value="0.00" >
 
         </div>
       </div>
@@ -135,28 +135,28 @@
       <div class="control-group">
         <label class="control-label">中餐：</label>
         <div class="controls  control-row-auto">
-          <input name="c_food" type="text"  id="c_food" class="input-large" >
+          <input name="c_food" type="text"  id="c_food" class="input-normal" value="1" >
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label">西餐：</label>
         <div class="controls  control-row-auto">
-            <input name="e_food" type="text"  id="e_food" class="input-large" >
+            <input name="e_food" type="text"  id="e_food" class="input-normal" value="1" >
         </div>
       </div>
 
             <div class="control-group">
         <label class="control-label">联系人：</label>
         <div class="controls  control-row-auto">
-            <input name="contacts" type="text"  id="contacts" class="input-large" >
+            <input name="contacts" type="text"  id="contacts" class="input-large" value="<?php echo isset($company_info['contacts']) ? $company_info['contacts'] : '';?>" >
         </div>
       </div>
 
             <div class="control-group">
         <label class="control-label">联系电话：</label>
         <div class="controls  control-row-auto">
-          <input name="phone" type="text"  id="phone" class="input-large">
+          <input name="phone" type="text"  id="phone" class="input-large" value="<?php echo isset($company_info['tel']) ? $company_info['tel'] : '';?>">
 
         </div>
       </div>
@@ -170,7 +170,7 @@
 
       <div class="row actions-bar">       
           <div class="form-actions span13 offset3">
-            <button type="submit" class="button button-primary">保存</button>
+            <button type="button" onclick="do_post();" class="button button-primary">保存</button>
             <button type="reset" class="button">重置</button>
           </div>
       </div>       
@@ -191,7 +191,31 @@
   });  
       
 </script>
+<script>
 
+function check_shouwtime()
+{
+
+  var show_time = '';
+  show_time = $("#show_time").val();
+  if(contacts == ''){
+      $("#show_time").remove();
+      $("#show_time").after('<span class="x-field-error" id="show_time-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">请填写联系人姓名</label></span>');
+      return false;
+  }else{
+      $("#show_time-err").remove();
+      return true;
+  }
+}
+
+
+function do_post()
+{
+  if(check_shouwtime()){
+    document.form1.submit();
+  }
+}
+</script>
 <!-- script end -->
   </div>
 </body>

@@ -43,7 +43,7 @@
 
             </div>
             <?php
-              if(in_array('root', $roles) && $userinfo['company_id']=='0'){
+              if(in_array('access_add', $roles) && $userinfo['company_id']=='0'){
             ?>
              <div class="control-group">
               <label class="control-label">公司：</label>

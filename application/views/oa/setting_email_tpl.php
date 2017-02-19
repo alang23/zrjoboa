@@ -19,7 +19,27 @@
             <hr>
             <form id="J_Form" class="form-horizontal" method="post" action="#">
               <h3>邮箱设置：</h3>
-     
+              <?php
+                  if($userinfo['company_id'] == '0'){
+              ?>
+              <div class="control-group">
+                  <label class="control-label">公司：</label>
+                  <div class="controls">
+                    <select name="company_id">
+                      <option value="0-未知">公司</option>
+                      <?php
+                          foreach($company as $ck => $cv){
+                      ?>
+                          <option value="<?=$cv['id']?>-<?=$cv['name']?>"><?=$cv['name']?></option>
+                      <?php
+                          }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+                <?php
+                  }
+                ?>
                 <div class="control-group">
                   <label class="control-label">SMTP服务器地址：</label>
                   <div class="controls">

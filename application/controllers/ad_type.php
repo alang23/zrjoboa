@@ -11,6 +11,7 @@ class Ad_type extends Zrjoboa
 	{
 		parent::__construct();
 		$this->load->model('ad_type_mdl','ad_type');
+		$this->load->model('Company_mdl','company');
 	}
 
 
@@ -57,26 +58,50 @@ class Ad_type extends Zrjoboa
 	public function add()
 	{
 		$userinfo = $this->userinfo;
+		$data['userinfo'] = $userinfo;
+
 		if(!empty($_POST)){
 
 			$ad_name = $this->input->post('ad_name');
 			$remarks = $this->input->post('remarks');
+			$company_id = $this->input->post('company_id');
 
+			if($userinfo['company_id'] == '0'){
+				$_company = explode('-', $company_id);
+				$company_name = $_company[1];
+				$company_id = $_company[0];
+			}else{
+				$config['where'] = array('id'=>$userinfo['company_id']);
+				$_company = $this->company->get_one_by_where($config);
+				$company_name = $_company['name'];
+				$company_id = $userinfo['company_id'];
+			}
 			if(!empty($ad_name)){
 
-				$add['company_id'] = $userinfo['company_id'];
+				$add['company_id'] = $company_id;
 				$add['remarks'] = $remarks;
 				$add['ad_name'] = $ad_name;
-
+				$add['company_name'] = $company_name;
 				if($this->ad_type->add($add)){
-					exit('ok');
+					$msg['title'] = '添加成功';
+					$msg['msg'] = '<a href="'.base_url().'ad_type/index">返回列表</a> | <a href="'.base_url().'ad_type/add">继续添加</a>';
+					$this->tpl('msg/msg_success',$msg);
 				}else{
-					exit('err');
+					$msg['title'] = '修改失败';
+					$msg['msg'] = '<a href="'.base_url().'ad_type/index">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
 				}
 			}
 		}else{
 
-			$this->load->view('oa/ad_type_add_tpl');
+			
+			if($userinfo['company_id'] == '0'){
+				$company = $this->company->getList();
+				$data['company'] = $company;
+
+			}
+
+			$this->load->view('oa/ad_type_add_tpl',$data);
 		}
 
 	}
@@ -84,6 +109,9 @@ class Ad_type extends Zrjoboa
 	//更新
 	public function edit()
 	{
+		$userinfo = $this->userinfo;
+		$data['userinfo'] = $userinfo;
+		
 		if(!empty($_POST)){
 			$ad_name = $this->input->post('ad_name');
 			$id = $this->input->post('id');
@@ -97,6 +125,12 @@ class Ad_type extends Zrjoboa
 				}
 			}
 		}else{
+
+			if($userinfo['company_id'] == '0'){
+				$company = $this->company->getList();
+				$data['company'] = $company;
+
+			}
 
 			$id = $this->input->get('id');
 			$where['where'] = array('id'=>$id);

@@ -48,6 +48,16 @@ class Bussiness extends Zrjoboa
 		$ad_type = $this->ad_type->getList();
 		$data['ad_type'] = $ad_type;
 
+		//企业信息
+		if(!empty($bussiness_id)){
+
+			$company_info = array();
+			$company_where['where'] = array('id'=>$bussiness_id);
+			$company_info = $this->customer->get_one_by_where($company_where);
+			$data['company_info'] = $company_info;
+
+		}
+
 
 		if($type == 'ex'){
 
@@ -80,20 +90,20 @@ class Bussiness extends Zrjoboa
 			$contacts = $this->input->post('contacts');
 			$phone = $this->input->post('phone');
 
+			$_info = array();
+			$_info = explode('-', $bussiness_id);
+
+			$_ad = array();
+			$_ad = explode('-', $no_id);
+
 			//客户代表
 			$account_info = array();
-			$where['where'] = array('id'=>$bussiness_id);
+			$where['where'] = array('id'=>$_info[0]);
 			$account_info = $this->customer->get_one_by_where($where);
 			$realname = $account_info['realname'];
 			$uid = $account_info['uid'];
 
 			if(!empty($show_time) && !empty($bussiness_id)){
-
-				$_info = array();
-				$_info = explode('-', $bussiness_id);
-
-				$_ad = array();
-				$_ad = explode('-', $no_id);
 
 				$add['show_time'] = strtotime($show_time);
 				$add['realname'] = $realname;
@@ -115,7 +125,7 @@ class Bussiness extends Zrjoboa
 				$add['phone'] = $phone;
 				$add['addtime'] = time();
 				
-				if($this->business_exhibition->add($add)){
+				if($this->bussiness_exhibition->add($add)){
 					exit('ok');
 				}else{
 					exit('error');
@@ -166,9 +176,15 @@ class Bussiness extends Zrjoboa
 			$contacts = $this->input->post('contacts');
 			$phone = $this->input->post('phone');
 
+			$_info = array();
+			$_info = explode('-', $bussiness_id);
+
+			$_ad = array();
+			$_ad = explode('-', $ad_type);
+
 			//客户代表
 			$account_info = array();
-			$where['where'] = array('id'=>$bussiness_id);
+			$where['where'] = array('id'=>$_info[0]);
 			$account_info = $this->customer->get_one_by_where($where);
 			$realname = $account_info['realname'];
 			$uid = $account_info['uid'];
@@ -178,6 +194,7 @@ class Bussiness extends Zrjoboa
 				$add['show_time'] = strtotime($show_time);
 				$add['realname'] = $realname;
 				$add['uid'] = $uid;
+				$add['c_name'] = $_info[1];
 				$add['bussiness_time'] = strtotime($bussiness_time);
 				$add['end_time'] = strtotime($end_time);
 				$add['bussiness_id'] = $bussiness_id;
@@ -189,7 +206,8 @@ class Bussiness extends Zrjoboa
 				$add['pay_project'] = $pay_project;
 				$add['contacts']= $contacts;
 				$add['phone'] = $phone;
-				$add['ad_type'] = $ad_type;
+				$add['ad_type'] = $_ad[0];
+				$add['ad_type_name'] = $_ad[1];
 				$add['addtime'] = time();
 				$add['remarks'] = $remarks;
 
@@ -221,9 +239,13 @@ class Bussiness extends Zrjoboa
 		                    $dataarr['addtime'] = time();
 		                    $dataarr['bussiness_id'] = $bussiness_id;
 		                    $dataarr['bid'] = $bid;
-		                    
+
+		                    $update_config = array('id'=>$bid);
+		                    $update_data = array('is_upload'=>'1');
+
 		                   if( $this->ad_file->add($dataarr) )
 		                   {
+		                   		$this->bussiness_ad->update($update_config,$update_data);
 		                   		exit('ok');
 		                   }else{
 
@@ -247,48 +269,89 @@ class Bussiness extends Zrjoboa
 		
 	}
 
-	public function edit()
+	//现场视图修改
+	public function edit_ex()
 	{
 		if(!empty($_POST)){
 
-			$name = $this->input->post('name');
-			$address = $this->input->post('address');
+			$show_time = $this->input->post('show_time');
+			$no_id = $this->input->post('no_id');
+			$is_member = $this->input->post('is_member');
+			$payment = $this->input->post('payment');
+			$invoice = $this->input->post('invoice');
+			$pay_type = $this->input->post('pay_type');
+			$y_amount = $this->input->post('y_amount');
+			$s_amount = $this->input->post('s_amount');
+			$pay_project = $this->input->post('pay_project');
+			$c_food = $this->input->post('c_food');
+			$e_food = $this->input->post('e_food');
 			$contacts = $this->input->post('contacts');
 			$phone = $this->input->post('phone');
-			$email = $this->input->post('email');
-			$remark = $this->input->post('remark');
 			$id = $this->input->post('id');
 
-			if(!empty($name) && !empty($address) && !empty($contacts) && !empty($phone) && !empty($id)){
 
-				$update_data['name'] = $name;
-				$update_data['address'] = $address;
-				$update_data['contacts'] = $contacts;
-				$update_data['phone'] = $phone;
-				$update_data['email'] = $email;
-				$update_data['remark'] = $remark;
+			$_ad = array();
+			$_ad = explode('-', $no_id);
+			
+			if(!empty($show_time) && !empty($id)){
 
-				$update_config = array('id'=>$id);
-				if($this->company->update($update_config,$update_data)){
-					exit('ok');
+				$add['show_time'] = strtotime($show_time);				
+				$add['no_id'] = $_ad[0];
+				$add['no_name'] = $_ad[1];
+				$add['is_member'] = intval($is_member);
+				$add['payment'] = intval($payment);
+				$add['invoice'] = intval($invoice);
+				$add['pay_type'] = intval($pay_type);
+				$add['y_amount'] = $y_amount;
+				$add['s_amount'] = $s_amount;
+				$add['pay_project'] = $pay_project;
+				$add['c_food'] = $c_food;
+				$add['e_food'] = $e_food;
+				$add['contacts']= $contacts;
+				$add['phone'] = $phone;
+				
+				$config = array('id'=>$id);
+				if($this->bussiness_exhibition->update($config,$add)){
+					$msg['title'] = '修改成功';
+					$msg['msg'] = '<a href="'.base_url().'bussiness/scene">返回列表</a>';
+					$this->tpl('msg/msg_success',$msg);
 				}else{
-					exit('error');
+					$msg['title'] = '修改失败';
+					$msg['msg'] = '<a href="'.base_url().'bussiness/scene">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
 				}
 			}else{
-				exit('canshu');
+					$msg['title'] = '修改失败,缺少参数';
+					$msg['msg'] = '<a href="'.base_url().'bussiness/scene">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
 			}
 
 		}else{
 
-			$id = $this->input->get('id');
 
-			$where['where'] = array('id'=>$id);
-			$info = $this->company->get_one_by_where($where);
+			$id = isset($_GET['id']) ? $_GET['id'] : '';
+			$data['bussiness_id'] = $id;
+
+			//客户代表
+			$account = array();
+			$account = $this->get_account();
+			$data['account'] = $account;
+
+			//展位
+			$booth = array();
+			$booth = $this->get_booth();
+			$data['booth'] = $booth;
+
+			//info
+			$info = array();
+			$config['where'] = array('id'=>$id);
+			$info = $this->bussiness_exhibition->get_one_by_where($config);
 			$data['info'] = $info;
 
-			$this->tpl('oa/company_edit_tpl',$data);
+			$this->tpl('oa/bussiness_exhibition_edit_tpl',$data);
 		}
 	}
+
 
 	public function del()
 	{
@@ -341,6 +404,7 @@ class Bussiness extends Zrjoboa
         $where['limit'] = $limit;
         $where['offset'] = $offset;
         $where['where']['isdel'] = '0';
+        $where['order'] = array('key'=>'id','value'=>'DESC');
 
         if(!empty($start_time)){
         	$s_time = strtotime($start_time);

@@ -51,7 +51,7 @@
                   <?php
                     foreach($company as $ck => $cv){
                   ?>
-                  <option value="<?=$cv['id']?>"><?=$cv['name']?></option>
+                  <option value="<?=$cv['id']?>" ><?=$cv['name']?></option>
                   <?php
                     }
                   ?>
@@ -77,9 +77,7 @@
               <div class="controls">
               <input class="input-normal control-text" type="text" name="realname" value="<?=$info['realname']?>">
                 <span class="x-field-error">
-                <span class="x-icon x-icon-mini x-icon-error">!</span>
-                <label class="x-field-error-text">输入值长度不小于5！</label>
-                </span>
+                
               </div>
             </div>
  

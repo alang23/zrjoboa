@@ -61,10 +61,11 @@ class Userlib
 		$token = $this->check_user_login();
 		$_role = array();
 
-		$_role_where['where'] = array('id'=>$token['role']);
-		self::$_ci->load->model('role_mdl','role');
-		$_role = self::$_ci->role->getList($_role_where);
+		$_role_where['where'] = array('role_id'=>$token['role']);
+		self::$_ci->load->model('role_tag_mdl','role_tag');
+		$_role = self::$_ci->role_tag->getList($_role_where);
 
+		
 		if(empty($_role)){
 			$data['msg'] = '无权限';
 			redirect('msgtips/check_role',$data);
@@ -73,7 +74,7 @@ class Userlib
 
 		$_role_arr = array();
 		foreach($_role as $_k => $_v){
-			$_role_arr[] = $_v['role_tag'];
+			$_role_arr[] = $_v['tag'];
 		}
 
 		if(!in_array($role_tag, $_role_arr)){

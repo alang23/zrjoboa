@@ -89,8 +89,8 @@ function flush(msg,url){
               <td><?=$v['remarks']?></td>
               <td><?=$v['rank']?></td>
               <td>
-              <a href="<?=base_url()?>ad_type/edit?id=<?=$v['id']?>">编辑</a> |
-              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>ad_type/del?id=<?=$v['id']?>')">删除</a>
+              <a href="<?=base_url()?>ad_type/edit?id=<?=$v['id']?>"><button class="button button-small button-warning">编辑</button></a> 
+              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>ad_type/del?id=<?=$v['id']?>')"><button class="button button-small button-danger">删除</button></a>
 
               </td>
             </tr>
