@@ -33,20 +33,20 @@
       <div class="control-group">
         <label class="control-label"><s>*</s>职位名称：</label>
         <div class="controls">
-          <input name="c_name" type="text"  id="jobs_name" class="input-large" onblur="check_name();">
+          <input name="jobs_name" type="text"  id="jobs_name" class="input-large" onblur="check_name();">
         </div>
       </div>
       <div class="control-group">
               <label class="control-label">性别：</label>    
               <div class="controls control-row-auto">
                 <label class="radio">
-                  <input type="radio" name="sex" value="1" >男
+                  <input type="radio" name="sex" value="1:男" >男
                 </label>
                 <label  class="radio">
-                  <input id="chk" type="radio" name="sex" value="2">女 
+                  <input id="chk" type="radio" name="sex" value="2:女">女 
                 </label>
                 <label class="radio">
-                  <input type="radio" name="sex" value="3" checked="true">不限
+                  <input type="radio" name="sex" value="3:不限" checked="true">不限
                 </label>
                       
               </div>
@@ -58,11 +58,11 @@
         <div class="controls">
             <select class="input-large" name="education" id="education" >
             
-              <option value="0-不限">不限</option>
+              <option value="0:不限">不限</option>
               <?php
                 foreach($education as $ek => $ev){
               ?>
-              <option value="<?=$ev['c_id']?>-<?=$ev['c_name']?>"><?=$ev['c_name']?></option>
+              <option value="<?=$ev['c_id']?>:<?=$ev['c_name']?>"><?=$ev['c_name']?></option>
               <?php
                 }
               ?>
@@ -75,11 +75,11 @@
         <div class="controls">
             <select class="input-large" name="age" id="age" >
             
-              <option value="0-不限">不限</option>
+              <option value="0:不限">不限</option>
               <?php
                 foreach($age as $ak => $av){
               ?>
-              <option value="<?=$av['c_id']?>-<?=$av['c_name']?>"><?=$av['c_name']?></option>
+              <option value="<?=$av['c_id']?>:<?=$av['c_name']?>"><?=$av['c_name']?></option>
               <?php
                 }
               ?>              
@@ -92,11 +92,11 @@
         <div class="controls">
             <select class="input-large" name="experience" id="experience" >
             
-              <option value="0-不限">不限</option>
+              <option value="0:不限">不限</option>
               <?php
                 foreach($experience as $ek => $ev){
               ?>
-              <option value="<?=$ev['c_id']?>-<?=$ev['c_name']?>"><?=$ev['c_name']?></option>
+              <option value="<?=$ev['c_id']?>:<?=$ev['c_name']?>"><?=$ev['c_name']?></option>
               <?php
                 }
               ?>              
@@ -106,13 +106,13 @@
     <div class="control-group">
         <label class="control-label">薪资范围：</label>
         <div class="controls">
-            <select class="input-large" name="age" id="age" >
+            <select class="input-large" name="wage" id="wage" >
             
-              <option value="0-不限">不限</option>
+              <option value="0:不限">不限</option>
               <?php
                 foreach($wage as $wa => $wv){
               ?>
-              <option value="<?=$wv['c_id']?>-<?=$wv['c_name']?>"><?=$wv['c_name']?></option>
+              <option value="<?=$wv['c_id']?>:<?=$wv['c_name']?>"><?=$wv['c_name']?></option>
               <?php
                 }
               ?>              
@@ -143,13 +143,13 @@
       <div class="control-group">
         <label class="control-label">联系人：</label>
         <div class="controls">
-          <input type="text" class="input-large" name="address" id="address" >
+          <input type="text" class="input-large" name="contacts" id="contacts" >
         </div>
       </div>
       <div class="control-group">
         <label class="control-label">联系电话：</label>
         <div class="controls">
-          <input type="text" class="input-large" name="address" id="address" >
+          <input type="text" class="input-large" name="tel" id="tel" >
         </div>
       </div>
       <div class="control-group">
@@ -162,7 +162,7 @@
       <div class="control-group">
         <label class="control-label">职位描述：</label>
         <div class="controls  control-row-auto">
-          <textarea name="remarks" id="remarks" class="control-row4 input-large"></textarea>
+          <textarea name="content" id="content" class="control-row4 input-large"></textarea>
         </div>
       </div>
       <div class="row actions-bar">       
@@ -184,17 +184,19 @@ function check_name()
 
   var jobs_name = '';
   jobs_name = $("#jobs_name").val();
+  var company_id = '<?=$company_id?>';
 
-  if(c_name == ''){
+  if(jobs_name == ''){
     $("#jobs_name-err").remove();
       $("#jobs_name").after('<span class="x-field-error" id="jobs_name-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">单位名称不能为空</label></span>');
       return false;
   }else{
 
         var aj = $.ajax( {
-              url:'<?=base_url()?>jobs/check_jobs_ajax',
+              url:'<?=base_url()?>jobs/check_name',
               data:{                 
-                  c_name : c_name                 
+                  jobs_name : jobs_name,
+                  company_id : company_id                 
               },
               contentType:"application/x-www-form-urlencoded; charset=utf-8",
               type:'post',
@@ -215,7 +217,7 @@ function check_name()
                   alert("请求失败，请重试");
               }
           });
-      $("#c_name-err").remove();
+      $("#jobs_name-err").remove();
       return true;
   }
 }
@@ -224,9 +226,9 @@ function check_name()
 
 function add_post()
 {
-  if(check_name() && check_contacts()){
+ // if(check_name()){
       document.form1.submit();
-  }
+  //}
 }
 
 

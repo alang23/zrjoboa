@@ -17,12 +17,11 @@
     <div class="doc-content">
       <ul class="breadcrumb">
           <li>
-            <a href="#">首页</a> <span class="divider">/</span>
+            <a href="#">账号管理</a> <span class="divider">/</span>
           </li>
-          <li>
-            <a href="#">商家管理</a> <span class="divider">/</span>
+          <li class="active">
+            添加账户
           </li>
-          <li class="active">价格规则列表</li>
         </ul>
     </div>
       <div class="span24">
