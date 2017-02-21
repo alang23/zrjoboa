@@ -65,7 +65,7 @@ function flush(msg,url){
                 <a href="<?=base_url()?>jobs/add">
                 <li class="bui-bar-item-button bui-bar-item bui-inline-block" aria-disabled="false" id="bar-item-button1" aria-pressed="false">
                 <button type="button" class="button button-small">
-                <i class="icon-plus"></i>添加客户</button>
+                <i class="icon-plus"></i>添加职位</button>
                 </li></a>
                 </ul>
             </th>
@@ -99,8 +99,7 @@ function flush(msg,url){
               <td><?=$v['contacts']?></td>
               <td><?=$v['tel']?></td>
               <td>
-              <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$v['id']?>"><button class="button button-small button-success">办理业务</button></a>
-              <a href="<?=base_url()?>jobs/index?company_id=<?=$v['id']?>"><button class="button button-small button-info" >职位管理</button></a>
+              <a href="<?=base_url()?>jobs/edit?id=<?=$v['id']?>"><button class="button button-small button-success">编辑</button></a>
             
               </td>
             </tr>

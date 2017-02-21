@@ -78,7 +78,7 @@
               <th>备注</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="tbody">
           <?php
             foreach($contacts as $ck => $cv){
 
@@ -238,7 +238,7 @@
 
       <!-- 表单页 ================================================== --> 
     <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
-    <div id="content" class="hidden">
+    <div id="content" class="hidden" style="display: none">
       <form id="form" class="form-horizontal">
         <div class="row">
           <div class="control-group span8">
@@ -250,7 +250,9 @@
           <div class="control-group span8">
             <label class="control-label">性别：</label>
             <div class="controls">
-             
+               
+                  <label class="radio" for="d"><input name="sex" type="radio" value="男" checked="true">男</label>
+                  <label class="radio" for="d"><input name="sex" type="radio" value="女" >女</label>
             </div>
           </div>
         </div>
@@ -258,7 +260,7 @@
           <div class="control-group span15">
             <label class="control-label">工作电话：</label>
             <div class="controls">
-              <input class="input-small control-text" type="text" name="tel" id="tel">
+              <input class="input-normal control-text" type="text" name="tel" id="tel">
             </div>
           </div>
         </div>
@@ -267,7 +269,7 @@
           <div class="control-group span15">
             <label class="control-label">手机：</label>
             <div class="controls">
-              <input class="input-small control-text" type="text" name="phone" id="phone">
+              <input class="input-normal control-text" type="text" name="phone" id="phone">
             </div>
           </div>
         </div>
@@ -275,15 +277,32 @@
           <div class="control-group span15">
             <label class="control-label">职位：</label>
             <div class="controls">
-              <input class="input-small control-text" type="text" name="job" id="job">
+              <input class="input-normal control-text" type="text" name="job" id="job">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="control-group span15">
-            <label class="control-label">职位：</label>
+            <label class="control-label">email：</label>
             <div class="controls">
-              <input class="input-small control-text" type="text" name="job" id="job">
+              <input class="input-normal control-text" type="text" name="email" id="email">
+            </div>
+          </div>
+        </div>
+                <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">QQ：</label>
+            <div class="controls">
+              <input class="input-normal control-text" type="text" name="qq" id="qq">
+            </div>
+          </div>
+        </div>
+
+                <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">微信：</label>
+            <div class="controls">
+              <input class="input-normal control-text" type="text" name="webchat" id="webchat">
             </div>
           </div>
         </div>
@@ -291,6 +310,7 @@
           <div class="control-group span15">
             <label class="control-label">备注：</label>
             <div class="controls control-row4">
+              <input type="hidden" name="company_id" id="company_id" value="<?=$customer['id']?>" />
               <textarea class="input-large" type="text" name="remarks" id="remarks"></textarea>
             </div>
           </div>
@@ -318,15 +338,15 @@
       }).render();
  
       var dialog = new Overlay.Dialog({
-            title:'配置DOM',
+            title:'添加联系人',
             width:500,
             height:320,
             //配置DOM容器的编号
             contentId:'content',
             success:function () {
               //alert('确认');
-              var realname = $("#realname").val();
-              alert(realname);
+              //var realname = $("#realname").val();
+              add_contacts();
               this.close();
             }
           });
@@ -353,7 +373,7 @@ function pop()
 
 function add_contacts()
 {
-  var name = $("#realname").val();
+  var realname = $("#realname").val();
   var tel = $("#tel").val();
   var phone = $("#phone").val();
   var email = $("#email").val();
@@ -362,9 +382,8 @@ function add_contacts()
   var remarks = $("#remarks").val();
   var job = $("#job").val();
   var company_id = $("#company_id").val();
-  var sex = $("#sex").val();
-  alert(realname);
-  return ;
+  var sex = $("input[name='sex']:checked").val();
+
   var aj = $.ajax( {
               url:'<?=base_url()?>crm/listvisit/add_contacts',
               data:{
@@ -377,7 +396,9 @@ function add_contacts()
                   webchat : webchat,
                   remarks : remarks,
                   job : job,
-                  company_id : company_id
+                  company_id : company_id,
+                  remarks : remarks,
+                  sex : sex
                   
               },
               contentType:"application/x-www-form-urlencoded; charset=utf-8",
@@ -385,11 +406,11 @@ function add_contacts()
               cache:false,
               dataType:'json',
               success:function(data){
-                alert(data.msg);
-                if(data.code != 0){
-                  
+                
+                if(data.code == '0'){
+                  $("#tbody").append("<tr><td>"+realname+"</td><td>"+job+"</td><td>"+sex+"</td><td>"+tel+"</td><td>"+tel+"</td><td>"+email+"</td><td>"+remarks+"</td></tr>");
                 }else{
-                 
+                  alert(data.msg);
                 }              
               },
               error : function() {
