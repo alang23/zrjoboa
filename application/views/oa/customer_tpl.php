@@ -108,7 +108,7 @@ function flush(msg,url){
 
               <td>
               <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$v['id']?>"><button class="button button-small button-success">办理业务</button></a>
-              <a href="<?=base_url()?>jobs/add?id=<?=$v['id']?>"><button class="button button-small button-info" >职位管理</button></a>
+              <a href="<?=base_url()?>jobs/index?company_id=<?=$v['id']?>"><button class="button button-small button-info" >职位管理</button></a>
             
               </td>
             </tr>

@@ -52,7 +52,8 @@
                 {id:'customer',text:'添加客户',href:'<?=base_url()?>customer/add'},
                 {id:'add_bussiness',text:'办理业务',href:'<?=base_url()?>bussiness/index'},
                 {id:'second-menu',text:'现场视图',href:'<?=base_url()?>bussiness/scene'},
-                {id:'dyna-menu',text:'广告视图',href:'<?=base_url()?>bussiness/ad'}
+                {id:'dyna-menu',text:'广告视图',href:'<?=base_url()?>bussiness/ad'},
+               {id:'dyna-jobs',text:'职位列表',href:'<?=base_url()?>jobs/index'}
               ]
             },{
               text:'财务管理',

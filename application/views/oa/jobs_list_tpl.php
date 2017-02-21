@@ -35,30 +35,18 @@ function flush(msg,url){
             <a href="#">业务管理</a> <span class="divider">/</span>
           </li>
           <li>
-            <a class="active">客户列表</a>
+            <a class="active">职位列表</a>
           </li>
         </ul>
-        <form class="form-panel" method="get" action="<?=base_url()?>customer/index">
+        <form class="form-panel" method="get" action="<?=base_url()?>jobs/index">
           <div class="panel-title">
             <span>
-              <label>公司名称：</label><input type="text" name="c_name" value="<?=$c_name?>" class="input-large control-text bui-form-field" /> 
+              <label>公司名称：</label><input type="text" name="jobs_name" value="" class="input-large control-text bui-form-field" /> 
               <label>客户代表：</label>
-                <select name="uid">
-                    <option value="">客户代表</option>
 
-                <?php
-                    foreach($account as $_ak => $_av){
-                ?>
-                    <option value="<?=$_av['id']?>" <?php if($_av['id'] == $uid){ ?> selected <?php } ?>><?=$_av['realname']?></option>
-
-                <?php
-                  }
-                ?>
-
-                </select>
               
-              <label>联系人：</label><input type="text" name="contacts" value="<?=$contacts?>" class="input-large control-text bui-form-field" /> 
-              <label>电话：</label><input type="text" name="phone" value="<?=$phone?>" class="input-large control-text bui-form-field" /> 
+              <label>联系人：</label><input type="text" name="contacts" value="" class="input-large control-text bui-form-field" /> 
+              <label>电话：</label><input type="text" name="phone" value="" class="input-large control-text bui-form-field" /> 
               <button id="btnSearch" type="submit" class="button button-primary">搜索</button>
               <label><a href="<?=base_url()?>customer/index">全部</a></label>
 
@@ -74,7 +62,7 @@ function flush(msg,url){
             <tr>
             <th colspan="15">
                 <ul class="bui-bar bui-grid-button-bar" role="toolbar" id="bar7" aria-disabled="false" aria-pressed="false">
-                <a href="<?=base_url()?>customer/add">
+                <a href="<?=base_url()?>jobs/add">
                 <li class="bui-bar-item-button bui-bar-item bui-inline-block" aria-disabled="false" id="bar-item-button1" aria-pressed="false">
                 <button type="button" class="button button-small">
                 <i class="icon-plus"></i>添加客户</button>
@@ -86,12 +74,13 @@ function flush(msg,url){
             <tr>
               <th width="15"></th>
               <th>ID</th>
-              <th>客户名称</th>
-              <th>所属行业</th>
-              <th>所在地</th>
-              <th>负责人</th>
-              <th>客户类型</th>
-              <th>上次回访时间</th>
+              <th>职位</th>
+              <th>公司</th>
+              <th>地区</th>
+              <th>薪资</th>
+              <th>性别要求</th>
+              <th>联系人</th>
+              <th>联系电话</th>
               <th>#</th>
             </tr>
           </thead>
@@ -102,20 +91,17 @@ function flush(msg,url){
             <tr>
               <td><input type="checkbox"></td>
               <td ><?=$v['id']?></td>
-              <td><?=$v['c_name']?> <a href="<?=base_url()?>customer/detail?id=<?=$v['id']?>"><span class="label label-info">查看</span></a></td>
-              <td><?=$v['industry_cn']?></td>
-              <td><?=$v['province_cn']?>-<?=$v['city_cn']?></td>
-              <td><?=$v['realname']?></td>
-              <td><?=customer_type($v['c_type'])?></td>
-              <td></td>
+              <td><?=$v['jobs_name']?> <a href="<?=base_url()?>customer/detail?id=<?=$v['id']?>"><span class="label label-info">查看</span></a></td>
+              <td><?=$v['company_name']?></td>
+              <td><?=$v['province_cn']?>/<?=$v['city_cn']?></td>
+              <td><?=$v['wage_cn']?></td>
+              <td><?=$v['sex_cn']?></td>
+              <td><?=$v['contacts']?></td>
+              <td><?=$v['tel']?></td>
               <td>
-              <?php
-                if($userinfo['id'] == $v['uid']){
-              ?>
-              <a href="<?=base_url()?>crm/listvisit/detail?id=<?=$v['id']?>"><button class="button button-small button-success">回访</button></a>
-              <?php
-                }
-              ?>
+              <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$v['id']?>"><button class="button button-small button-success">办理业务</button></a>
+              <a href="<?=base_url()?>jobs/index?company_id=<?=$v['id']?>"><button class="button button-small button-info" >职位管理</button></a>
+            
               </td>
             </tr>
             <?php
@@ -136,6 +122,5 @@ function flush(msg,url){
     </div> 
 <!-- script end -->
   </div>
-
     </body>
     </html>       

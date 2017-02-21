@@ -28,32 +28,32 @@
       <div class="row">
         <div class="span24">
           <!-- 包含grid的详情页 ================================================== -->
-          <h2>客户基本信息</h2>
+          <h2><?=$customer['c_name']?></h2>
           <hr>        
             <div class="row detail-row">
               <div class="span6">
-                <label>企业性质：</label><span class="detail-text"></span>   
+                <label>企业性质：</label><span class="detail-text"><?=$customer['nature_cn']?></span>   
               </div>
               <div class="span6">
-                <label>行业类型：</label><span class="detail-text"></span>
+                <label>行业类型：</label><span class="detail-text"><?=$customer['industry_cn']?></span>
               </div>
               <div class="span6">
-                <label>企业规模：</label><span class="detail-text"></span>
+                <label>企业规模：</label><span class="detail-text"><?=$customer['scale_cn']?></span>
               </div>
             </div>    
 
             <div class="row detail-row">
               <div class="span6">
-                <label>地区：</label><span class="detail-text">浙江省金华市</span>
+                <label>地区：</label><span class="detail-text"><?=$customer['province_cn']?>-<?=$customer['city_cn']?></span>
               </div>
               <div class="span6">
-                <label>详细地址：</label><span class="detail-text">杭州中法国际</span>
+                <label>详细地址：</label><span class="detail-text"><?=$customer['address']?></span>
               </div>
             </div> 
 
             <div class="row detail-row">
               <div class="span6">
-                <label>备注:</label><span class="detail-text">浙江省金华市</span>
+                <label>备注:</label><span class="detail-text"><?=$customer['remarks']?></span>
               </div>
             </div>    
  
@@ -61,37 +61,40 @@
       </div> 
       <hr/>
       <div class="detail-section">  
-        <h3>审核记录</h3>
+        <h4>联系人<button class="button button-small button-success" id="btnShow">添加联系人</button></h4>
+
+
         <hr>
         <div class="detail-row">
           <table cellspacing="0" class="table table-head-bordered">
             <thead>
             <tr>
-              <th>审核类型</th>
-              <th>审核意见</th>
-              <th>审核时间</th>
-              <th>审核人</th>
+              <th>姓名</th>
+              <th>职务</th>
+              <th>性别</th>
+              <th>工作电话</th>
+              <th>电话</th>
+              <th>邮箱</th>
+              <th>备注</th>
             </tr>
             </thead>
             <tbody>
+          <?php
+            foreach($contacts as $ck => $cv){
+
+          ?>
             <tr>
-              <td>小二回复</td>
-              <td>系统审核通过</td>
-              <td>2012-01-01 12:01:01</td>
-              <td>李斯</td>
+              <td><?=$cv['realname']?></td>
+              <td><?=$cv['job']?></td>
+              <td><?=$cv['sex']?></td>
+              <td><?=$cv['tel']?></td>
+              <td><?=$cv['phone']?></td>
+              <td><?=$cv['email']?></td>
+              <td><?=$cv['remarks']?></td>
             </tr>
-            <tr>
-              <td>小二回复</td>
-              <td>系统审核通过</td>
-              <td>2012-01-01 12:01:01</td>
-              <td>李斯</td>
-            </tr>
-            <tr>
-              <td>小二回复</td>
-              <td>系统审核通过</td>
-              <td>2012-01-01 12:01:01</td>
-              <td>李斯</td>
-            </tr>
+            <?php
+              }
+            ?>
             </tbody>
           </table>            
         </div>
@@ -156,7 +159,7 @@
                 <div class="control-group12 span10">
                   <label class="control-label">号码：</label>
                   <div class="controls">
-                      <input name="household" type="text" value="v_value" class="control-text" >
+                      <input name="household" type="text" value="" class="control-text" >
                   </div>
                 </div>
               </div>
@@ -231,6 +234,70 @@
       </div>   
     <!-- script end -->
   </div>
+
+
+      <!-- 表单页 ================================================== --> 
+    <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
+    <div id="content" class="hidden">
+      <form id="form" class="form-horizontal">
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">姓名：</label>
+            <div class="controls">
+              <input type="text" class="input-normal control-text" name="realname" id="realname">
+            </div>
+          </div>
+          <div class="control-group span8">
+            <label class="control-label">性别：</label>
+            <div class="controls">
+             
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">工作电话：</label>
+            <div class="controls">
+              <input class="input-small control-text" type="text" name="tel" id="tel">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">手机：</label>
+            <div class="controls">
+              <input class="input-small control-text" type="text" name="phone" id="phone">
+            </div>
+          </div>
+        </div>
+          <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">职位：</label>
+            <div class="controls">
+              <input class="input-small control-text" type="text" name="job" id="job">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">职位：</label>
+            <div class="controls">
+              <input class="input-small control-text" type="text" name="job" id="job">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">备注：</label>
+            <div class="controls control-row4">
+              <textarea class="input-large" type="text" name="remarks" id="remarks"></textarea>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
 <script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
 <script src="http://g.tbcdn.cn/fi/bui/seed-min.js?t=201212261326"></script>
 <script type="text/javascript">
@@ -242,7 +309,97 @@
         });
 </script>
 
+<!-- script start --> 
+    <script type="text/javascript">
+        BUI.use(['bui/overlay','bui/form'],function(Overlay,Form){
+    
+      var form = new Form.HForm({
+        srcNode : '#form'
+      }).render();
+ 
+      var dialog = new Overlay.Dialog({
+            title:'配置DOM',
+            width:500,
+            height:320,
+            //配置DOM容器的编号
+            contentId:'content',
+            success:function () {
+              //alert('确认');
+              var realname = $("#realname").val();
+              alert(realname);
+              this.close();
+            }
+          });
+       // dialog.show();
+        $('#btnShow').on('click',function () {
+          dialog.show();
+        });
+      });
+    </script>
+<!-- script end -->
 <script>
+
+function pop()
+{
+    //页面层
+  layer.open({
+    type: 1,
+    title : '添加联系人',
+    skin: 'layui-layer-rim', //加上边框
+    area: ['520px', '640px'], //宽高
+    content: $("#pop").html()
+  });
+}
+
+function add_contacts()
+{
+  var name = $("#realname").val();
+  var tel = $("#tel").val();
+  var phone = $("#phone").val();
+  var email = $("#email").val();
+  var qq = $("#qq").val();
+  var webchat = $("#webchat").val();
+  var remarks = $("#remarks").val();
+  var job = $("#job").val();
+  var company_id = $("#company_id").val();
+  var sex = $("#sex").val();
+  alert(realname);
+  return ;
+  var aj = $.ajax( {
+              url:'<?=base_url()?>crm/listvisit/add_contacts',
+              data:{
+                  
+                  realname : realname,
+                  tel : tel,
+                  phone : phone,
+                  email : email,
+                  qq : qq,
+                  webchat : webchat,
+                  remarks : remarks,
+                  job : job,
+                  company_id : company_id
+                  
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+                alert(data.msg);
+                if(data.code != 0){
+                  
+                }else{
+                 
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
+
+}
+
+
 function do_post()
 {
   var c_type = $("#c_type").val();
