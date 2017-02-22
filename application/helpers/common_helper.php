@@ -249,6 +249,102 @@ if( !function_exists('get_gender') ){
     }
 }
 
+//性别
+if( !function_exists('v_type') ){
+
+    function v_type($v)
+    {
+        $result = '未知';
+        switch($v){
+            case 1:
+                $result = '电话';
+                break;
+            case 2:
+                $result = '上门';
+                break;
+            case 3:
+                $result = '邮件';
+                break;
+            case 4:
+                $result = 'QQ';
+                break;
+            case 5:
+                $result = '短信';
+                break;
+            case 6:
+                $result = '微信';
+                break;
+            case 7:
+                $result = '其他';
+                break;
+            default:
+                $resul = '未知';
+                break;
+        }
+
+        return $result;
+    }
+}
+
+//客户类型
+if( !function_exists('c_type') ){
+
+    function c_type($v)
+    {
+        $result = '未知';
+        switch($v){
+            case 1:
+                $result = '新客户';
+                break;
+            case 2:
+                $result = '重点客户';
+                break;
+            case 3:
+                $result = '潜在客户';
+                break;
+            case 4:
+                $result = '成交客户';
+                break;
+            case 5:
+                $result = '无意向客户';
+                break;
+            case 6:
+                $result = '黑名单客户';
+                break;
+            default:
+                $resul = '未知';
+                break;
+        }
+
+        return $result;
+    }
+}
+
+//跟进结果
+if( !function_exists('v_result') ){
+
+    function v_result($v)
+    {
+        $result = '未知';
+        switch($v){
+            case 1:
+                $result = '新客户';
+                break;
+            case 2:
+                $result = '待定';
+                break;
+            case 3:
+                $result = '无效';
+                break;
+            default:
+                $resul = '未知';
+                break;
+        }
+
+        return $result;
+    }
+}
+
 if ( ! function_exists('get_ip'))
 {
     function get_ip()

@@ -76,6 +76,7 @@
               <th>电话</th>
               <th>邮箱</th>
               <th>备注</th>
+              <th>#</th>
             </tr>
             </thead>
             <tbody id="tbody">
@@ -83,7 +84,7 @@
             foreach($contacts as $ck => $cv){
 
           ?>
-            <tr>
+            <tr id="contact_<?=$cv['id']?>">
               <td><?=$cv['realname']?></td>
               <td><?=$cv['job']?></td>
               <td><?=$cv['sex']?></td>
@@ -91,6 +92,12 @@
               <td><?=$cv['phone']?></td>
               <td><?=$cv['email']?></td>
               <td><?=$cv['remarks']?></td>
+              <td>
+                <div id="showbtn">
+            <a href="javascript:void(0);" rel="<?=$cv['id']?>"><button class="button button-small button-warning" id="btnShow2" value="<?=$cv['id']?>">编辑</button></a> 
+              <a href="javascript:void(0);" onclick="del_contact('<?=$cv['id']?>');"><button class="button button-small button-danger">删除</button></a>
+              </div>
+              </td>
             </tr>
             <?php
               }
@@ -103,7 +110,7 @@
 
       <div class="panel">
           <div class="panel-header">
-            <h3>面板标题</h3>
+            <h3>回访记录</h3>
           </div>
           <div class="panel-body">
             
@@ -126,24 +133,24 @@
                 <div class="control-group span10">
                   <label class="control-label"><s>*</s>跟进进度：</label>
                 <div class="controls">
-                  <label class="radio" for="d"><input name="result" type="radio" value="1-成交">成交</label>
-                  <label class="radio" for="d"><input name="result" type="radio" value="2-待定" checked="true">待定</label>
-                  <label class="radio" for="d"><input name="result" type="radio" value="3-无效" >无效</label>
+                  <label class="radio" for="d"><input name="result" type="radio" value="1">成交</label>
+                  <label class="radio" for="d"><input name="result" type="radio" value="2" checked="true">待定</label>
+                  <label class="radio" for="d"><input name="result" type="radio" value="3" >无效</label>
 
                 </div>
                 </div>
                 <div class="control-group span10">
                   <label class="control-label">回访方式：</label>
                   <div class="controls bui-form-field-plain" >
-                    <select name="v_type">
+                    <select name="v_type" id="v_type">
                       
-                      <option value="1-电话" selected="true">电话</option>
-                      <option value="2-上门">上门</option>
-                      <option value="3-邮件">邮件</option>
-                      <option value="4-QQ">QQ</option>
-                      <option value="5-短信">短信</option>
-                      <option value="6-微信">微信</option>
-                      <option value="7-其他">其他</option>
+                      <option value="1" selected="true">电话</option>
+                      <option value="2">上门</option>
+                      <option value="3">邮件</option>
+                      <option value="4">QQ</option>
+                      <option value="5">短信</option>
+                      <option value="6">微信</option>
+                      <option value="7">其他</option>
 
                     </select>
                   </div>
@@ -153,13 +160,13 @@
                 <div class="control-group span10">
                   <label class="control-label">联系人：</label>
                   <div class="controls">
-                      <input name="household" type="text" name="contacts" value="" class="control-text" />
+                      <input name="contacts" type="text" id="contacts" value="" class="control-text" />
                   </div>
                 </div>
                 <div class="control-group12 span10">
                   <label class="control-label">号码：</label>
                   <div class="controls">
-                      <input name="household" type="text" value="" class="control-text" >
+                      <input name="v_value" type="text" value="" class="control-text" id="v_value">
                   </div>
                 </div>
               </div>
@@ -167,14 +174,14 @@
                 <div class="control-group span10">
                   <label class="control-label">回访时间：</label>
                   <div class="controls">
-                  <input type="text" class="calendar" name="v_time" id="show_time" value="<?=date("Y-m-d")?>">
+                  <input type="text" class="calendar" name="v_time" id="v_time" value="<?=date("Y-m-d")?>">
 
                   </div>
                 </div>
                 <div class="control-group12 span10">
                   <label class="control-label">下次回访时间：</label>
                   <div class="controls">
-                  <input type="text" class="calendar" name="n_v_time" id="show_time" value="<?=date("Y-m-d")?>">
+                  <input type="text" class="calendar" name="n_v_time" id="n_v_time" value="<?=date("Y-m-d")?>">
                   </div>
                 </div>
               </div>
@@ -182,7 +189,7 @@
                 <div class="control-group">
                   <label class="control-label">备注：</label>
                   <div class="controls  control-row-auto">
-                    <textarea name="remarks" id="remarks" class="control-row4 input-large"></textarea>
+                    <textarea name="content" id="content" class="control-row4 input-large"></textarea>
                   </div>
                 </div>
               </div>
@@ -191,7 +198,8 @@
               
               <div class="row">
                 <div class="form-actions offset3">
-                  <button type="submit" class="button button-primary">保存</button>
+                <input type="hidden" name="id" id="id" value="<?=$customer['id']?>" />
+                  <button type="button" class="button button-primary" onclick="add_visit_log();">保存</button>
                   <button type="reset" class="button" onclick="history.back();">返回</button>
                 </div>
               </div>
@@ -207,6 +215,7 @@
                 <thead>
                 <tr>
                   <th>回访时间</th>
+                  <th>客户类型</th>
                   <th>回访方式</th>
                   <th>联系人</th>
                   <th>跟进结果</th>
@@ -215,14 +224,21 @@
                 </tr>
                 </thead>
                 <tbody>
+                <?php
+                  foreach($v_log as $logk => $logv){
+                ?>
                 <tr>
-                  <td>2012-01-01 12:01:01</td>
-                  <td>电话</td>
-                  <td>李斯</td>
-                  <td>成交</td>
-                  <td>2012-01-01</td>
-                  <td>法师打发斯蒂芬按发送到发送到阿萨德法师打发斯蒂芬阿萨德法师打发斯蒂芬</td>
+                  <td><?=date("Y-m-d H:i",$logv['v_time'])?></td>
+                  <td><?=c_type($logv['c_type'])?></td>
+                  <td><?=v_type($logv['v_type'])?></td>
+                  <td><?=$logv['contacts']?></td>
+                  <td><?=v_result($logv['result'])?></td>
+                  <td><?=date("Y-m-d H:i",$logv['n_v_time'])?></td>
+                  <td><?=$logv['content']?></td>
                 </tr>
+                <?php
+                  }
+                ?>
                 </tbody>
               </table>            
             </div>
@@ -236,9 +252,9 @@
   </div>
 
 
-      <!-- 表单页 ================================================== --> 
+      <!-- 表单页 添加联系人================================================== --> 
     <!-- 此节点内部的内容会在弹出框内显示,默认隐藏此节点-->
-    <div id="content" class="hidden" style="display: none">
+    <div id="contacts-content" class="hidden" style="display: none">
       <form id="form" class="form-horizontal">
         <div class="row">
           <div class="control-group span8">
@@ -318,6 +334,86 @@
       </form>
     </div>
 
+    <div id="contacts-content2" class="hidden" style="display: none">
+      <form id="form" class="form-horizontal">
+        <div class="row">
+          <div class="control-group span8">
+            <label class="control-label">姓名：</label>
+            <div class="controls">
+              <input type="text" class="input-normal control-text" name="realname" id="realname2">
+            </div>
+          </div>
+          <div class="control-group span8">
+            <label class="control-label">性别：</label>
+            <div class="controls">
+               
+                  <label class="radio" for="d"><input name="sex2" type="radio" value="男" checked="true">男</label>
+                  <label class="radio" for="d"><input name="sex2" type="radio" value="女" >女</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">工作电话：</label>
+            <div class="controls">
+              <input class="input-normal control-text" type="text" name="tel" id="tel2">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">手机：</label>
+            <div class="controls">
+              <input class="input-normal control-text" type="text" name="phone" id="phone2">
+            </div>
+          </div>
+        </div>
+          <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">职位：</label>
+            <div class="controls">
+              <input class="input-normal control-text" type="text" name="job" id="job2">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">email：</label>
+            <div class="controls">
+              <input class="input-normal control-text" type="text" name="email" id="email2">
+            </div>
+          </div>
+        </div>
+                <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">QQ：</label>
+            <div class="controls">
+              <input class="input-normal control-text" type="text" name="qq" id="qq2">
+            </div>
+          </div>
+        </div>
+
+                <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">微信：</label>
+            <div class="controls">
+              <input class="input-normal control-text" type="text" name="webchat" id="webchat2">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">备注：</label>
+            <div class="controls control-row4">
+              <input type="hidden" name="id2" id="id2" value="" />
+              <textarea class="input-large" type="text" name="remarks" id="remarks2"></textarea>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
 <script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
 <script src="http://g.tbcdn.cn/fi/bui/seed-min.js?t=201212261326"></script>
 <script type="text/javascript">
@@ -342,10 +438,9 @@
             width:500,
             height:320,
             //配置DOM容器的编号
-            contentId:'content',
+            contentId:'contacts-content',
             success:function () {
-              //alert('确认');
-              //var realname = $("#realname").val();
+
               add_contacts();
               this.close();
             }
@@ -354,7 +449,65 @@
         $('#btnShow').on('click',function () {
           dialog.show();
         });
+
+        var dialog2 = new Overlay.Dialog({
+            title:'编辑联系人',
+            width:500,
+            height:320,
+            //配置DOM容器的编号
+            contentId:'contacts-content2',
+            success:function () {            
+              update_contacts('update');
+              this.close();
+            }
+          });
+       // dialog.show();
+       
+        $('#showbtn a').on('click',function () {
+          //alert($(this).attr('rel'));
+          var id = $(this).attr('rel');
+          var aj = $.ajax( {
+              url:'<?=base_url()?>crm/listvisit/update_contacts',
+              data:{
+                  
+                  id : id,
+                  act : 'edit'
+                  
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+                //alert(data.code);
+                if(data.code == '0'){
+
+                    $("#realname2").val(data.data.realname);
+                    $("#tel2").val(data.data.tel);
+                    $("#phone2").val(data.data.phone);
+                    $("#email2").val(data.data.email);
+                    $("#qq2").val(data.data.qq);
+                    $("#webchat2").val(data.data.webchat);
+                    $("#remarks2").val(data.data.remarks);
+                    $("#job2").val(data.data.job); 
+                    $("#id2").val(data.data.id);
+                     dialog2.show();                
+                }else{
+                  alert(data.msg);
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
+         
+        });
+        
+
+
+        
       });
+
     </script>
 <!-- script end -->
 <script>
@@ -408,7 +561,16 @@ function add_contacts()
               success:function(data){
                 
                 if(data.code == '0'){
-                  $("#tbody").append("<tr><td>"+realname+"</td><td>"+job+"</td><td>"+sex+"</td><td>"+tel+"</td><td>"+tel+"</td><td>"+email+"</td><td>"+remarks+"</td></tr>");
+                 
+                  $("#tbody").append("<tr id=\"contact_"+data.data+"\"><td>"+realname+"</td><td>"+job+"</td><td>"+sex+"</td><td>"+tel+"</td><td>"+tel+"</td><td>"+email+"</td><td>"+remarks+"</td><td> <a href=''><button class=\"button button-small button-warning\">编辑</button></a>  <a href=\"javascript:void();\" onclick=\"del_contact('"+data.data+"')\"><button class=\"button button-small button-danger\">删除</button></a></td></tr>");
+                   $("#realname").val('');
+                   $("#tel").val('');
+                   $("#phone").val('');
+                   $("#email").val('');
+                   $("#qq").val('');
+                   $("#webchat").val('');
+                   $("#remarks").val('');
+                   $("#job").val('');
                 }else{
                   alert(data.msg);
                 }              
@@ -419,6 +581,218 @@ function add_contacts()
           });
 
 }
+
+function edit_contacts(id,act)
+{
+  var aj = $.ajax( {
+              url:'<?=base_url()?>crm/listvisit/update_contacts',
+              data:{
+                  
+                  id : id,
+                  act : act
+                  
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+               
+                if(data.code == '0'){
+
+                    $("#realname2").val(data.realname);
+                    $("#tel2").val(data.tel);
+                    $("#phone2").val(data.phone);
+                    $("#email2").val(data.email);
+                    $("#qq2").val(data.qq);
+                    $("#webchat2").val(data.webchat);
+                    $("#remarks2").val(data.remarks);
+                    $("#job2").val(data.job);                 
+                }else{
+                  alert(data.msg);
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
+}
+
+//更新联系人
+function update_contacts(act)
+{
+  var realname = $("#realname2").val();
+  var tel = $("#tel2").val();
+  var phone = $("#phone2").val();
+  var email = $("#email2").val();
+  var qq = $("#qq2").val();
+  var webchat = $("#webchat2").val();
+  var remarks = $("#remarks2").val();
+  var job = $("#job2").val();
+  var company_id = $("#company_id").val();
+  var sex = $("input[name='sex2']:checked").val();
+  var id = $("#id2").val();
+
+  var aj = $.ajax( {
+              url:'<?=base_url()?>crm/listvisit/update_contacts',
+              data:{
+                  
+                  realname : realname,
+                  tel : tel,
+                  phone : phone,
+                  email : email,
+                  qq : qq,
+                  webchat : webchat,
+                  remarks : remarks,
+                  job : job,
+                  company_id : company_id,
+                  remarks : remarks,
+                  sex : sex,
+                  act : act,
+                  id : id
+                  
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+                
+                if(data.code == '0'){
+                 layer.msg('修改成功');
+                 location.reload();
+                }else{
+                  
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
+
+}
+
+
+
+//添加回访记录
+function add_visit_log()
+{
+  var c_type = $("input[name='c_type']:checked").val();
+  var v_type = $("#v_type").val();
+  var v_value = $("#v_value").val();
+  var result = $("input[name='result']:checked").val();
+  var v_time = $("#v_time").val();
+  var n_v_time = $("#n_v_time").val();
+  var content = $("#content").val();
+  var contacts = $("#contacts").val();
+  var company_id = $("#id").val();
+
+  if(contacts == ''){
+
+    $("#contacts-err").remove();
+        $("#contacts").after('<span class="x-field-error" id="contacts-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">请填写联系人</label></span>');
+        return false;
+
+  }else{
+
+      $("#contacts-err").remove();
+
+  }
+
+  if(v_value == ''){
+    
+    $("#v_value-err").remove();
+        $("#v_value").after('<span class="x-field-error" id="v_value-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">请填写联系方式</label></span>');
+        return false;
+  }else{
+      $("#v_value-err").remove();
+  }
+
+    if(content == ''){
+    
+    $("#content-err").remove();
+        $("#content").after('<span class="x-field-error" id="content-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">请填写回访内容</label></span>');
+        return false;
+  }else{
+      $("#content-err").remove();
+  }
+
+  
+  var aj = $.ajax( {
+              url:'<?=base_url()?>crm/listvisit/add_visit',
+              data:{
+                  
+                  c_type : c_type,
+                  v_type : v_type,
+                  v_value : v_value,
+                  result : result,               
+                  v_time : v_time,
+                  n_v_time : n_v_time,
+                  contacts : contacts,
+                  content : content,
+                  company_id : company_id
+                  
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+                //alert(data.code);
+                if(data.code == '0'){
+                  
+                  location.reload();
+                }else{
+                  alert(data.msg);
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
+}
+
+function del_contact(id){
+  layer.confirm('确定删除联系人吗?', {
+    btn: ['确定','取消'] //按钮
+  }, function(){
+     _del_contact(id);
+  }, function(){
+          //window.location=url;
+
+  });
+}
+
+
+function _del_contact(id)
+{
+  var aj = $.ajax( {
+              url:'<?=base_url()?>crm/listvisit/del_contact',
+              data:{
+                  
+                 id : id
+                  
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+               
+                if(data.code == '0'){
+                  
+                  $("#contact_"+id).remove();
+
+                }else{
+                  alert(data.msg);
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
+}
+
 
 
 function do_post()

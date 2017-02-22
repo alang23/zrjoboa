@@ -17,10 +17,47 @@ class Jobs extends Zrjoboa
 		$this->load->model('company_mdl','company');
 	}
 
-
+	//职位列表
 	public function index()
 	{
-				$this->tpl('oa/jobs_add_tpl');
+
+
+		$userinfo = $this->userinfo;
+
+		$page = isset($_GET['page']) ? $_GET['page'] : 0;
+        $page = ($page && is_numeric($page)) ? intval($page) : 1;
+        $company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
+
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+        $pagination = '';
+                
+        $countwhere['isdel'] = '0';
+        if(!empty($company_id)){
+        	$countwhere['company_id'] = $company_id;
+        }
+        $count = $this->jobs->get_count($countwhere);
+        $data['count'] = $count;
+
+        $pageconfig['base_url'] = base_url('/jobs/index?');
+        $pageconfig['count'] = $count;
+        $pageconfig['limit'] = $limit;
+        $data['page'] = home_page($pageconfig);
+
+		$list = array();
+		$where['page'] = true;
+        $where['limit'] = $limit;
+        $where['offset'] = $offset;
+        $where['where']['isdel'] = '0';
+        if(!empty($company_id)){
+        	$where['where']['company_id'] = $company_id;
+        }
+   
+        $where['order'] = array('key'=>'id','value'=>'DESC');
+		$list = $this->jobs->getList($where);	
+		$data['list'] = $list;
+
+		$this->tpl('oa/jobs_list_tpl',$data);
 
 	}
 
@@ -32,7 +69,12 @@ class Jobs extends Zrjoboa
 
 			//学历
 			$data['jobs_name'] = $this->input->post('jobs_name');
-			$data['sex'] = $this->input->post('sex');
+			$sex = $this->input->post('sex');
+
+			$_sex = array();
+			$_sex = explode(':', $sex);
+			$data['sex'] = $_sex[0];
+			$data['sex_cn'] = $_sex[1];
 
 			$education = $this->input->post('education');
 			$_education = array();

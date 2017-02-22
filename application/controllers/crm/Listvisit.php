@@ -89,6 +89,8 @@ class Listvisit extends Zrjoboa
 	//回访详情
 	public function detail()
 	{	
+
+		$userinfo = $this->userinfo;		
 		$id = $this->input->get('id');
 
 		//客户基本信息
@@ -115,47 +117,70 @@ class Listvisit extends Zrjoboa
 	//添加回访记录
 	public function add_visit()
 	{
+
+		$userinfo = $this->userinfo;
+
 		$result = $this->input->post('result');
 		$v_type = $this->input->post('v_type');
+		$c_type = $this->input->post('c_type');
 		$contacts = $this->input->post('contacts');
 		$v_value = $this->input->post('v_value');
 		$v_time = $this->input->post('v_time');
 		$n_v_time = $this->input->post('n_v_time');
 		$content = $this->input->post('content');
+		$company_id = $this->input->post('company_id');
 
+		$add['c_type'] = $c_type;
 		$add['result'] = $result;
 		$add['v_type'] = $v_type;
 		$add['contacts'] = $contacts;
 		$add['v_value'] = $v_value;
 		$add['v_time'] = strtotime($v_time);
 		$add['n_v_time'] = strtotime($n_v_time);
-		$add['content'] = $contacts;
+		$add['content'] = $content;
+		$add['company_id'] = $company_id;
+		$add['addtime'] = time();
+		$add['uid'] = $userinfo['id'];
+		$add['realname'] = $userinfo['realname'];
 
-		if(!empty($result) && !empty($v_type) && !empty($contacts) && !empty($v_value) && !empty($n_v_time) && !empty($content)){
+		if(!empty($result) && !empty($v_type) && !empty($contacts) && !empty($v_value) && !empty($n_v_time) && !empty($content) && !empty($company_id)){
 
-			if($this->visit->add($add)){
+			if($this->visit_log->add($add)){
 
-				exit('ok');
-
+				$msg = array(
+				'code'=>'0',
+				'msg'=>'添加成功'
+				);
+			
 			}else{
 
-				exit('error'); 
+				$msg = array(
+				'code'=>'1',
+				'msg'=>'添加失败'
+				);
+			
 			}
 
 		}else{
 
-			exit('canshu');
-
+			$msg = array(
+				'code'=>'2',
+				'msg'=>'缺少参数'
+				);
+			
 		}
+
+		echo json_encode($msg);
+
 
 	}
 
 	//添加联系人-联系人只能添加四个
 	public function add_contacts()
 	{
-		$id = $this->input->post('id');
+		$company_id = $this->input->post('company_id');
 		$add['realname'] = $this->input->post('realname');
-		$add['sex'] = $this->input->post('sex');
+		$add['sex'] = $this->input->post('sex');;
 		$add['phone'] = $this->input->post('phone');
 		$add['tel'] = $this->input->post('tel');
 		$add['fax'] = $this->input->post('fax');
@@ -166,21 +191,120 @@ class Listvisit extends Zrjoboa
 		$add['job'] = $this->input->post('job');
 		$add['address'] = $this->input->post('address');
 		$add['remarks'] = $this->input->post('remarks');
-		$add['company_id'] = $id;
+		$add['company_id'] = $company_id;
 
-		$where['where'] = array('company_id'=>$id);
+		$where = array('company_id'=>$company_id);
 		$count = $this->contacts->get_count($where);
 		if($count > 3){
-			exit('只能添加4个联系人');
+			//exit('只能添加4个联系人');
+			$msg = array(
+				'code'=>'1',
+				'msg'=>'只能添加4个联系人'
+				);
+			echo json_encode($msg);
+			exit;
 		}
 
 		if($this->contacts->add($add)){
-			exit('ok');
+			$id = $this->contacts->insert_id();
+			$msg = array(
+				'code'=>'0',
+				'msg'=>'添加成功',
+				'data'=>$id
+				);
+			echo json_encode($msg);
+			exit;
 		}else{
-			exit('err');
+			$msg = array(
+				'code'=>'2',
+				'msg'=>'添加失败'
+				);
+			echo json_encode($msg);
+			exit;
 		}
 
 
+	}
+
+	//编辑联系人
+	public function update_contacts()
+	{
+		
+		$act = $this->input->post('act');
+		if($act == 'edit'){
+			
+			$id = $this->input->post('id');
+			$where['where'] = array('id'=>$id);
+			$info = array();
+			$info = $this->contacts->get_one_by_where($where);
+			$msg = array(
+				'code'=>'0',
+				'msg'=>'ok',
+				'data'=>$info
+				);
+			echo json_encode($msg);
+			exit;
+
+		}elseif($act == 'update'){
+
+			$add['realname'] = $this->input->post('realname');
+			$add['sex'] = $this->input->post('sex');;
+			$add['phone'] = $this->input->post('phone');
+			$add['tel'] = $this->input->post('tel');
+			$add['fax'] = $this->input->post('fax');
+			$add['email'] = $this->input->post('email');
+			$add['qq'] = $this->input->post('qq');
+			$add['webchat'] = $this->input->post('webchat');
+			$add['department'] = $this->input->post('department');
+			$add['job'] = $this->input->post('job');
+			$add['address'] = $this->input->post('address');
+			$add['remarks'] = $this->input->post('remarks');
+			$id = $this->input->post('id');
+			
+			$config = array('id'=>$id);
+			if(!empty($add['realname']) && !empty($add['phone'])){
+				if($this->contacts->update($config,$add)){
+					$msg = array(
+						'code'=>'0',
+						'msg'=>'修改成功'
+						);
+				}else{
+					$msg = array(
+						'code'=>'1',
+						'msg'=>'无任何修改'
+						);
+				}
+			}else{
+				$msg = array(
+						'code'=>'2',
+						'msg'=>'缺少必要参数'
+						);
+			}
+			echo json_encode($msg);
+			exit;
+		}
+	}
+
+	//删除联系人
+	public function del_contact()
+	{
+		$id = $this->input->post('id');
+		$config = array('id'=>$id);
+		if($this->contacts->del($config)){
+			$msg = array(
+				'code'=>'0',
+				'msg'=>'删除成功'
+				);
+
+		}else{
+			$msg = array(
+				'code'=>'1',
+				'msg'=>'添加失败'
+				);
+
+		}
+		echo json_encode($msg);
+		exit;
 	}
 
 	//检查企业名称
