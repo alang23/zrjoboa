@@ -74,7 +74,8 @@
                 {id:'member',text:'求职者列表',href:'member/index'},
                 {id:'website_member',text:'网站求职者',href:'member/website'},
                 {id:'add_member',text:'求职者登记',href:'member/add_info'},
-                {id:'add_member_idcard',text:'求职者登记id',href:'member/add_idcard'}  
+                {id:'add_member_idcard',text:'求职者登记id',href:'member/add_idcard'},
+                {id:'print_jobs',text:'求职打印',href:'<?=base_url()?>advert/scene'}  
  
               ]
             },{
@@ -100,9 +101,9 @@
                   {id:'depends',text:'表单联动',href:'form/depends.html'}
                 ]
               },{
-                text:'成功失败页面',
+                text:'营销',
                 items:[
-                  {id:'success',text:'成功页面',href:'form/success.html'},
+                  {id:'duanxin',text:'短信管理',href:'f<?=base_url()?>crm/message'},
                   {id:'fail',text:'失败页面',href:'form/fail.html'}
                 
                 ]

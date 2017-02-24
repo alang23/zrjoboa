@@ -193,12 +193,18 @@ class Member extends Zrjoboa
 	{
 
 		$id = $this->input->post('id');
+		$now = isset($_POST['now']) ? $_POST['now'] : '';
 		$city = array();
 		$city = $this->get_city($id);
 		$str = '';
 		if(count($city) > 0){
 			foreach($city as $k => $v){
-				$str .= '<option value=\''.$v['id'].'-'.$v['categoryname'].'\'>'.$v['categoryname'].'</option>';
+				if($v['id'] == $now){
+					$str .= '<option value=\''.$v['id'].'-'.$v['categoryname'].'\'  selected>'.$v['categoryname'].'</option>';
+				}else{
+					$str .= '<option value=\''.$v['id'].'-'.$v['categoryname'].'\'>'.$v['categoryname'].'</option>';
+
+				}
 			}
 		}else{
 			$str .= '<option value="0-无">=市=</option>';

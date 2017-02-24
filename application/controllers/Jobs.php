@@ -15,6 +15,7 @@ class Jobs extends Zrjoboa
 		$this->load->library('Categorylib','categorylib');
 		$this->load->model('District_mdl','district');
 		$this->load->model('company_mdl','company');
+		$this->load->model('Customer_mdl','customer');
 	}
 
 	//职位列表
@@ -27,6 +28,7 @@ class Jobs extends Zrjoboa
 		$page = isset($_GET['page']) ? $_GET['page'] : 0;
         $page = ($page && is_numeric($page)) ? intval($page) : 1;
         $company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
+        $data['company_id'] = $company_id;
 
         $limit = 20;
         $offset = ($page - 1) * $limit;
@@ -119,6 +121,7 @@ class Jobs extends Zrjoboa
 			$data['content'] = $this->input->post('content');
 			$data['addtime'] = time();
 
+			/*
 			if($userinfo['company_id'] == '0'){
 				$company_id = $this->input->post('company_id');
 				$_company = array();
@@ -132,12 +135,20 @@ class Jobs extends Zrjoboa
 				$data['company_id'] = $userinfo['company_id'];
 				$data['company_name'] = $company['name'];
 			}
+			*/
+			$company_id = $this->input->post('company_id');
+			$_company = array();
+			$_company = explode(':', $company_id);
+			$data['company_id'] = $_company[0];
+			$data['company_name'] = $_company[1];
 
 
 			if(!empty($data['jobs_name']) && !empty($data['company_id']) && !empty($data['company_name'])){
 
 				if($this->jobs->add($data)){
-					exit('ok');
+					$msg['title'] = '添加成功';
+					$msg['msg'] = '<a href="'.base_url().'jobs/index?company_id='.$data['company_id'].'">返回列表</a> | <a href="'.base_url().'jobs/add?company_id='.$data['company_id'].'">继续添加</a>';
+					$this->tpl('msg/msg_success',$msg);
 				}else{
 					exit('err1');
 				}
@@ -150,6 +161,15 @@ class Jobs extends Zrjoboa
 
 
 		}else{
+
+			$company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
+			$data['company_id'] = $company_id;
+
+			$company = array();
+			$customer_where['where'] = array('company_id'=>$userinfo['company_id']);
+			$company = $this->customer->getList($customer_where);
+			$data['company'] = $company;
+
 			//学历
 			$education = array();
 			$education_key = 'WRZC_education';
@@ -176,13 +196,132 @@ class Jobs extends Zrjoboa
 
 			$province = $this->get_province();
 			$data['province'] = $province;
-
-			$data['company_id'] = $userinfo['company_id'];
 			
 			$this->tpl('oa/jobs_add_tpl',$data);
 
 		}
 		
+	}
+
+	public function edit(){
+
+		$userinfo = $this->userinfo;
+
+		if(!empty($_POST)){
+
+			//学历
+			$data['jobs_name'] = $this->input->post('jobs_name');
+			$sex = $this->input->post('sex');
+
+			$_sex = array();
+			$_sex = explode(':', $sex);
+			$data['sex'] = $_sex[0];
+			$data['sex_cn'] = $_sex[1];
+
+			$education = $this->input->post('education');
+			$_education = array();
+			$_education = explode(':', $education);
+			$data['education'] = $_education[0];
+			$data['education_cn'] = $_education[1];
+
+			$age = $this->input->post('age');
+			$_age = array();
+			$_age = explode(':', $age);
+			$data['age'] = $_age[0];
+			$data['age_cn'] = $_age[1];
+
+			$experience = $this->input->post('experience');
+			$_experience = array();
+			$_experience = explode(':', $experience);
+			$data['experience'] = $_experience[0];
+			$data['experience_cn'] = $_experience[1];
+
+			$wage = $this->input->post('wage');
+			$_wage = array();
+			$_wage = explode(':', $wage);
+			$data['wage'] = $_wage[0];
+			$data['wage_cn'] = $_wage[1];
+
+			$province = $this->input->post('province');
+			$_province = array();
+			$_province = explode('-', $province);
+			$data['province'] = $_province[0];
+			$data['province_cn'] = $_province[1];
+
+			//
+			$city = $this->input->post('city');
+			$_city = array();
+			$_city = explode('-', $city);
+			$data['city'] = $_city[0];
+			$data['city_cn'] = $_city[1];
+
+			$data['contacts'] = $this->input->post('contacts');
+			$data['tel'] = $this->input->post('tel');
+			$data['email'] = $this->input->post('email');
+			$data['content'] = $this->input->post('content');
+
+			// $company_id = $this->input->post('company_id');
+			// $_company = array();
+			// $_company = explode(':', $company_id);
+			// $data['company_id'] = $_company[0];
+			// $data['company_name'] = $_company[1];
+
+
+			$id = $this->input->post('id');
+			if(!empty($data['jobs_name']) && !empty($id)){
+				$config = array('id'=>$id);
+				if($this->jobs->update($config,$data)){
+					exit('ok');
+				}else{
+					exit('err1');
+				}
+
+			}else{
+				exit('err2');
+			}
+
+		}else{
+
+			$id = $this->input->get('id');
+			$info = array();
+			$info_where['where'] = array('id'=>$id);
+			$info = $this->jobs->get_one_by_where($info_where);
+			$data['info'] = $info;
+
+			$company = array();
+			$customer_where['where'] = array('company_id'=>$userinfo['company_id']);
+			$company = $this->customer->getList($customer_where);
+			$data['company'] = $company;
+
+			//学历
+			$education = array();
+			$education_key = 'WRZC_education';
+			$education = $this->categorylib->get_category($education_key);
+			$data['education'] = $education;
+
+			//工作经验
+			$age = array();
+			$age_key = 'WRZC_hunter_age';
+			$age = $this->categorylib->get_category($age_key);
+			$data['age'] = $age;
+
+			//		
+			$experience = array();
+			$experience_key = 'WRZC_experience';
+			$experience = $this->categorylib->get_category($experience_key);
+			$data['experience'] = $experience;
+
+			//薪资
+			$wage = array();
+			$wage_key = 'WRZC_wage';
+			$wage = $this->categorylib->get_category($wage_key);
+			$data['wage'] = $wage;
+
+			$province = $this->get_province();
+			$data['province'] = $province;
+			
+			$this->tpl('oa/jobs_edit_tpl',$data);
+		}
 	}
 
 

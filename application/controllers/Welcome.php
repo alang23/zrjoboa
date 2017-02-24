@@ -20,6 +20,11 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$signature = $_GET["signature"];
+		echo $signature;
+		$fp = fopen('token.txt','a+');
+		fwrite($fp,$signature);
+		fclose($fp);
+		//$this->load->view('welcome_message');
 	}
 }

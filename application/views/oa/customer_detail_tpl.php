@@ -7,7 +7,22 @@
      
       <link href="<?=base_url()?>static/assets/css/bs3/dpl.css" rel="stylesheet">
       <link href="<?=base_url()?>static/assets/css/bs3/bui.css" rel="stylesheet">
-     
+    <script type="text/javascript" src="<?=base_url()?>static/js/jquery.js"></script>
+    <script type="text/javascript" src="<?=base_url()?>static/layer/layer.js"></script>
+  <script>
+function flush(msg,url){
+  layer.confirm(msg, {
+    btn: ['确定','取消'] //按钮
+  }, function(){
+      //window.location=url;
+      window.location=url;
+      //alert(url);
+  }, function(){
+          //window.location=url;
+
+  });
+}
+  </script>
     </head>
     <body>
   <div class="container">
@@ -28,7 +43,7 @@
 
           <h3>客户详情</h3>
           <hr>
-          <form action="" class="form-horizontal form-horizontal-simple">
+          <form class="form-horizontal form-horizontal-simple">
             <div class="control-group">
               <label class="control-label">企业名称：</label>
               <div class="controls">
@@ -87,13 +102,11 @@
               </div>
             </div>
 
-
-
             <div class="actions-bar">
               <div class="row form-actions ">
                 <div class="span10 offset3 ">
-                   <a href="<?=base_url()?>customer/edit?id=<?=$info['id']?>"><button class="button button-large button-warning">编辑</button></a>
-                    <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>customer/del?id=<?=$info['id']?>')"><button class="button button-large button-danger">删除</button></a>
+                   <a href="<?=base_url()?>customer/edit?id=<?=$info['id']?>">编辑</a>
+                    <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>customer/del?id=<?=$info['id']?>')">删除</a>
                 </div>
               </div>
             </div>

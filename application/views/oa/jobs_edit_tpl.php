@@ -28,27 +28,17 @@
       <div class="span24">
         <h4>发布职位</h4>
         <hr>
-       <form id="J_Form" name="form1" method="post" action="<?=base_url()?>jobs/add" class="form-horizontal">
+       <form id="J_Form" name="form1" method="post" action="<?=base_url()?>jobs/edit" class="form-horizontal">
       <div class="control-group">
         <label class="control-label">企业名称：</label>
         <div class="controls">
-            <select class="input-large" name="company_id" id="company_id" >
-            
-              <option value="0:无">==公司==</option>
-              <?php
-                foreach($company as $cok => $cov){
-              ?>
-              <option value="<?=$cov['id']?>:<?=$cov['c_name']?>" <?php if($cov['id'] == $company_id){ ?> selected <?php } ?>><?=$cov['c_name']?></option>
-              <?php
-                }
-              ?>
-            </select>
+           <?=$info['company_name']?>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label"><s>*</s>职位名称：</label>
         <div class="controls">
-          <input name="jobs_name" type="text"  id="jobs_name" class="input-large" onblur="check_name();">
+          <input name="jobs_name" type="text"  id="jobs_name" class="input-large" value="<?=$info['jobs_name']?>" realonly="true"/>
         </div>
       </div>
       <div class="control-group">
@@ -77,7 +67,7 @@
               <?php
                 foreach($education as $ek => $ev){
               ?>
-              <option value="<?=$ev['c_id']?>:<?=$ev['c_name']?>"><?=$ev['c_name']?></option>
+              <option value="<?=$ev['c_id']?>:<?=$ev['c_name']?>" <?php if($ev['c_id'] == $info['education']){ ?> selected <?php } ?>><?=$ev['c_name']?></option>
               <?php
                 }
               ?>
@@ -94,7 +84,7 @@
               <?php
                 foreach($age as $ak => $av){
               ?>
-              <option value="<?=$av['c_id']?>:<?=$av['c_name']?>"><?=$av['c_name']?></option>
+              <option value="<?=$av['c_id']?>:<?=$av['c_name']?>" <?php if($av['c_id'] == $info['age']){ ?> selected <?php } ?>><?=$av['c_name']?></option>
               <?php
                 }
               ?>              
@@ -109,9 +99,9 @@
             
               <option value="0:不限">不限</option>
               <?php
-                foreach($experience as $ek => $ev){
+                foreach($experience as $exk => $exv){
               ?>
-              <option value="<?=$ev['c_id']?>:<?=$ev['c_name']?>"><?=$ev['c_name']?></option>
+              <option value="<?=$exv['c_id']?>:<?=$exv['c_name']?>" <?php if($exv['c_id'] == $info['experience']){ ?> selected <?php } ?>><?=$exv['c_name']?></option>
               <?php
                 }
               ?>              
@@ -127,7 +117,7 @@
               <?php
                 foreach($wage as $wa => $wv){
               ?>
-              <option value="<?=$wv['c_id']?>:<?=$wv['c_name']?>"><?=$wv['c_name']?></option>
+              <option value="<?=$wv['c_id']?>:<?=$wv['c_name']?>" <?php if($wv['c_id'] == $info['wage']){ ?> selected <?php } ?>><?=$wv['c_name']?></option>
               <?php
                 }
               ?>              
@@ -142,7 +132,7 @@
               <?php
                 foreach($province as $k => $v){
               ?>
-              <option value="<?=$v['id']?>-<?=$v['categoryname']?>"><?=$v['categoryname']?></option>
+              <option value="<?=$v['id']?>-<?=$v['categoryname']?>" <?php if($v['id'] == $info['province']){ ?> selected <?php } ?>><?=$v['categoryname']?></option>
               <?php
                 }
               ?>
@@ -158,32 +148,33 @@
       <div class="control-group">
         <label class="control-label">联系人：</label>
         <div class="controls">
-          <input type="text" class="input-large" name="contacts" id="contacts" >
+          <input type="text" class="input-large" name="contacts" id="contacts" value="<?=$info['contacts']?>" >
         </div>
       </div>
       <div class="control-group">
         <label class="control-label">联系电话：</label>
         <div class="controls">
-          <input type="text" class="input-large" name="tel" id="tel" >
+          <input type="text" class="input-large" name="tel" id="tel" value="<?=$info['tel']?>">
         </div>
       </div>
       <div class="control-group">
         <label class="control-label">邮箱：</label>
         <div class="controls">
-          <input type="text" class="input-large" name="email" id="email" >
+          <input type="text" class="input-large" name="email" id="email" value="<?=$info['email']?>">
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label">职位描述：</label>
         <div class="controls  control-row-auto">
-          <textarea name="content" id="content" class="control-row4 input-large"></textarea>
+          <textarea name="content" id="content" class="control-row4 input-large"><?=$info['content']?></textarea>
         </div>
       </div>
       <div class="row actions-bar">       
           <div class="form-actions span13 offset3">
+            <input type="hidden" name="id" value="<?=$info['id']?>" />
             <button type="button" onclick="add_post();" class="button button-primary">保存</button>
-            <button type="reset" class="button">重置</button>
+            <button type="button" class="button" onclick="history.back()">返回</button>
           </div>
       </div>       
     </form>
@@ -199,7 +190,7 @@ function check_name()
 
   var jobs_name = '';
   jobs_name = $("#jobs_name").val();
-  var company_id = '<?=$company_id?>';
+  var company_id = "<?=$info['id']?>";
 
   if(jobs_name == ''){
     $("#jobs_name-err").remove();
@@ -284,7 +275,9 @@ function get_city(id)
               }
           });
 } 
- 
+ $(function(){
+  get_city('<?=$info['province']?>');
+ })
       
 </script>
   </div>

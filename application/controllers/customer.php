@@ -75,7 +75,7 @@ class Customer extends Zrjoboa
 
 		//客户代表
 		$account = array();
-		$c_where['where'] = array('isdel'=>'0');
+		$c_where['where']['isdel'] = '0';
 		if( !empty($userinfo['company_id']) ){
 			$c_where['where']['company_id'] = $userinfo['company_id'];
 		}
@@ -222,33 +222,78 @@ class Customer extends Zrjoboa
 
 		if(!empty($_POST)){
 
-			$uid = $this->input->post('uid');
+			
 			$c_name = $this->input->post('c_name');
 			$contacts = $this->input->post('contacts');
 			$tel = $this->input->post('tel');
 			$address = $this->input->post('address');
 			$remarks = $this->input->post('remarks');
+			$industry = $this->input->post('industry');
+			$nature = $this->input->post('nature');
+			$scale = $this->input->post('scale');
+			$province = $this->input->post('province');
+			$city = $this->input->post('city');
 			$id = $this->input->post('id');
+		
+			$_nature = array();
+			$_nature = explode('-', $nature);
 
-			if(!empty($uid) && !empty($c_name) && !empty($id)){
+			$_industry = array();
+			$_industry = explode('-', $industry);
 
-				$_info = explode('-', $uid);
-				$update_data['uid'] = $_info[0];
-				$update_data['realname'] = $_info[1];
-				$update_data['c_name'] = $c_name;
-				$update_data['contacts'] = $contacts;
-				$update_data['tel'] = $tel;
-				$update_data['address'] = $address;
-				$update_data['remarks'] = $remarks;
+			$_scale = array();
+			$_scale = explode('-', $scale);
 
-				$update_config = array('id'=>$id);
-				if($this->customer->update($update_config,$update_data)){
-					exit('ok');
+						//省
+			if(!empty($province)){
+				$_province = array();
+				$_province = explode('-', $province);
+			}
+
+			//市
+			if(!empty($city)){
+				$_city = array();
+				$_city = explode('-', $city);
+			}
+			
+			if(!empty($id) && !empty($c_name)){
+
+				$add['c_name'] = $c_name;
+				$add['contacts'] = $contacts;
+				$add['tel'] = $tel;
+				$add['address'] = $address;
+				$add['remarks'] = $remarks;
+				$add['addtime'] = time();
+				$add['company_id'] = $userinfo['company_id'];
+
+				$add['industry'] = $_industry[0];
+				$add['industry_cn'] = $_industry[1];
+
+				$add['nature'] = $_nature[0];
+				$add['nature_cn'] = $_nature[1];
+
+				$add['scale'] = $_scale[0];
+				$add['scale_cn'] = $_scale[1];
+
+				$add['province'] = $_province[0];
+				$add['province_cn'] = $_province[1];
+				$add['city'] = $_city[0];
+				$add['city_cn'] = $_city[1];
+ 
+				$config = array('id'=>$id);
+				if($this->customer->update($config,$add)){
+					$msg['title'] = '修改成功';
+					$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a>';
+					$this->tpl('msg/msg_success',$msg);
 				}else{
-					exit('error');
+					$msg['title'] = '修改失败';
+					$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
 				}
 			}else{
-				exit('canshu');
+					$msg['title'] = '添加失败,缺少参数';
+					$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a> ';
+					$this->tpl('msg/msg_errors',$msg);
 			}
 
 		}else{
@@ -259,14 +304,35 @@ class Customer extends Zrjoboa
 			$info = $this->customer->get_one_by_where($where);
 			$data['info'] = $info;
 
-						//客户代表
+			//客户代表
 			$account = array();
-			$c_where['where']['isdel'] = '0';
+			$where_customer['where']['isdel'] = '0';
 			if(!empty($userinfo['company_id'])){
-				$c_where['where']['company_id'] = $userinfo['company_id'];
+				$where_customer['where']['company_id'] = $userinfo['company_id'];
 			}
-			$account = $this->get_account($c_where);
+			$account = $this->get_account($where_customer);
 			$data['account'] = $account;
+
+			//企业性质
+			$nature = array();
+			$key = 'WRZC_company_type';
+			$nature = $this->categorylib->get_category($key);
+			$data['nature'] = $nature;
+
+			//行业
+			$industry = array();
+			$indu_key = 'WRZC_trade';
+			$industry = $this->categorylib->get_category($indu_key);
+			$data['industry'] = $industry;
+
+			//公司规模
+			$scale = array();
+			$scale_key = 'WRZC_scale';
+			$scale = $this->categorylib->get_category($scale_key);
+			$data['scale'] = $scale;
+
+			$province = $this->get_province();
+			$data['province'] = $province;
 
 			$this->tpl('oa/customer_edit_tpl',$data);
 		}

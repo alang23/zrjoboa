@@ -62,7 +62,7 @@ function flush(msg,url){
             <tr>
             <th colspan="15">
                 <ul class="bui-bar bui-grid-button-bar" role="toolbar" id="bar7" aria-disabled="false" aria-pressed="false">
-                <a href="<?=base_url()?>jobs/add">
+                <a href="<?=base_url()?>jobs/add?company_id=<?=$company_id?>">
                 <li class="bui-bar-item-button bui-bar-item bui-inline-block" aria-disabled="false" id="bar-item-button1" aria-pressed="false">
                 <button type="button" class="button button-small">
                 <i class="icon-plus"></i>添加职位</button>
