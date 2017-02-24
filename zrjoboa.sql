@@ -9,7 +9,7 @@
  Target Server Version : 50505
  File Encoding         : utf-8
 
- Date: 02/24/2017 15:00:18 PM
+ Date: 02/24/2017 17:37:23 PM
 */
 
 SET NAMES utf8;
@@ -500,6 +500,20 @@ INSERT INTO `zroa_member` VALUES ('1', '', '流量公司', '2', '4', '重庆市'
 COMMIT;
 
 -- ----------------------------
+--  Table structure for `zroa_messagemodel`
+-- ----------------------------
+DROP TABLE IF EXISTS `zroa_messagemodel`;
+CREATE TABLE `zroa_messagemodel` (
+  `id` int(8) NOT NULL,
+  `sign` varchar(60) NOT NULL,
+  `content` varchar(200) NOT NULL,
+  `company_id` int(8) NOT NULL,
+  `addtime` int(4) NOT NULL,
+  `isdel` tinyint(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 --  Table structure for `zroa_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `zroa_role`;
@@ -602,13 +616,13 @@ CREATE TABLE `zroa_wx_search` (
   `msgid` varchar(40) NOT NULL,
   `addtime` int(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `zroa_wx_search`
 -- ----------------------------
 BEGIN;
-INSERT INTO `zroa_wx_search` VALUES ('1', 'fromUser', 'text', 'this is a test', '1234567890123456', '1487919533');
+INSERT INTO `zroa_wx_search` VALUES ('1', 'fromUser', 'text', 'this is a test', '1234567890123456', '1487919533'), ('2', 'fromUser', 'text', 'this is a test', '1234567890123456', '1487919913'), ('3', 'fromUser', 'text', 'this is a test', '1234567890123456', '1487919940');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
