@@ -536,5 +536,11 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
+//短信接口
+$config['api_send_url'] = 'http://222.73.117.169/msg/HttpBatchSendSM';
+$config['api_balance_query_url'] = 'http://222.73.117.169/msg/QueryBalance';
+$config['api_account'] = 'N4406103';
+$config['api_password'] = 'Psbc32fd';
+
 
 $config['admin_session'] = 'zroa_cookie';

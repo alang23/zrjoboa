@@ -91,7 +91,8 @@
             menu:[{
                 text:'客户关系管理',
                 items:[
-                  {id:'code',text:'回访客户列表',href:'<?=base_url()?>crm/listvisit'},
+                  {id:'code',text:'回访客户列表',href:'<?=base_url()?>crm/listvisit'}
+                  /*
                   {id:'example',text:'表单示例',href:'form/example.html'},
                   {id:'introduce',text:'表单简介',href:'form/introduce.html'},
                   {id:'valid',text:'表单基本验证',href:'form/basicValid.html'},
@@ -99,21 +100,15 @@
                   {id:'remote',text:'远程调用',href:'form/remote.html'},
                   {id:'group',text:'表单分组',href:'form/group.html'},
                   {id:'depends',text:'表单联动',href:'form/depends.html'}
+                  */
                 ]
               },{
                 text:'营销',
                 items:[
-                  {id:'duanxin',text:'短信管理',href:'f<?=base_url()?>crm/message'},
-                  {id:'fail',text:'失败页面',href:'form/fail.html'}
+                  {id:'duanxin',text:'短信管理',href:'<?=base_url()?>crm/message'},
+                   {id:'duanxin_model',text:'短信模板',href:'<?=base_url()?>crm/message/msmmodel'}
+                  //{id:'fail',text:'失败页面',href:'form/fail.html'}
                 
-                ]
-              },{
-                text:'可编辑表格',
-                items:[
-                  {id:'grid',text:'可编辑表格',href:'form/grid.html'},
-                  {id:'form-grid',text:'表单中的可编辑表格',href:'form/form-grid.html'},
-                  {id:'dialog-grid',text:'使用弹出框',href:'form/dialog-grid.html'},
-                  {id:'form-dialog-grid',text:'表单中使用弹出框',href:'form/form-dialog-grid.html'}
                 ]
               }]
           },{
