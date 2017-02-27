@@ -67,7 +67,7 @@ class Customer extends Zrjoboa
         }
 
         if(!empty($phone)){
-        	$where['where']['phone'] = $phone;
+        	$where['where']['tel'] = $phone;
         }
         $where['order'] = array('key'=>'id','value'=>'DESC');
 		$list = $this->customer->getList($where);	
@@ -116,29 +116,29 @@ class Customer extends Zrjoboa
 			}
 
 			$_nature = array();
-			$_nature = explode('-', $nature);
+			$_nature = explode(':', $nature);
 
 			$_industry = array();
-			$_industry = explode('-', $industry);
+			$_industry = explode(':', $industry);
 
 			$_scale = array();
-			$_scale = explode('-', $scale);
+			$_scale = explode(':', $scale);
 
 						//省
 			if(!empty($province)){
 				$_province = array();
-				$_province = explode('-', $province);
+				$_province = explode(':', $province);
 			}
 
 			//市
 			if(!empty($city)){
 				$_city = array();
-				$_city = explode('-', $city);
+				$_city = explode(':', $city);
 			}
 			
 			if(!empty($uid) && !empty($c_name)){
 
-				$_info = explode('-', $uid);
+				$_info = explode(':', $uid);
 				$add['uid'] = $_info[0];
 				$add['realname'] = $_info[1];
 				$add['c_name'] = $c_name;
@@ -236,24 +236,24 @@ class Customer extends Zrjoboa
 			$id = $this->input->post('id');
 		
 			$_nature = array();
-			$_nature = explode('-', $nature);
+			$_nature = explode(':', $nature);
 
 			$_industry = array();
-			$_industry = explode('-', $industry);
+			$_industry = explode(':', $industry);
 
 			$_scale = array();
-			$_scale = explode('-', $scale);
+			$_scale = explode(':', $scale);
 
 						//省
 			if(!empty($province)){
 				$_province = array();
-				$_province = explode('-', $province);
+				$_province = explode(':', $province);
 			}
 
 			//市
 			if(!empty($city)){
 				$_city = array();
-				$_city = explode('-', $city);
+				$_city = explode(':', $city);
 			}
 			
 			if(!empty($id) && !empty($c_name)){

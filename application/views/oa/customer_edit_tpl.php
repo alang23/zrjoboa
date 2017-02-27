@@ -36,7 +36,7 @@
           <?php
             foreach($account as $ak => $av){
           ?>
-            <option value="<?=$av['id']?>-<?=$av['realname']?>" <?php if($av['id'] == $info['uid']){ ?> selected <?php } ?> ><?=$av['realname']?></option>
+            <option value="<?=$av['id']?>:<?=$av['realname']?>" <?php if($av['id'] == $info['uid']){ ?> selected <?php } ?> ><?=$av['realname']?></option>
           <?php
             }
           ?>
@@ -65,11 +65,11 @@
           <label class="control-label">所在地：</label>
           <div class="controls">
             <select class="input-small" name="province" id="province" onchange="get_city(this.value);">
-              <option value="0-无">=省=</option>
+              <option value="0:无">=省=</option>
               <?php
                 foreach($province as $pk => $pv){
               ?>
-              <option value="<?=$pv['id']?>-<?=$pv['categoryname']?>" <?php if($pv['id'] == $info['province']){?> selected <?php } ?>><?=$pv['categoryname']?></option>
+              <option value="<?=$pv['id']?>:<?=$pv['categoryname']?>" <?php if($pv['id'] == $info['province']){?> selected <?php } ?>><?=$pv['categoryname']?></option>
               <?php
                 }
               ?>
@@ -91,11 +91,11 @@
         <label class="control-label">企业性质：</label>
         <div class="controls">
             <select class="input-large" name="nature" id="nature" >
-              <option value="0-无">=企业性质=</option>
+              <option value="0:无">=企业性质=</option>
               <?php
                 foreach($nature as $k => $v){
               ?>
-              <option value="<?=$v['c_id']?>-<?=$v['c_name']?>" <?php if($v['c_id'] == $info['nature']){?> selected <?php } ?>><?=$v['c_name']?></option>
+              <option value="<?=$v['c_id']?>:<?=$v['c_name']?>" <?php if($v['c_id'] == $info['nature']){?> selected <?php } ?>><?=$v['c_name']?></option>
               <?php
                 }
               ?>
@@ -107,11 +107,11 @@
         <label class="control-label">公司规模：</label>
         <div class="controls">
             <select class="input-large" name="scale" id="scale" >
-              <option value="0-无">=公司规模=</option>
+              <option value="0:无">=公司规模=</option>
               <?php
                 foreach($scale as $sk => $sv){
               ?>
-              <option value="<?=$sv['c_id']?>-<?=$sv['c_name']?>" <?php if($sv['c_id'] == $info['scale']){?> selected <?php } ?>><?=$sv['c_name']?></option>
+              <option value="<?=$sv['c_id']?>:<?=$sv['c_name']?>" <?php if($sv['c_id'] == $info['scale']){?> selected <?php } ?>><?=$sv['c_name']?></option>
               <?php
                 }
               ?>
@@ -126,7 +126,7 @@
               <?php
                 foreach($industry as $ik => $iv){
               ?>
-              <option value="<?=$iv['c_id']?>-<?=$iv['c_name']?>" <?php if($iv['c_id'] == $info['industry']){?> selected <?php } ?>><?=$iv['c_name']?></option>
+              <option value="<?=$iv['c_id']?>:<?=$iv['c_name']?>" <?php if($iv['c_id'] == $info['industry']){?> selected <?php } ?>><?=$iv['c_name']?></option>
               <?php
                 }
               ?>

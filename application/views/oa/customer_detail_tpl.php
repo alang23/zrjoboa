@@ -41,7 +41,7 @@ function flush(msg,url){
 
           <div class="detail-section">  
 
-          <h3>客户详情</h3>
+          <h3>客户详情 <a href="<?=base_url()?>customer/index"><button type="button"  class="button button-primary">返回列表</button></a></h3>
           <hr>
           <form class="form-horizontal form-horizontal-simple">
             <div class="control-group">
@@ -56,7 +56,18 @@ function flush(msg,url){
               <span class="control-text"><?=$info['realname']?></span>
               </div>
             </div>
-
+            <div class="control-group">
+              <label class="control-label">地区：</label>
+              <div class="controls">
+              <span class="control-text"><?=$info['province_cn']?>/<?=$info['city_cn']?></span>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">地址：</label>
+              <div class="controls">
+              <span class="control-text"><?=$info['address']?></span>
+              </div>
+            </div>
             <div class="control-group">
               <label class="control-label">企业性质：</label>
               <div class="controls">
@@ -105,8 +116,8 @@ function flush(msg,url){
             <div class="actions-bar">
               <div class="row form-actions ">
                 <div class="span10 offset3 ">
-                   <a href="<?=base_url()?>customer/edit?id=<?=$info['id']?>">编辑</a>
-                    <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>customer/del?id=<?=$info['id']?>')">删除</a>
+                   <a href="<?=base_url()?>customer/edit?id=<?=$info['id']?>"><button type="button"  class="button button-success">编辑</button></a>
+                    <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>customer/del?id=<?=$info['id']?>')"><button type="button"  class="button button-danger">编辑</button></a>
                 </div>
               </div>
             </div>

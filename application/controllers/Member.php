@@ -200,14 +200,14 @@ class Member extends Zrjoboa
 		if(count($city) > 0){
 			foreach($city as $k => $v){
 				if($v['id'] == $now){
-					$str .= '<option value=\''.$v['id'].'-'.$v['categoryname'].'\'  selected>'.$v['categoryname'].'</option>';
+					$str .= '<option value=\''.$v['id'].':'.$v['categoryname'].'\'  selected>'.$v['categoryname'].'</option>';
 				}else{
-					$str .= '<option value=\''.$v['id'].'-'.$v['categoryname'].'\'>'.$v['categoryname'].'</option>';
+					$str .= '<option value=\''.$v['id'].':'.$v['categoryname'].'\'>'.$v['categoryname'].'</option>';
 
 				}
 			}
 		}else{
-			$str .= '<option value="0-无">=市=</option>';
+			$str .= '<option value="0:无">=市=</option>';
 		}
 
 		$msg = array(

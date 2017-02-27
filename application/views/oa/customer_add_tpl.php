@@ -36,7 +36,7 @@
           <?php
             foreach($account as $ak => $av){
           ?>
-            <option value="<?=$av['id']?>-<?=$av['realname']?>"><?=$av['realname']?></option>
+            <option value="<?=$av['id']?>:<?=$av['realname']?>"><?=$av['realname']?></option>
           <?php
             }
           ?>
@@ -65,11 +65,11 @@
           <label class="control-label">所在地：</label>
           <div class="controls">
             <select class="input-small" name="province" id="province" onchange="get_city(this.value);">
-              <option value="0-无">=省=</option>
+              <option value="0:无">=省=</option>
               <?php
                 foreach($province as $k => $v){
               ?>
-              <option value="<?=$v['id']?>-<?=$v['categoryname']?>"><?=$v['categoryname']?></option>
+              <option value="<?=$v['id']?>:<?=$v['categoryname']?>"><?=$v['categoryname']?></option>
               <?php
                 }
               ?>
@@ -91,11 +91,11 @@
         <label class="control-label">企业性质：</label>
         <div class="controls">
             <select class="input-large" name="nature" id="nature" >
-              <option value="0-无">=企业性质=</option>
+              <option value="0:无">=企业性质=</option>
               <?php
                 foreach($nature as $k => $v){
               ?>
-              <option value="<?=$v['c_id']?>-<?=$v['c_name']?>"><?=$v['c_name']?></option>
+              <option value="<?=$v['c_id']?>:<?=$v['c_name']?>"><?=$v['c_name']?></option>
               <?php
                 }
               ?>
@@ -107,11 +107,11 @@
         <label class="control-label">公司规模：</label>
         <div class="controls">
             <select class="input-large" name="scale" id="scale" >
-              <option value="0-无">=公司规模=</option>
+              <option value="0:无">=公司规模=</option>
               <?php
                 foreach($scale as $sk => $sv){
               ?>
-              <option value="<?=$sv['c_id']?>-<?=$sv['c_name']?>"><?=$sv['c_name']?></option>
+              <option value="<?=$sv['c_id']?>:<?=$sv['c_name']?>"><?=$sv['c_name']?></option>
               <?php
                 }
               ?>
@@ -122,11 +122,11 @@
         <label class="control-label">行业类型：</label>
         <div class="controls">
             <select class="input-large" name="industry" id="industry" >
-              <option value="0-无">=行业类型=</option>
+              <option value="0:无">=行业类型=</option>
               <?php
                 foreach($industry as $k => $v){
               ?>
-              <option value="<?=$v['c_id']?>-<?=$v['c_name']?>"><?=$v['c_name']?></option>
+              <option value="<?=$v['c_id']?>:<?=$v['c_name']?>"><?=$v['c_name']?></option>
               <?php
                 }
               ?>

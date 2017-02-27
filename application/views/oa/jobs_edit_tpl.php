@@ -132,14 +132,14 @@
               <?php
                 foreach($province as $k => $v){
               ?>
-              <option value="<?=$v['id']?>-<?=$v['categoryname']?>" <?php if($v['id'] == $info['province']){ ?> selected <?php } ?>><?=$v['categoryname']?></option>
+              <option value="<?=$v['id']?>:<?=$v['categoryname']?>" <?php if($v['id'] == $info['province']){ ?> selected <?php } ?>><?=$v['categoryname']?></option>
               <?php
                 }
               ?>
             </select>
           
             <select class="input-small" name="city" id="city">
-              <option value="0-无">=市=</option>
+              <option value="0:无">=市=</option>
               
             </select>
           </div>
@@ -242,7 +242,7 @@ function add_post()
 <!-- script end -->
 <!-- script start --> 
 <script type="text/javascript">
-function get_city(id)
+function get_city(id,now)
 {
 
     
@@ -251,6 +251,7 @@ function get_city(id)
               data:{
                   
                   id : id,
+                  now : now
                   
               },
               contentType:"application/x-www-form-urlencoded; charset=utf-8",
@@ -276,7 +277,7 @@ function get_city(id)
           });
 } 
  $(function(){
-  get_city('<?=$info['province']?>');
+  get_city('<?=$info['province']?>','<?=$info['city']?>');
  })
       
 </script>

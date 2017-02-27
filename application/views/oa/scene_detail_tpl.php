@@ -102,17 +102,6 @@
               </div>
             </div>
 
-          <div class="control-group">
-            <label class="control-label">状态：</label>
-            <div class="controls bui-form-group-select">
-              <select class="input-small" name="status">
-                      <option value="0">未审核</option>
-                      <option value="1">审核通过</option>
-                      <option value="2">未审核通过</option>
-                      </select>&nbsp;&nbsp;
-            </div>
-          </div>
-
             <div class="control-group">
               <label class="control-label">备注：</label>
               <div class="controls">
@@ -152,8 +141,7 @@
             <div class="actions-bar">
               <div class="row form-actions ">
                 <div class="span13 offset3 ">
-                  <button type="submit" class="button button-primary">确定</button>
-                  <button type="reset" class="button">取消</button>
+                  <button type="button" class="button button-primary" onclick="history.back(-1);">返回</button>
                 </div>
               </div>
             </div>

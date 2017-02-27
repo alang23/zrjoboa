@@ -48,7 +48,7 @@ function flush(msg,url){
               <label>联系人：</label><input type="text" name="contacts" value="" class="input-large control-text bui-form-field" /> 
               <label>电话：</label><input type="text" name="phone" value="" class="input-large control-text bui-form-field" /> 
               <button id="btnSearch" type="submit" class="button button-primary">搜索</button>
-              <label><a href="<?=base_url()?>customer/index">全部</a></label>
+              <label><a href="<?=base_url()?>jobs/index">全部</a></label>
 
            </span>
           </div>
@@ -91,7 +91,7 @@ function flush(msg,url){
             <tr>
               <td><input type="checkbox"></td>
               <td ><?=$v['id']?></td>
-              <td><?=$v['jobs_name']?> <a href="<?=base_url()?>customer/detail?id=<?=$v['id']?>"><span class="label label-info">查看</span></a></td>
+              <td><?=$v['jobs_name']?> <a href="<?=base_url()?>jobs/detail?id=<?=$v['id']?>"><span class="label label-info">查看</span></a></td>
               <td><?=$v['company_name']?></td>
               <td><?=$v['province_cn']?>/<?=$v['city_cn']?></td>
               <td><?=$v['wage_cn']?></td>

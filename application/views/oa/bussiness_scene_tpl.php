@@ -134,7 +134,7 @@ function flush(msg,url){
             ?>
             <tr>
               <td ><?=$v['id']?></td>
-              <td><?=$v['c_name']?> <a href="<?=base_url()?>customer/detail?id=<?=$v['id']?>">查看</a></td>
+              <td><?=$v['c_name']?> </td>
               <td><?=$v['realname']?></td>
               <td><?=date("Y-m-d",$v['show_time'])?></td>
               <td><?=$v['no_name']?></td>
@@ -146,9 +146,9 @@ function flush(msg,url){
               <td><?=get_invoice($v['invoice'])?></td>
 
               <td>
-              <a href="<?=base_url()?>bussiness/edit_ex?id=<?=$v['id']?>">编辑</a> |
-              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>bussiness/del_ex?id=<?=$v['id']?>')">删除</a> |
-              <a href="<?=base_url()?>bussiness/scene_detail?id=<?=$v['id']?>">查看详情</a>
+              <a href="<?=base_url()?>bussiness/edit_ex?id=<?=$v['id']?>"><button class="button button-small button-warning">编辑</button></a>
+              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>bussiness/del_ex?id=<?=$v['id']?>')"><button class="button button-small button-danger">删除</button></a> 
+              <a href="<?=base_url()?>bussiness/scene_detail?id=<?=$v['id']?>"><button class="button button-small button-success">查看</button></a>
 
               </td>
             </tr>

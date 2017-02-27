@@ -1,11 +1,9 @@
 <?php
 /**
-
 AppID
 wxf2ed0e8f0b59e358
 AppSecret
 4eab76783a0945cfa2aedab3b71f41a9
-
 */
 
 class Weixin extends CI_Controller

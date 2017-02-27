@@ -126,12 +126,18 @@ class Bussiness extends Zrjoboa
 				$add['addtime'] = time();
 				
 				if($this->bussiness_exhibition->add($add)){
-					exit('ok');
+					$msg['title'] = '添加成功';
+					$msg['msg'] = '<a href="'.base_url().'bussiness/index">返回列表</a> | <a href="'.base_url().'bussiness/add_ex">继续添加</a>';
+					$this->tpl('msg/msg_success',$msg);
 				}else{
-					exit('error');
+					$msg['title'] = '修改失败';
+					$msg['msg'] = '<a href="'.base_url().'bussiness/index">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
 				}
 			}else{
-				exit('canshu');
+					$msg['title'] = '修改失败-信息不完整';
+					$msg['msg'] = '<a href="'.base_url().'bussiness/index">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
 			}
 
 		}else{
@@ -246,10 +252,14 @@ class Bussiness extends Zrjoboa
 		                   if( $this->ad_file->add($dataarr) )
 		                   {
 		                   		$this->bussiness_ad->update($update_config,$update_data);
-		                   		exit('ok');
+		                   			$msg['title'] = '添加成功';
+									$msg['msg'] = '<a href="'.base_url().'bussiness/ad">返回列表</a> | <a href="'.base_url().'bussiness/add_ad">继续添加</a>';
+									$this->tpl('msg/msg_success',$msg);
 		                   }else{
 
-		                   		exit('error');
+		                   		$msg['title'] = '修改失败,请重试';
+								$msg['msg'] = '<a href="'.base_url().'bussiness/ad">返回列表</a>';
+								$this->tpl('msg/msg_errors',$msg);
 
 		                   }
 
@@ -257,14 +267,20 @@ class Bussiness extends Zrjoboa
 
 		            }
 				}else{
-					exit('error');
+						$msg['title'] = '修改失败,请重试';
+						$msg['msg'] = '<a href="'.base_url().'bussiness/ad">返回列表</a>';
+						$this->tpl('msg/msg_errors',$msg);
 				}
 			}else{
-				exit('canshu');
+					$msg['title'] = '修改失败,缺少必要参数';
+					$msg['msg'] = '<a href="'.base_url().'bussiness/ad">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
 			}
 
 		}else{
-			exit('empty');
+			$msg['title'] = '修改失败,提交内容为空';
+			$msg['msg'] = '<a href="'.base_url().'bussiness/ad">返回列表</a>';
+			$this->tpl('msg/msg_errors',$msg);
 		}
 		
 	}
@@ -426,8 +442,6 @@ class Bussiness extends Zrjoboa
         }
 
 
-
-
 		$list = $this->bussiness_exhibition->getList($where);
 		$data['list'] = $list;
 
@@ -435,6 +449,10 @@ class Bussiness extends Zrjoboa
 		$account = array();
 		$account = $this->get_account();
 		$data['account'] = $account;
+
+		//统计信息
+		$tongji_list = array();
+		//$tongji_list = 
 
 		$this->tpl('oa/bussiness_scene_tpl',$data);
 	}

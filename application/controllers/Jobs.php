@@ -244,14 +244,14 @@ class Jobs extends Zrjoboa
 
 			$province = $this->input->post('province');
 			$_province = array();
-			$_province = explode('-', $province);
+			$_province = explode(':', $province);
 			$data['province'] = $_province[0];
 			$data['province_cn'] = $_province[1];
 
 			//
 			$city = $this->input->post('city');
 			$_city = array();
-			$_city = explode('-', $city);
+			$_city = explode(':', $city);
 			$data['city'] = $_city[0];
 			$data['city_cn'] = $_city[1];
 
@@ -322,6 +322,18 @@ class Jobs extends Zrjoboa
 			
 			$this->tpl('oa/jobs_edit_tpl',$data);
 		}
+	}
+
+	//职位详情
+	public function detail()
+	{
+		$id = $this->input->get('id');
+		$where['where'] = array('id'=>$id);
+		$info = array();
+		$info = $this->jobs->get_one_by_where($where);
+
+		$data['info'] = $info;
+		$this->tpl('oa/jobs_detail_tpl',$data);
 	}
 
 
