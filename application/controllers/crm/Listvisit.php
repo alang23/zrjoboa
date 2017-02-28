@@ -192,6 +192,7 @@ class Listvisit extends Zrjoboa
 		$add['address'] = $this->input->post('address');
 		$add['remarks'] = $this->input->post('remarks');
 		$add['company_id'] = $company_id;
+		$add['birthday'] = $this->input->post('birthday');
 
 		$where = array('company_id'=>$company_id);
 		$count = $this->contacts->get_count($where);
@@ -259,6 +260,7 @@ class Listvisit extends Zrjoboa
 			$add['job'] = $this->input->post('job');
 			$add['address'] = $this->input->post('address');
 			$add['remarks'] = $this->input->post('remarks');
+			$add['birthday'] = $this->input->post('birthday');
 			$id = $this->input->post('id');
 			
 			$config = array('id'=>$id);

@@ -106,6 +106,33 @@ function flush(msg,url){
               <span class="control-text"><?=date("Y-m-d",$info['addtime'])?></span>
               </div>
             </div>
+
+            <div class="control-group">
+              <label class="control-label">签约协议:</label>
+              <div class="controls">
+              <?php
+                  if(!empty($info['xieyi'])){
+
+              ?>
+                <img src="<?=base_url()?>uploads/xieyi/<?=$info['xieyi']?>"  width="200px" height="200px" />
+              <?php
+                }
+              ?>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">营业执照:</label>
+              <div class="controls">
+              <?php
+                  if(!empty($info['zhizhao'])){
+
+              ?>
+                <img src="<?=base_url()?>uploads/zhizhao/<?=$info['zhizhao']?>"  width="200px" height="200px" />
+              <?php
+                }
+              ?>
+              </div>
+            </div>
             <div class="control-group">
               <label class="control-label">备注：</label>
               <div class="controls">

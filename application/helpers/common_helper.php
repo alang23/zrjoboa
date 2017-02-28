@@ -345,6 +345,35 @@ if( !function_exists('v_result') ){
     }
 }
 
+//付款方式
+if( !function_exists('pay_type') ){
+
+    function pay_type($v)
+    {
+        $result = '未知';
+        switch($v){
+            case 1:
+                $result = '现金';
+                break;
+            case 2:
+                $result = '转账';
+                break;
+            case 3:
+                $result = '刷卡';
+                break;
+            case 4:
+                $result = '微信';
+                break;
+            default:
+                $resul = '未知';
+                break;
+        }
+
+        return $result;
+    }
+}
+
+
 if ( ! function_exists('get_ip'))
 {
     function get_ip()

@@ -88,6 +88,9 @@
                   <input id="chk" type="radio" name="pay_type" value="2" <?php if($info['pay_type'] == '2'){ ?> checked <?php } ?>>转账  
                 </label>
                 <label class="radio">
+                  <input type="radio" name="pay_type" value="4" <?php if($info['pay_type'] == '4'){ ?> checked <?php } ?>>微信
+                </label>
+                <label class="radio">
                   <input type="radio" name="pay_type" value="3" <?php if($info['pay_type'] == '3'){ ?> checked <?php } ?>>刷卡
                 </label>
                       

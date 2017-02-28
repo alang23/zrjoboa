@@ -123,7 +123,7 @@ function flush(msg,url){
               <th>实收</th>
               <th>出票</th>
               <th>缴费</th>
-              <th>是否作废</th>
+              <th>付款方式</th>
               <th>扣税</th>
               <th>#</th>
             </tr>
@@ -142,7 +142,7 @@ function flush(msg,url){
               <td><?=$v['s_amount']?></td>
               <td><?=do_ticket($v['s_ticket'])?></td>
               <td><?=payment_status($v['payment'])?></td>
-              <td><?=bussiness_status($v['status'])?></td>
+              <td><?=pay_type($v['pay_type'])?></td>
               <td><?=get_invoice($v['invoice'])?></td>
 
               <td>

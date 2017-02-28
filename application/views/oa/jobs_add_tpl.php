@@ -138,18 +138,18 @@
           <label class="control-label">所在地：</label>
           <div class="controls">
             <select class="input-small" name="province" id="province" onchange="get_city(this.value);">
-              <option value="0-无">=省=</option>
+              <option value="0:无">=省=</option>
               <?php
                 foreach($province as $k => $v){
               ?>
-              <option value="<?=$v['id']?>-<?=$v['categoryname']?>"><?=$v['categoryname']?></option>
+              <option value="<?=$v['id']?>:<?=$v['categoryname']?>"><?=$v['categoryname']?></option>
               <?php
                 }
               ?>
             </select>
           
             <select class="input-small" name="city" id="city">
-              <option value="0-无">=市=</option>
+              <option value="0:无">=市=</option>
               
             </select>
           </div>

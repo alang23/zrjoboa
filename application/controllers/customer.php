@@ -135,6 +135,50 @@ class Customer extends Zrjoboa
 				$_city = array();
 				$_city = explode(':', $city);
 			}
+
+
+			if(!empty($_FILES['xieyi']['name'])){
+
+		        $config['upload_path'] = FCPATH.'/uploads/xieyi/';
+		                
+		        $config['allowed_types'] = '*';
+		        $config['file_name']  =date("YmdHis");
+
+		        $this->load->library('upload', $config);
+		        if ( ! $this->upload->do_upload('xieyi')){
+
+		            	$error = array('error' => $this->upload->display_errors());
+		               	exit(json_encode($error)) ;
+
+		            }else{
+
+		                $data = array('upload_data' => $this->upload->data());
+		                $add['xieyi'] = $data['upload_data']['orig_name'];
+		            }
+		    
+		     }
+
+			if(!empty($_FILES['zhizhao']['name'])){
+
+		        $config['upload_path'] = FCPATH.'/uploads/zhizhao/';
+		                
+		        $config['allowed_types'] = '*';
+		        $config['file_name']  =date("YmdHis");
+
+		        $this->load->library('upload', $config);
+		        if ( ! $this->upload->do_upload('zhizhao')){
+
+		            	$error = array('error' => $this->upload->display_errors());
+		               	exit(json_encode($error)) ;
+
+		            }else{
+
+		                $data = array('upload_data' => $this->upload->data());
+		                $add['zhizhao'] = $data['upload_data']['orig_name'];
+		            }
+		    
+		     }
+
 			
 			if(!empty($uid) && !empty($c_name)){
 
@@ -196,6 +240,9 @@ class Customer extends Zrjoboa
 			$nature = $this->categorylib->get_category($key);
 			$data['nature'] = $nature;
 
+			//print_r($nature);
+			//exit;
+
 			//行业
 			$industry = array();
 			$indu_key = 'WRZC_trade';
@@ -255,6 +302,48 @@ class Customer extends Zrjoboa
 				$_city = array();
 				$_city = explode(':', $city);
 			}
+
+			if(!empty($_FILES['xieyi']['name'])){
+
+		        $config['upload_path'] = FCPATH.'/uploads/xieyi/';
+		                
+		        $config['allowed_types'] = '*';
+		        $config['file_name']  =date("YmdHis");
+
+		        $this->load->library('upload', $config);
+		        if ( ! $this->upload->do_upload('xieyi')){
+
+		            	$error = array('error' => $this->upload->display_errors());
+		               	exit(json_encode($error)) ;
+
+		            }else{
+
+		                $data = array('upload_data' => $this->upload->data());
+		                $add['xieyi'] = $data['upload_data']['orig_name'];
+		            }
+		    
+		     }
+
+			if(!empty($_FILES['zhizhao']['name'])){
+
+		        $config['upload_path'] = FCPATH.'/uploads/zhizhao/';
+		                
+		        $config['allowed_types'] = '*';
+		        $config['file_name']  =date("YmdHis");
+
+		        $this->load->library('upload', $config);
+		        if ( ! $this->upload->do_upload('zhizhao')){
+
+		            	$error = array('error' => $this->upload->display_errors());
+		               	exit(json_encode($error)) ;
+
+		            }else{
+
+		                $data = array('upload_data' => $this->upload->data());
+		                $add['zhizhao'] = $data['upload_data']['orig_name'];
+		            }
+		    
+		     }
 			
 			if(!empty($id) && !empty($c_name)){
 
@@ -355,7 +444,7 @@ class Customer extends Zrjoboa
 		$id = $this->input->get('id');
 		$del_config = array('id'=>$id);
 		$del_data['isdel'] = 1;
-		if($this->company->update($del_config,$del_data)){
+		if($this->customer->update($del_config,$del_data)){
 			echo 'ok';
 		}else{
 			echo 'err';

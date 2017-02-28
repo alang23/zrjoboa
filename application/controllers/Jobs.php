@@ -104,14 +104,14 @@ class Jobs extends Zrjoboa
 
 			$province = $this->input->post('province');
 			$_province = array();
-			$_province = explode('-', $province);
+			$_province = explode(':', $province);
 			$data['province'] = $_province[0];
 			$data['province_cn'] = $_province[1];
 
 			//
 			$city = $this->input->post('city');
 			$_city = array();
-			$_city = explode('-', $city);
+			$_city = explode(':', $city);
 			$data['city'] = $_city[0];
 			$data['city_cn'] = $_city[1];
 

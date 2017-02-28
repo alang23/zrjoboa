@@ -16,6 +16,8 @@ class Bussiness extends Zrjoboa
 		$this->load->model('ad_type_mdl','ad_type');
 		$this->load->model('ad_file_mdl','ad_file');
 		$this->load->model('account_mdl','account');
+		$this->load->library('Smsapi','smsapi');
+
 
 	}
 
@@ -126,7 +128,13 @@ class Bussiness extends Zrjoboa
 				$add['addtime'] = time();
 				
 				if($this->bussiness_exhibition->add($add)){
-					$msg['title'] = '添加成功';
+					$mobile = $phone;
+					$msg_mm = '【汇佳购物】尊敬的用户您好：您已成功订购汇佳购物的商品，我们将在2-3天给您送货上门（春节期间的订单将于2月5号统一发出）如需帮助请致电4001689690，感谢您的支持';
+					$result = $this->smsapi->sendSMS( $mobile, $msg_mm);
+					if($result[1]==0){
+					}else{
+					}
+					$msg['title'] = '添加成功'.$result[1];
 					$msg['msg'] = '<a href="'.base_url().'bussiness/index">返回列表</a> | <a href="'.base_url().'bussiness/add_ex">继续添加</a>';
 					$this->tpl('msg/msg_success',$msg);
 				}else{
@@ -252,6 +260,13 @@ class Bussiness extends Zrjoboa
 		                   if( $this->ad_file->add($dataarr) )
 		                   {
 		                   		$this->bussiness_ad->update($update_config,$update_data);
+		                   			$mobile = $phone;
+									$msg_mm = '【汇佳购物】尊敬的用户您好：您已成功订购汇佳购物的商品，我们将在2-3天给您送货上门（春节期间的订单将于2月5号统一发出）如需帮助请致电4001689690，感谢您的支持';
+									$result = $this->smsapi->sendSMS( $mobile, $msg_mm);
+									if($result[1]==0){
+									}else{
+									}
+
 		                   			$msg['title'] = '添加成功';
 									$msg['msg'] = '<a href="'.base_url().'bussiness/ad">返回列表</a> | <a href="'.base_url().'bussiness/add_ad">继续添加</a>';
 									$this->tpl('msg/msg_success',$msg);

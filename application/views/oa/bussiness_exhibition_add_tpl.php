@@ -90,10 +90,13 @@
               <label class="control-label">付款方式：</label>    
               <div class="controls control-row-auto">
                 <label class="radio">
-                  <input type="radio" name="pay_type" value="now" checked="1">现金
+                  <input type="radio" name="pay_type" value="1" checked="1">现金
                 </label>
                 <label  class="radio">
                   <input id="chk" type="radio" name="pay_type" value="2">转账  
+                </label>
+                <label class="radio">
+                  <input type="radio" name="pay_type" value="4">微信
                 </label>
                 <label class="radio">
                   <input type="radio" name="pay_type" value="3">刷卡

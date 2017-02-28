@@ -28,7 +28,7 @@
       <div class="span24">
         <h4>添加客户</h4>
         <hr>
-       <form id="J_Form" name="form1" method="post" action="<?=base_url()?>customer/add" class="form-horizontal">
+       <form id="J_Form" name="form1" method="post" action="<?=base_url()?>customer/add" class="form-horizontal" enctype="multipart/form-data">
       <div class="control-group">
         <label class="control-label"><s>*</s>客户代表：</label>
         <div class="controls bui-form-group-select">
@@ -50,15 +50,15 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label">联系人：</label>
+        <label class="control-label"><s>*</s>联系人：</label>
         <div class="controls">
           <input type="text" class="input-large" name="contacts" id="contacts" onblur="check_contacts();" >
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label">联系电话：</label>
+        <label class="control-label"><s>*</s>联系电话：</label>
         <div class="controls">
-          <input type="text" class="input-large" id="tel" name="tel" >
+          <input type="text" class="input-large" id="tel" name="tel" onblur="check_tel();">
         </div>
       </div>
       <div class="control-group">
@@ -133,6 +133,22 @@
             </select>
         </div>
       </div>
+
+     <div class="control-group">
+        <label class="control-label">签约协议：</label>
+        <div class="controls  control-row-auto">
+          <input name="xieyi" type="file"  id="xieyi" class="input-large">
+
+        </div>
+      </div>
+     <div class="control-group">
+        <label class="control-label">营业执照：</label>
+        <div class="controls  control-row-auto">
+          <input name="zhizhao" type="file"  id="zhizhao" class="input-large">
+
+        </div>
+      </div>
+
       <div class="control-group">
         <label class="control-label">备注：</label>
         <div class="controls  control-row-auto">
@@ -209,9 +225,25 @@ function check_contacts()
   }
 }
 
+function check_tel()
+{
+
+  var tel = '';
+  tel = $("#tel").val();
+  if(tel == ''){
+    $("#tel-err").remove();
+      $("#tel").after('<span class="x-field-error" id="tel-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">请填写联系电话</label></span>');
+      return false;
+  }else{
+      $("#tel-err").remove();
+      return true;
+  }
+}
+
 function add_post()
 {
-  if(check_name() && check_contacts()){
+
+  if(check_name() && check_contacts() && check_tel()){
       document.form1.submit();
   }
 }

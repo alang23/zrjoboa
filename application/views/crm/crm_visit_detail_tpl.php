@@ -75,6 +75,7 @@
               <th>工作电话</th>
               <th>电话</th>
               <th>邮箱</th>
+              <th>生日</th>
               <th>备注</th>
               <th>#</th>
             </tr>
@@ -91,9 +92,11 @@
               <td><?=$cv['tel']?></td>
               <td><?=$cv['phone']?></td>
               <td><?=$cv['email']?></td>
+              <td><?=$cv['birthday']?></td>
               <td><?=$cv['remarks']?></td>
               <td>
                 <div id="showbtn">
+                <button class="button button-small button-warning" onclick="huifang('<?=$cv['realname']?>','<?=$cv['phone']?>');" id="btnShow2" value="<?=$cv['id']?>">回访</button>
             <a href="javascript:void(0);" rel="<?=$cv['id']?>"><button class="button button-small button-warning" id="btnShow2" value="<?=$cv['id']?>">编辑</button></a> 
               <a href="javascript:void(0);" onclick="del_contact('<?=$cv['id']?>');"><button class="button button-small button-danger">删除</button></a>
               </div>
@@ -258,7 +261,7 @@
       <form id="form" class="form-horizontal">
         <div class="row">
           <div class="control-group span8">
-            <label class="control-label">姓名：</label>
+            <label class="control-label"><s>*</s>姓名：</label>
             <div class="controls">
               <input type="text" class="input-normal control-text" name="realname" id="realname">
             </div>
@@ -274,7 +277,16 @@
         </div>
         <div class="row">
           <div class="control-group span15">
-            <label class="control-label">工作电话：</label>
+            <label class="control-label">生日：</label>
+            <div class="controls">
+              <input class="calendar" type="text" name="birthday" id="birthday">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="control-group span15">
+            <label class="control-label"><s>*</s>工作电话：</label>
             <div class="controls">
               <input class="input-normal control-text" type="text" name="tel" id="tel">
             </div>
@@ -283,7 +295,7 @@
 
         <div class="row">
           <div class="control-group span15">
-            <label class="control-label">手机：</label>
+            <label class="control-label"><s>*</s>手机：</label>
             <div class="controls">
               <input class="input-normal control-text" type="text" name="phone" id="phone">
             </div>
@@ -291,7 +303,7 @@
         </div>
           <div class="row">
           <div class="control-group span15">
-            <label class="control-label">职位：</label>
+            <label class="control-label"><s>*</s>职位：</label>
             <div class="controls">
               <input class="input-normal control-text" type="text" name="job" id="job">
             </div>
@@ -352,6 +364,15 @@
             </div>
           </div>
         </div>
+      <div class="row">
+          <div class="control-group span15">
+            <label class="control-label">生日：</label>
+            <div class="controls">
+              <input class="calendar" type="text" name="birthday2" id="birthday2">
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <div class="control-group span15">
             <label class="control-label">工作电话：</label>
@@ -491,6 +512,7 @@
                     $("#remarks2").val(data.data.remarks);
                     $("#job2").val(data.data.job); 
                     $("#id2").val(data.data.id);
+                    $("#birthday2").val(data.data.birthday);
                      dialog2.show();                
                 }else{
                   alert(data.msg);
@@ -536,6 +558,7 @@ function add_contacts()
   var job = $("#job").val();
   var company_id = $("#company_id").val();
   var sex = $("input[name='sex']:checked").val();
+  var birthday = $("#birthday").val();
 
   var aj = $.ajax( {
               url:'<?=base_url()?>crm/listvisit/add_contacts',
@@ -551,7 +574,8 @@ function add_contacts()
                   job : job,
                   company_id : company_id,
                   remarks : remarks,
-                  sex : sex
+                  sex : sex,
+                  birthday : birthday
                   
               },
               contentType:"application/x-www-form-urlencoded; charset=utf-8",
@@ -562,7 +586,7 @@ function add_contacts()
                 
                 if(data.code == '0'){
                  
-                  $("#tbody").append("<tr id=\"contact_"+data.data+"\"><td>"+realname+"</td><td>"+job+"</td><td>"+sex+"</td><td>"+tel+"</td><td>"+tel+"</td><td>"+email+"</td><td>"+remarks+"</td><td> <a href=''><button class=\"button button-small button-warning\">编辑</button></a>  <a href=\"javascript:void();\" onclick=\"del_contact('"+data.data+"')\"><button class=\"button button-small button-danger\">删除</button></a></td></tr>");
+                  $("#tbody").append("<tr id=\"contact_"+data.data+"\"><td>"+realname+"</td><td>"+job+"</td><td>"+sex+"</td><td>"+tel+"</td><td>"+tel+"</td><td>"+email+"</td><td>"+birthday+"</td><td>"+remarks+"</td><td><button class=\"button button-small button-warning\" onclick=\"huifang('"+realname+"','"+phone+"');\" id=\"btnShow2\" value=\"8\">回访</button> <a href=''><button class=\"button button-small button-warning\">编辑</button></a>  <a href=\"javascript:void();\" onclick=\"del_contact('"+data.data+"')\"><button class=\"button button-small button-danger\">删除</button></a></td></tr>");
                    $("#realname").val('');
                    $("#tel").val('');
                    $("#phone").val('');
@@ -571,6 +595,7 @@ function add_contacts()
                    $("#webchat").val('');
                    $("#remarks").val('');
                    $("#job").val('');
+                   $("#birthday").val('');
                 }else{
                   alert(data.msg);
                 }              
@@ -599,7 +624,7 @@ function edit_contacts(id,act)
               success:function(data){
                
                 if(data.code == '0'){
-
+                    alert(data.birthday);
                     $("#realname2").val(data.realname);
                     $("#tel2").val(data.tel);
                     $("#phone2").val(data.phone);
@@ -607,7 +632,9 @@ function edit_contacts(id,act)
                     $("#qq2").val(data.qq);
                     $("#webchat2").val(data.webchat);
                     $("#remarks2").val(data.remarks);
-                    $("#job2").val(data.job);                 
+                    $("#job2").val(data.job);
+                    $("#birthday2").val(data.birthday); 
+
                 }else{
                   alert(data.msg);
                 }              
@@ -632,6 +659,7 @@ function update_contacts(act)
   var company_id = $("#company_id").val();
   var sex = $("input[name='sex2']:checked").val();
   var id = $("#id2").val();
+  var birthday = $("#birthday2").val();
 
   var aj = $.ajax( {
               url:'<?=base_url()?>crm/listvisit/update_contacts',
@@ -649,7 +677,8 @@ function update_contacts(act)
                   remarks : remarks,
                   sex : sex,
                   act : act,
-                  id : id
+                  id : id,
+                  birthday : birthday
                   
               },
               contentType:"application/x-www-form-urlencoded; charset=utf-8",
@@ -793,7 +822,11 @@ function _del_contact(id)
           });
 }
 
-
+function huifang(contacts,phone)
+{
+  $("#contacts").val(contacts);
+  $("#v_value").val(phone);
+}
 
 function do_post()
 {
