@@ -16,6 +16,8 @@ class Finance extends Zrjoboa
 		$this->load->model('ad_type_mdl','ad_type');
 		$this->load->model('ad_file_mdl','ad_file');
 		$this->load->model('account_mdl','account');
+		$this->load->model('Company_mdl','company');
+		$this->load->model('Account_mdl','account');
 
 	}
 
@@ -372,7 +374,12 @@ class Finance extends Zrjoboa
 		$info = $this->bussiness_exhibition->get_one_by_where($where);
 		$data['info'] = $info;
 
-
+		//公司信息
+		$company = array();
+		$_config['where'] = array('a.id'=>$info['uid']);
+		$company = $this->account->get_one_by_join($_config);
+		$data['company'] = $company;
+		
 		$this->tpl('oa/finance_scene_detail_tpl',$data);
 	}
 

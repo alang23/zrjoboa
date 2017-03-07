@@ -12,11 +12,13 @@ class Bussiness extends Zrjoboa
 		$this->load->model('booth_mdl','booth');
 		$this->load->model('bussiness_exhibition_mdl','bussiness_exhibition');
 		$this->load->model('bussiness_ad_mdl','bussiness_ad');
-		$this->load->model('customer_mdl','customer');
+		$this->load->model('Customer_mdl','customer');
 		$this->load->model('ad_type_mdl','ad_type');
 		$this->load->model('ad_file_mdl','ad_file');
 		$this->load->model('account_mdl','account');
 		$this->load->library('Smsapi','smsapi');
+		$this->load->model('Exhibition_mdl','exhibition');
+
 
 
 	}
@@ -31,8 +33,13 @@ class Bussiness extends Zrjoboa
 		$type = empty($type) ? 'ex' : $type;
 
 		//展位
+		$userinfo = $this->userinfo;
+		$where_b = array();
+		if($userinfo['company_id'] != '0'){
+        	$where_b['where']['company_id'] = $userinfo['company_id'];
+        }
 		$booth = array();
-		$booth = $this->get_booth();
+		$booth = $this->exhibition->getList($where_b);
 		$data['booth'] = $booth;
 		
 		//收费类型
@@ -60,6 +67,12 @@ class Bussiness extends Zrjoboa
 
 		}
 
+		//到场次数
+			$where['where'] = array('id'=>$bussiness_id);
+			$customer = array();
+			$customer = $this->customer->get_one_by_where($where);
+			$data['customer'] = $customer;
+		 //print_r($customer);
 
 		if($type == 'ex'){
 
@@ -91,12 +104,14 @@ class Bussiness extends Zrjoboa
 			$e_food = $this->input->post('e_food');
 			$contacts = $this->input->post('contacts');
 			$phone = $this->input->post('phone');
+			$is_vip = $this->input->post('is_vip');
+			$num_ex = $this->input->post('num_ex');
 
 			$_info = array();
-			$_info = explode('-', $bussiness_id);
+			$_info = explode(':', $bussiness_id);
 
-			$_ad = array();
-			$_ad = explode('-', $no_id);
+			//$_ad = array();
+			//$_ad = explode(':', $no_id);
 
 			//客户代表
 			$account_info = array();
@@ -112,8 +127,8 @@ class Bussiness extends Zrjoboa
 				$add['uid'] = $uid;
 				$add['bussiness_id'] = $_info[0];
 				$add['c_name'] = $_info[1];
-				$add['no_id'] = $_ad[0];
-				$add['no_name'] = $_ad[1];
+				$add['no_id'] = 0;
+				$add['no_name'] = $no_id;
 				$add['is_member'] = intval($is_member);
 				$add['payment'] = intval($payment);
 				$add['invoice'] = intval($invoice);
@@ -125,16 +140,26 @@ class Bussiness extends Zrjoboa
 				$add['e_food'] = $e_food;
 				$add['contacts']= $contacts;
 				$add['phone'] = $phone;
+				$add['is_vip'] = intval($is_vip);
+				//$add['num_ex'] = $num_ex;
 				$add['addtime'] = time();
 				
 				if($this->bussiness_exhibition->add($add)){
+					//修改参展数据
+					$update_config = array('id'=>$bussiness_id);
+					$update_data['num_ex'] = $num_ex+1;
+					$this->customer->update($update_config,$update_data);
 					$mobile = $phone;
-					$msg_mm = '【汇佳购物】尊敬的用户您好：您已成功订购汇佳购物的商品，我们将在2-3天给您送货上门（春节期间的订单将于2月5号统一发出）如需帮助请致电4001689690，感谢您的支持';
-					$result = $this->smsapi->sendSMS( $mobile, $msg_mm);
-					if($result[1]==0){
-					}else{
+					if(!empty($mobile)){
+						$msg_mm = '【汇佳购物】尊敬的用户您好：您已成功订购汇佳购物的商品，我们将在2-3天给您送货上门（春节期间的订单将于2月5号统一发出）如需帮助请致电4001689690，感谢您的支持';
+						$result = $this->smsapi->sendSMS( $mobile, $msg_mm);
+						if($result[1]==0){
+						}else{
+							
+						}
 					}
-					$msg['title'] = '添加成功'.$result[1];
+
+					$msg['title'] = '添加成功';
 					$msg['msg'] = '<a href="'.base_url().'bussiness/index">返回列表</a> | <a href="'.base_url().'bussiness/add_ex">继续添加</a>';
 					$this->tpl('msg/msg_success',$msg);
 				}else{
@@ -321,14 +346,14 @@ class Bussiness extends Zrjoboa
 			$id = $this->input->post('id');
 
 
-			$_ad = array();
-			$_ad = explode('-', $no_id);
+			//$_ad = array();
+			//$_ad = explode(':', $no_id);
 			
 			if(!empty($show_time) && !empty($id)){
 
 				$add['show_time'] = strtotime($show_time);				
-				$add['no_id'] = $_ad[0];
-				$add['no_name'] = $_ad[1];
+				$add['no_id'] = 0;
+				$add['no_name'] = $no_id;
 				$add['is_member'] = intval($is_member);
 				$add['payment'] = intval($payment);
 				$add['invoice'] = intval($invoice);
@@ -580,6 +605,20 @@ class Bussiness extends Zrjoboa
 		$account = $this->account->getList($where);
 
 		return $account;
+	}
+
+	public function get_customer_info()
+	{
+		$id = $this->input->post('id');
+		$where['where'] = array('id'=>$id);
+		$info = $this->customer->get_one_by_where($where);
+
+		$msg = array(
+			'code'=>0,
+			'msg'=>'ok',
+			'data'=>$info
+			);
+		echo json_encode($msg);
 	}
 
 	//企业

@@ -47,21 +47,31 @@
       <div class="control-group">
         <label class="control-label"><s>*</s>展位号：</label>
         <div class="controls">
+        <!--
                 <select name="no_id" class="input-normal"> 
                 <?php
                   foreach($booth as $bk => $bv){
                 ?>
-                  <option value="<?=$bv['id']?>-<?=$bv['booth_name']?>"  <?php if($bv['id']==$info['no_id']){ ?> selected <?php } ?> ><?=$bv['booth_name']?></option>
+                  <option value="<?=$bv['id']?>:<?=$bv['booth_name']?>"  <?php if($bv['id']==$info['no_id']){ ?> selected <?php } ?> ><?=$bv['booth_name']?></option>
                 <?php
                   }
                 ?>
                 </select>
+                -->
+                  <input type="text"  class="input-small" name="no_id" id="no_id" value="<?=$info['no_name']?>" >
+
         </div>
       </div>
       <div class="control-group">
         <label class="control-label">是否会员：</label>
             <div class="controls" >
               <input name="is_member" type="checkbox" value="1" <?php if($info['is_member']=='1'){ ?> checked="checked" <?php } ?> />
+            </div>
+      </div>
+            <div class="control-group">
+        <label class="control-label">VIP签到：</label>
+            <div class="controls" >
+              <input name="is_vip" type="checkbox" value="1" <?php if($info['is_vip']=='1'){ ?> checked="checked" <?php } ?>/>
             </div>
       </div>
       <div class="control-group">

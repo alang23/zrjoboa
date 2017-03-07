@@ -33,7 +33,12 @@
                   </div>
                 </div>
      
-     
+                <div class="control-group">
+                  <label class="control-label">求职打印机：</label>
+                  <div class="controls">
+                    <input type="text" name="works" value="<?php echo  isset($info['works']['tag_v'] ) ?$info['works']['tag_v'] : ''; ?>">                   
+                  </div>
+                </div>
                 <hr>
                 <div class="form-actions span5 offset3">
                   <button id="btnSearch" type="submit" class="button button-primary">提交</button>

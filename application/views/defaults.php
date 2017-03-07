@@ -48,8 +48,9 @@
           menu:[{
               text:'业务管理',
               items:[
-                {id:'main',text:'客户列表',href:'<?=base_url()?>customer',closeable : false},
-                {id:'customer',text:'添加客户',href:'<?=base_url()?>customer/add'},
+               {id:'main',text:'我的桌面',href:'<?=base_url()?>main',closeable : false},
+                {id:'customer',text:'客户列表',href:'<?=base_url()?>customer'},
+                {id:'customer_add',text:'添加客户',href:'<?=base_url()?>customer/add'},
                 {id:'add_bussiness',text:'办理业务',href:'<?=base_url()?>bussiness/index'},
                 {id:'second-menu',text:'现场视图',href:'<?=base_url()?>bussiness/scene'},
                 {id:'dyna-menu',text:'广告视图',href:'<?=base_url()?>bussiness/ad'},

@@ -34,11 +34,11 @@
       <div class="control-group">
         <label class="control-label">企业：</label>
         <div class="controls  control-row-auto">
-                <select name="bussiness_id" class="input-large"> 
+                <select name="bussiness_id" id="bussiness_id" class="input-large" onchange="get_customer_info()"> 
                 <?php
                   foreach($bussiness as $bk => $bv){
                 ?>
-                  <option value="<?=$bv['id']?>-<?=$bv['c_name']?>" <?php if($bussiness_id == $bv['id']){?> selected <?php } ?> ><?=$bv['c_name']?></option>
+                  <option value="<?=$bv['id']?>:<?=$bv['c_name']?>" <?php if($bussiness_id == $bv['id']){?> selected <?php } ?> ><?=$bv['c_name']?></option>
                 <?php
                   }
                 ?>
@@ -47,29 +47,45 @@
       </div>
 
       <div class="control-group">
-        <label class="control-label">参展时间</label>
+        <label class="control-label">参展时间:</label>
         <div class="controls">
           <input type="text" class="calendar" name="show_time" id="show_time" value="<?=date("Y-m-d")?>">
+        </div>
+      </div>
+            <div class="control-group">
+        <label class="control-label">到场次数:</label>
+        <div class="controls">
+          <input type="text"  class="input-small" name="num_ex" id="num_ex" value="<?=$customer['num_ex']?>" disabled="disabled">
         </div>
       </div>
       <div class="control-group">
         <label class="control-label"><s>*</s>展位号：</label>
         <div class="controls">
+        <!--
                 <select name="no_id" class="input-normal"> 
                 <?php
                   foreach($booth as $bk => $bv){
                 ?>
-                  <option value="<?=$bv['id']?>-<?=$bv['booth_name']?>"  ><?=$bv['booth_name']?></option>
+                  <option value="<?=$bv['id']?>:<?=$bv['ex_name']?>"  ><?=$bv['ex_name']?></option>
                 <?php
                   }
                 ?>
                 </select>
+                -->
+          <input type="text"  class="input-small" name="no_id" id="no_id" value="" >
+
         </div>
       </div>
       <div class="control-group">
         <label class="control-label">是否会员：</label>
             <div class="controls" >
               <input name="is_member" type="checkbox" value="1" />
+            </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">VIP签到：</label>
+            <div class="controls" >
+              <input name="is_vip" type="checkbox" value="1" />
             </div>
       </div>
       <div class="control-group">
@@ -209,6 +225,42 @@ function check_shouwtime()
       $("#show_time-err").remove();
       return true;
   }
+}
+
+$(function(){
+  get_customer_info();
+
+})
+
+function get_customer_info()
+{
+          var idstr = $("#bussiness_id").val();
+
+          var strs= new Array(); //定义一数组
+          strs=idstr.split("-"); //字符分割 
+          var id = strs[0];
+         
+          var aj = $.ajax( {
+              url:'<?=base_url()?>bussiness/get_customer_info',
+              data:{                 
+                  id : id                 
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+                //alert(data.data.num_ex);
+                if(data.code == 0){
+                  $("#num_ex").val(data.data.num_ex);
+                }else{
+                    alert(data.msg);
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
 }
 
 

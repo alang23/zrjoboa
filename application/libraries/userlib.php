@@ -60,11 +60,10 @@ class Userlib
 
 		$token = $this->check_user_login();
 		$_role = array();
-
+		
 		$_role_where['where'] = array('role_id'=>$token['role']);
 		self::$_ci->load->model('role_tag_mdl','role_tag');
 		$_role = self::$_ci->role_tag->getList($_role_where);
-
 		
 		if(empty($_role)){
 			$data['msg'] = '无权限';

@@ -14,8 +14,8 @@ class Company extends Zrjoboa
 	public function index()
 	{
 
-		$check_role = $this->userlib->check_role('company_list');
-
+		//$check_role = $this->userlib->check_role('company_list');
+		
 		$page = isset($_GET['page']) ? $_GET['page'] : 0;
         $page = ($page && is_numeric($page)) ? intval($page) : 1;
 

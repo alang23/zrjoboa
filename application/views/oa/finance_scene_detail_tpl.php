@@ -23,7 +23,7 @@
         <h3>票据详情</h3>   
         <div class="row detail-row">
           <div class="span6">
-          <label>出票日期：</label><span class="detail-text">12584863145</span>   
+          <label>出票日期：</label><span class="detail-text"><?=date("Y-m-d H:i:s")?></span>   
           </div>
           <div class="span6">
           <label>票据代码：</label><span class="detail-text">545645454</span>
@@ -34,34 +34,38 @@
         </div>    
         <div class="row detail-row">
           <div class="span6">
-            <label>付款方名称：</label><span class="detail-text">浙江省金华市</span>
+            <label>付款方名称：</label><span class="detail-text"><?=$info['c_name']?></span>
           </div>
           <div class="span6">
             <label>付款方式：</label>
                 <label class="radio">
-                  <input type="radio" name="pay_type" value="now" checked="1">现金
+                  <input type="radio" name="pay_type" value="now" checked="1" <?php if($info['pay_type'] == '1'){ ?> checked="true" <?php } ?>>现金
                 </label>
                 <label  class="radio">
-                  <input id="chk" type="radio" name="pay_type" value="2">转账  
+                  <input id="chk" type="radio" name="pay_type" value="2" <?php if($info['pay_type'] == '2'){ ?> checked="true" <?php } ?>>转账  
                 </label>
+                 <label class="radio">
+                  <input type="radio" name="pay_type" value="4" <?php if($info['pay_type'] == '4'){ ?> checked="true" <?php } ?>>刷卡
+                </label> 
                 <label class="radio">
-                  <input type="radio" name="pay_type" value="3">刷卡
-                </label>          </div>
+                  <input type="radio" name="pay_type" value="3" <?php if($info['pay_type'] == '3'){ ?> checked="true" <?php } ?>>刷卡
+                </label>          
+                </div>
           <div class="span6">
             <label>是否扣税：</label>            
-            <input name="payment" type="checkbox" value="1" />
+            <input name="payment" type="checkbox" value="1" <?php if($info['invoice'] == 1){ ?> checked="true" <?php } ?>/>
 
           </div>
         </div>    
         <div class="row detail-row">
         <div class="span6">
-            <label >参展时间：</label><span class="detail-text">2017-02-02</span>
+            <label >参展时间：</label><span class="detail-text"><?=date("Y-m-d",$info['show_time'])?></span>
           </div>
         <div class="span6">
-            <label >展位号：</label><span class="detail-text">D23565556256</span>
+            <label >展位号：</label><span class="detail-text"><?=$info['no_name']?></span>
           </div>
           <div class="span6">
-            <label>收款方名称：</label><span class="detail-text">墨绿色直筒牛仔裤</span>
+            <label>收款方名称：</label><span class="detail-text"><?=$company['name']?></span>
           </div>
         </div>    
   
@@ -93,7 +97,7 @@
 
                          <tr>
                             
-                            <td colspan="4">王五 王明</td>
+                            <td colspan="4"></td>
                           </tr>
                         </tbody>
                       </table>

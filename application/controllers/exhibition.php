@@ -10,7 +10,7 @@ class Exhibition extends Zrjoboa
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('exhibition_mdl','exhibition');
+		$this->load->model('Exhibition_mdl','exhibition');
 		$this->load->model('Company_mdl','company');
 	}
 
@@ -83,9 +83,13 @@ class Exhibition extends Zrjoboa
 				$add['ex_name'] = $ex_name;
 
 				if($this->exhibition->add($add)){
-					exit('ok');
+					$msg['title'] = '添加成功';
+					$msg['msg'] = '<a href="'.base_url().'exhibition/index">返回列表</a> | <a href="'.base_url().'exhibition/add">继续添加</a>';
+					$this->tpl('msg/msg_success',$msg);
 				}else{
-					exit('err');
+					$msg['title'] = '修改失败';
+					$msg['msg'] = '<a href="'.base_url().'exhibition/index">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
 				}
 			}
 		}else{

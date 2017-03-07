@@ -87,8 +87,8 @@
             <div class="actions-bar">
               <div class="row form-actions ">
                 <div class="span13 offset3 ">
-                  <button type="submit" class="button button-primary">确定</button>
-                  <button type="reset" class="button">取消</button>
+                  <a href="<?=base_url()?>account/index" ><button type="button" class="button button-primary" >返回</button></a>
+                 
                 </div>
               </div>
             </div>

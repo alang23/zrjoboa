@@ -145,7 +145,7 @@ class Account extends Zrjoboa
 		}else{
 
 			$roles = $this->userlib->check_role('access_add');
-
+			
 			$data['roles'] = $roles;
 			$company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
 			$data['company_id'] = $company_id;
@@ -218,12 +218,18 @@ class Account extends Zrjoboa
 
 				$update_config = array('id'=>$id);
 				if($this->account->update($update_config,$update_data)){
-					exit('ok');
+					$msg['title'] = '修改成功';
+					$msg['msg'] = '<a href="'.base_url().'account/index">返回列表</a> ';
+					$this->tpl('msg/msg_success',$msg);
 				}else{
-					exit('error');
+					$msg['title'] = '修改失败，没有任何修改内容';
+					$msg['msg'] = '<a href="'.base_url().'account/index">返回列表</a> ';
+					$this->tpl('msg/msg_errors',$msg);
 				}
 			}else{
-				exit('canshu');
+					$msg['title'] = '修改失败,缺少参数';
+					$msg['msg'] = '<a href="'.base_url().'account/index">返回列表</a> ';
+					$this->tpl('msg/msg_errors',$msg);
 			}
 
 		}else{

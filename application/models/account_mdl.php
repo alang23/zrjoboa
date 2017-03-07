@@ -52,7 +52,7 @@ class Account_mdl extends Zroa_Model
 					->from($this->table_name.' as a')
 					->join($this->table_company.' as c','c.id=a.company_id','left')
 					->get()->result_array();
-					echo $this->db->last_query();
+					//echo $this->db->last_query();
 					
 
 
@@ -90,9 +90,10 @@ class Account_mdl extends Zroa_Model
 
 		$info = array();
 		$info = $this->db->select('
-									r.role_name,r.role_tag,r.id,a.*')
+									r.role_name,r.role_tag,r.id,a.*,c.name')
 					->from($this->table_name.' as a')
 					->join($this->table_role.' as r','r.id=a.role','left')
+					->join($this->table_company.' as c','c.id=a.company_id','left')
 					->get()->row_array();
 					
 

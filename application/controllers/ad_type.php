@@ -59,7 +59,7 @@ class Ad_type extends Zrjoboa
 	{
 		$userinfo = $this->userinfo;
 		$data['userinfo'] = $userinfo;
-
+		//print_R($userinfo);
 		if(!empty($_POST)){
 
 			$ad_name = $this->input->post('ad_name');
@@ -100,7 +100,7 @@ class Ad_type extends Zrjoboa
 				$data['company'] = $company;
 
 			}
-
+			
 			$this->load->view('oa/ad_type_add_tpl',$data);
 		}
 

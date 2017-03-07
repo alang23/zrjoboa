@@ -30,6 +30,8 @@ class Setting extends Zrjoboa
 
 			$canpiao = $this->input->post('canpiao');
 			$pingju = $this->input->post('pingju');
+			$works = $this->input->post('works');
+
 			if($userinfo['company_id'] == '0'){
 				$company_id = $this->input->post('company_id');
 			}else{
@@ -73,11 +75,30 @@ class Setting extends Zrjoboa
 
 			}
 
+			$c_config_w['where'] = array('tags'=>'works','company_id'=>$company_id);
+			$check_info_w = $this->setting->get_one_by_where($c_config_w);
+
+			if(empty($check_info_w)){
+
+				$add_data['tags'] = 'works';
+				$add_data['tag_v'] = $works;
+				$add_data['company_id'] = $company_id;
+				$add_data['addtime'] = time();
+				$this->setting->add($add_data);
+
+			}else{
+
+				$config_w = array('tags'=>'works','company_id'=>$company_id);
+				$updata_w = array('tag_v'=>$works);
+				$this->setting->update($config_w,$updata_w);
+
+			}
+
 			redirect('setting/prints');
 
 		}else{
 
-			$where['where_in'] = array('key'=>'tags','value'=>array('canpiao','pingju'));
+			$where['where_in'] = array('key'=>'tags','value'=>array('canpiao','pingju','works'));
 			$where['where'] = array('company_id'=>$userinfo['company_id']);
 			$list = array();
 			$list = $this->setting->getList($where);
