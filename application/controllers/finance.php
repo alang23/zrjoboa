@@ -431,7 +431,10 @@ class Finance extends Zrjoboa
 		$e_food = $this->input->post('e_food');
 		$pay_type = $this->input->post('pay_type');
 		$invoice = $this->input->post('invoice');
-
+		$payment = $this->input->post('payment');
+		$is_member = $this->input->post('is_member');
+		//print_r($_POST);
+		//exit;
 		if(!empty($id) && !empty($pay_type)){
 
 			$update_config = array('id'=>$id);
@@ -444,7 +447,8 @@ class Finance extends Zrjoboa
 			$update_data['s_uid'] = $userinfo['id'];
 			$update_data['s_name'] = $userinfo['realname'];
 			$update_data['s_time'] = time();
-			$update_data['status'] = 1;
+			$update_data['payment'] = $payment;
+			$update_data['status'] = 0;
 
 			if($this->bussiness_exhibition->update($update_config,$update_data)){
 				exit('ok');

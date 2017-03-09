@@ -39,7 +39,7 @@
           <div class="span6">
             <label>付款方式：</label>
                 <label class="radio">
-                  <input type="radio" name="pay_type" value="now" checked="1" <?php if($info['pay_type'] == '1'){ ?> checked="true" <?php } ?>>现金
+                  <input type="radio" name="pay_type" value="1" checked="1" <?php if($info['pay_type'] == '1'){ ?> checked="true" <?php } ?>>现金
                 </label>
                 <label  class="radio">
                   <input id="chk" type="radio" name="pay_type" value="2" <?php if($info['pay_type'] == '2'){ ?> checked="true" <?php } ?>>转账  
@@ -53,7 +53,7 @@
                 </div>
           <div class="span6">
             <label>是否扣税：</label>            
-            <input name="payment" type="checkbox" value="1" <?php if($info['invoice'] == 1){ ?> checked="true" <?php } ?>/>
+            <input name="invoice" type="checkbox" value="1" <?php if($info['invoice'] == 1){ ?> checked="true" <?php } ?>/>
 
           </div>
         </div>    
@@ -121,11 +121,11 @@
           </div>
           <div class="span4">
             <label>是否是会员：</label>
-            <input name="payment" type="checkbox" value="1" />
+            <input name="is_member" type="checkbox" value="1" <?php if($info['is_member'] == 1){ ?> checked="true" <?php } ?>/>
           </div>
           <div class="span4">
             <label>已缴费：</label>
-            <input name="payment" type="checkbox" value="1" />
+            <input name="payment" type="checkbox" value="1" <?php if($info['payment'] == 1){ ?> checked="true" <?php } ?>/>
           </div>
         </div> 
         <div class="row detail-row">

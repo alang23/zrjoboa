@@ -76,7 +76,7 @@
             </select>
           
             <select class="input-small" name="city" id="city">
-              <option value="0-无">=市=</option>
+              <option value="0:无">=市=</option>
               
             </select>
           </div>

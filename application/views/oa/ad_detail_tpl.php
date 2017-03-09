@@ -19,14 +19,14 @@
               <a href="#">首页</a> <span class="divider">/</span>
             </li>
             <li>
-              <a href="#">商家管理</a> <span class="divider">/</span>
+              <a href="#">业务管理</a> <span class="divider">/</span>
             </li>
-            <li class="active">价格规则列表</li>
+            <li class="active">业务详情</li>
           </ul>
 
           <div class="detail-section">  
 
-          <h3>现场业务</h3>
+          <h3>广告视图</h3>
           <hr>
           <form action="" class="form-horizontal form-horizontal-simple">
             <div class="control-group">
@@ -39,7 +39,7 @@
             <div class="control-group">
               <label class="control-label">会员：</label>
               <div class="controls">
-              <span class="control-text"><?=$info['is_member']?></span>
+              <span class="control-text"><?=is_member($info['is_member'])?></span>
               </div>
             </div>
 
@@ -79,7 +79,7 @@
             <div class="control-group">
               <label class="control-label">缴费情况：</label>
               <div class="controls">
-              <span class="control-text"><?=$info['payment']?></span>
+              <span class="control-text"><?=payment_status($info['payment'])?></span>
               </div>
             </div>
                         <div class="control-group">
@@ -95,17 +95,6 @@
               </div>
             </div>
 
-          <div class="control-group">
-            <label class="control-label">状态：</label>
-            <div class="controls bui-form-group-select">
-              <select class="input-small" name="status">
-                      <option value="0">未审核</option>
-                      <option value="1">审核通过</option>
-                      <option value="2">未审核通过</option>
-                      </select>&nbsp;&nbsp;
-            </div>
-          </div>
-
             <div class="control-group">
               <label class="control-label">备注：</label>
               <div class="controls">
@@ -115,38 +104,10 @@
 
 
 
-            <?php
-              if($info['status'] != 0 ){
-            ?>
-            <div class="control-group">
-              <label class="control-label">审核人：</label>
-              <div class="controls">
-              <span class="control-text"><?=$info['s_uid']?></span>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <label class="control-label">审核时间：</label>
-              <div class="controls">
-              <span class="control-text"><?=$info['s_time']?></span>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <label class="control-label">审核备注：</label>
-              <div class="controls">
-              <span class="control-text"><?=$info['content']?></span>
-              </div>
-            </div>
-            <?php
-              }
-            ?>
-
             <div class="actions-bar">
               <div class="row form-actions ">
                 <div class="span13 offset3 ">
-                  <button type="submit" class="button button-primary">确定</button>
-                  <button type="reset" class="button">取消</button>
+                  <a href="javascript:void(0);" onclick="history.back(-1);"><button type="button" class="button button-primary">确定</button></a>
                 </div>
               </div>
             </div>

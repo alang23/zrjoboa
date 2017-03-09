@@ -144,7 +144,7 @@ function flush(msg,url){
               <div class="row form-actions ">
                 <div class="span10 offset3 ">
                    <a href="<?=base_url()?>customer/edit?id=<?=$info['id']?>"><button type="button"  class="button button-success">编辑</button></a>
-                    <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>customer/del?id=<?=$info['id']?>')"><button type="button"  class="button button-danger">编辑</button></a>
+                    <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>customer/del?id=<?=$info['id']?>')"><button type="button"  class="button button-danger">删除</button></a>
                 </div>
               </div>
             </div>

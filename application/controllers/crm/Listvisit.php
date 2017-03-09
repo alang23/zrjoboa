@@ -43,7 +43,7 @@ class Listvisit extends Zrjoboa
         $count = $this->customer->get_count($countwhere);
         $data['count'] = $count;
 
-        $pageconfig['base_url'] = base_url('/customer/index?');
+        $pageconfig['base_url'] = base_url('/listvisit/index?');
         $pageconfig['count'] = $count;
         $pageconfig['limit'] = $limit;
         $data['page'] = home_page($pageconfig);

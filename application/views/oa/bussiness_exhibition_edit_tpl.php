@@ -92,7 +92,7 @@
               <label class="control-label">付款方式：</label>    
               <div class="controls control-row-auto">
                 <label class="radio">
-                  <input type="radio" name="pay_type" value="now" checked="1" <?php if($info['pay_type'] == '1'){ ?> checked <?php } ?>>现金
+                  <input type="radio" name="pay_type" value="1" checked="1" <?php if($info['pay_type'] == '1'){ ?> checked <?php } ?>>现金
                 </label>
                 <label  class="radio">
                   <input id="chk" type="radio" name="pay_type" value="2" <?php if($info['pay_type'] == '2'){ ?> checked <?php } ?>>转账  
@@ -205,11 +205,25 @@ function check_shouwtime()
       return true;
   }
 }
+//比较该收金额和实收金额-实收金额要大于或等于应收金额
+function check_amoutn()
+{
+    var y_amount = $("#y_amount").val();
+    var s_amount = $("#s_amount").val();
+    if(s_amount > y_amount ){
+      $("#s_amount").after('<span class="x-field-error" id="s_amount-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">实收金额不能大于应收金额</label></span>');
+      return false;    
+    }else{
+        $("#s_amount-err").remove();
+        return true;
 
+
+    }
+}
 
 function do_post()
 {
-  if(check_shouwtime()){
+  if(check_shouwtime() && check_amoutn()){
     document.form1.submit();
   }
 }

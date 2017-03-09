@@ -197,7 +197,9 @@
       </div>
     </div>  
     <script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
-<script src="http://g.tbcdn.cn/fi/bui/seed-min.js?t=201212261326"></script>    
+<script src="http://g.tbcdn.cn/fi/bui/seed-min.js?t=201212261326"></script> 
+    <script type="text/javascript" src="<?=base_url()?>static/layer/layer.js"></script>
+
 <!-- script start --> 
     <script type="text/javascript">
       BUI.use('bui/form',function(Form){
@@ -225,6 +227,22 @@ function check_shouwtime()
       $("#show_time-err").remove();
       return true;
   }
+}
+
+//比较该收金额和实收金额-实收金额要大于或等于应收金额
+function check_amoutn()
+{
+    var y_amount = $("#y_amount").val();
+    var s_amount = $("#s_amount").val();
+    if(s_amount > y_amount ){
+      $("#s_amount").after('<span class="x-field-error" id="s_amount-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">实收金额不能大于应收金额</label></span>');
+      return false;    
+    }else{
+        $("#s_amount-err").remove();
+        return true;
+
+
+    }
 }
 
 $(function(){
@@ -266,7 +284,7 @@ function get_customer_info()
 
 function do_post()
 {
-  if(check_shouwtime()){
+  if(check_shouwtime() && check_amoutn()){
     document.form1.submit();
   }
 }
