@@ -22,51 +22,32 @@
           <li>
             <a href="#">业务办理</a> <span class="divider">/</span>
           </li>
-          <li class="active">添加广告业务</li>
+          <li class="active">编辑广告业务</li>
         </ul>
     </div>
       <div class="span24">
-      <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$bussiness_id?>"><button class="button">现场业务</button></a>
-      <button class="button  button-success">广告业务</button>
+
         <hr>
-      <form id="J_Form" name="form1" method="post" action="<?=base_url()?>bussiness/add_ad" class="form-horizontal" enctype="multipart/form-data">
+      <form id="J_Form" name="form1" method="post" action="<?=base_url()?>bussiness/edit_ad" class="form-horizontal" enctype="multipart/form-data">
       
       <div class="control-group">
         <label class="control-label">企业：</label>
         <div class="controls  control-row-auto">
-                <select name="bussiness_id" class="input-normal"> 
-                <?php
-                  foreach($bussiness as $bk => $bv){
-                ?>
-                  <option value="<?=$bv['id']?>-<?=$bv['c_name']?>" <?php if($bussiness_id == $bv['id']){?> selected <?php } ?> ><?=$bv['c_name']?></option>
-                <?php
-                  }
-                ?>
-                </select>
+              <?=$info['c_name']?>
+
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label">业务日期：</label>
         <div class="controls">
-          <input type="text" class="calendar" name="bussiness_time" value="<?=date("Y-m-d")?>">
+          <input type="text" class="calendar" name="bussiness_time" value="<?=date("Y-m-d",$info['show_time'])?>">
         </div>
       </div>
       <div class="control-group">
         <label class="control-label"><s>*</s>广告类型：</label>
         <div class="controls">
-        <!--
-                <select name="ad_type" class="input-normal"> 
-                <?php
-                  foreach($ad_type as $atk => $atv){
-                ?>
-                  <option value="<?=$atv['id']?>-<?=$atv['ad_name']?>"  ><?=$atv['ad_name']?></option>
-                <?php
-                  }
-                ?>
-                </select>
-                -->
-          <input name="ad_type" type="text"  id="ad_type" class="input-small" value="" >
+          <input name="ad_type" type="text"  id="ad_type" class="input-small" value="<?=$info['ad_type_name']?>" >
 
         </div>
       </div>
@@ -74,45 +55,48 @@
       <div class="control-group">
         <label class="control-label">已缴费：</label>
         <div class="controls">
-              <input name="payment" type="checkbox" value="1" />
+              <input name="payment" type="checkbox" value="1" <?php if($info['payment']=='1'){ ?> checked="checked" <?php } ?>/>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label">是否扣税：</label>
         <div class="controls">
-              <input name="invoice" type="checkbox" value="1" />
+              <input name="invoice" type="checkbox" value="1" <?php if($info['invoice']=='1'){ ?> checked="checked" <?php } ?>/>
         </div>
       </div>
+
+
 
             <div class="control-group">
               <label class="control-label">付款方式：</label>    
               <div class="controls control-row-auto">
                 <label class="radio">
-                  <input type="radio" name="pay_type" value="now" checked="1">现金
+                  <input type="radio" name="pay_type" value="1" checked="1" <?php if($info['pay_type'] == '1'){ ?> checked <?php } ?>>现金
                 </label>
                 <label  class="radio">
-                  <input id="chk" type="radio" name="pay_type" value="2">转账  
+                  <input id="chk" type="radio" name="pay_type" value="2" <?php if($info['pay_type'] == '2'){ ?> checked <?php } ?>>转账  
                 </label>
                 <label class="radio">
-                  <input type="radio" name="pay_type" value="4">微信
+                  <input type="radio" name="pay_type" value="4" <?php if($info['pay_type'] == '4'){ ?> checked <?php } ?>>微信
                 </label>
                 <label class="radio">
-                  <input type="radio" name="pay_type" value="5">刷卡
-                </label> 
+                  <input type="radio" name="pay_type" value="3" <?php if($info['pay_type'] == '3'){ ?> checked <?php } ?>>刷卡
+                </label>
+                      
               </div>
             </div>
 
             <div class="control-group">
         <label class="control-label">应收金额：</label>
         <div class="controls  control-row-auto">
-          <input name="y_amount" type="text"  id="y_amount" class="input-large" value="0.00" >
+          <input name="y_amount" type="text"  id="y_amount" class="input-large" value="<?=$info['y_amount']?>" >
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label">实收金额：</label>
         <div class="controls  control-row-auto">
-            <input name="s_amount" type="text"  id="s_amount" class="input-large" value="0.00" >
+            <input name="s_amount" type="text"  id="s_amount" class="input-large" value="<?=$info['s_amount']?>" >
 
         </div>
       </div>
@@ -120,43 +104,35 @@
       <div class="control-group">
         <label class="control-label">张贴时间：</label>
         <div class="controls">
-          <input type="text" class="calendar" name="show_time" id="show_time" value="" onblur="check_shouwtime();">
+          <input type="text" class="calendar" name="show_time" id="show_time" value="<?=date("Y-m-d",$info['show_time'])?>" onblur="check_shouwtime();">
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label">结束时间：</label>
         <div class="controls">
-          <input type="text" class="calendar" name="end_time" id="end_time" value="" onblur="check_endtime();">
+          <input type="text" class="calendar" name="end_time" id="end_time" value="<?=date("Y-m-d",$info['end_time'])?>" onblur="check_endtime();">
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label">收费项目：</label>
         <div class="controls  control-row-auto">
-                <select name="pay_project" class="input-normal"> 
-                <?php
-                  foreach($charge_type as $ckt => $ckv){
-                ?>
-                  <option value="<?=$ckv['id']?>"><?=$ckv['name']?></option>
-                <?php
-                  }
-                ?>
-                </select>
+            广告制作
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label">联系人：</label>
         <div class="controls  control-row-auto">
-            <input name="contacts" type="text"  id="contacts" class="input-large" value="<?php echo isset($company_info['realname']) ? $company_info['realname'] : '' ;?>" >
+            <input name="contacts" type="text"  id="contacts" class="input-large" value="<?=$info['contacts']?>" >
         </div>
       </div>
 
             <div class="control-group">
         <label class="control-label">联系电话：</label>
         <div class="controls  control-row-auto">
-          <input name="phone" type="text"  id="phone" class="input-large" value="<?php echo isset($company_info['tel']) ? $company_info['tel'] : '' ;?>">
+          <input name="phone" type="text"  id="phone" class="input-large" value="<?=$info['phone']?>">
 
         </div>
       </div>
@@ -181,7 +157,8 @@
             <button type="button" onclick="do_post();" class="button button-primary">保存</button>
             <button type="reset" class="button">重置</button>
           </div>
-      </div>       
+      </div>  
+      <input type="hidden" name="id" value="<?=$info['id']?>" />     
     </form>
       </div>
     </div>  

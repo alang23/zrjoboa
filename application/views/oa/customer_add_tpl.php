@@ -87,6 +87,19 @@
           <input type="text" class="input-large" name="address" id="address" >
         </div>
       </div>
+            <div class="control-group">
+        <label class="control-label">乘车路线：</label>
+        <div class="controls">
+          <input name="bus_line" type="text"  id="bus_line" class="input-large" >
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">官网：</label>
+        <div class="controls">
+          <input name="url" type="text"  id="url" class="input-large" >
+        </div>
+      </div>
       <div class="control-group">
         <label class="control-label">企业性质：</label>
         <div class="controls">
@@ -150,7 +163,7 @@
       </div>
 
       <div class="control-group">
-        <label class="control-label">备注：</label>
+        <label class="control-label">公司简介:</label>
         <div class="controls  control-row-auto">
           <textarea name="remarks" id="remarks" class="control-row4 input-large"></textarea>
         </div>
@@ -243,7 +256,7 @@ function check_tel()
 function add_post()
 {
 
-  if(check_name() && check_contacts() && check_tel()){
+  if( check_contacts() && check_tel()){
       document.form1.submit();
   }
 }

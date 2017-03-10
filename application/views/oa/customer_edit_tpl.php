@@ -87,6 +87,19 @@
           <input type="text" class="input-large" name="address" id="address" value="<?=$info['address']?>">
         </div>
       </div>
+                  <div class="control-group">
+        <label class="control-label">乘车路线：</label>
+        <div class="controls">
+          <input name="bus_line" type="text"  id="bus_line" class="input-large" value="<?=$info['bus_line']?>" >
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">官网：</label>
+        <div class="controls">
+          <input name="url" type="text"  id="url" class="input-large" value="<?=$info['url']?>">
+        </div>
+      </div>
       <div class="control-group">
         <label class="control-label">企业性质：</label>
         <div class="controls">
@@ -122,7 +135,7 @@
         <label class="control-label">行业类型：</label>
         <div class="controls">
             <select class="input-large" name="industry" id="industry" >
-              <option value="0-无">=行业类型=</option>
+              <option value="0:无">=行业类型=</option>
               <?php
                 foreach($industry as $ik => $iv){
               ?>
@@ -151,7 +164,7 @@
 
 
       <div class="control-group">
-        <label class="control-label">备注：</label>
+        <label class="control-label">公司简介：</label>
         <div class="controls  control-row-auto">
           <textarea name="remarks" id="remarks" class="control-row4 input-large"><?=$info['remarks']?></textarea>
         </div>

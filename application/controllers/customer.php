@@ -105,6 +105,8 @@ class Customer extends Zrjoboa
 			$scale = $this->input->post('scale');
 			$province = $this->input->post('province');
 			$city = $this->input->post('city');
+			$bus_line = $this->input->post('bus_line');
+			$url = $this->input->post('url');
 
 			//检查企业名称
 			$check_name = $this->check_company_name($c_name);
@@ -206,6 +208,9 @@ class Customer extends Zrjoboa
 				$add['province_cn'] = $_province[1];
 				$add['city'] = $_city[0];
 				$add['city_cn'] = $_city[1];
+
+				$add['bus_line'] = $bus_line;
+				$add['url'] = $url;
  
 				
 				if($this->customer->add($add)){
@@ -281,6 +286,8 @@ class Customer extends Zrjoboa
 			$province = $this->input->post('province');
 			$city = $this->input->post('city');
 			$id = $this->input->post('id');
+			$bus_line = $this->input->post('bus_line');
+			$url = $this->input->post('url');
 		
 			$_nature = array();
 			$_nature = explode(':', $nature);
@@ -368,6 +375,8 @@ class Customer extends Zrjoboa
 				$add['province_cn'] = $_province[1];
 				$add['city'] = $_city[0];
 				$add['city_cn'] = $_city[1];
+				$add['bus_line'] = $bus_line;
+				$add['url'] = $url;
  
 				$config = array('id'=>$id);
 				if($this->customer->update($config,$add)){

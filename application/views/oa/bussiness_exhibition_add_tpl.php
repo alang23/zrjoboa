@@ -7,7 +7,7 @@
  
   <link href="<?=base_url()?>static/assets/css/bs3/dpl.css" rel="stylesheet">
   <link href="<?=base_url()?>static/assets/css/bs3/bui.css" rel="stylesheet">
- 
+ <link rel="stylesheet" href="<?=base_url()?>static/plus/selected/chosen.css" />
 </head>
 <body>
   <div class="container">
@@ -29,7 +29,7 @@
       <button class="button   button-success">现场业务</button>
       <a href="<?=base_url()?>bussiness/index?type=ad&bussiness_id=<?=$bussiness_id?>"><button class="button">广告业务</button></a>       
       <hr>
-      <form id="J_Form" name="form1" method="post" action="<?=base_url()?>bussiness/add_ex" class="form-horizontal">
+      <form id="J_Form" name="form1" method="post" action="<?=base_url()?>bussiness/add_ex" class="form-horizontal" enctype="multipart/form-data">
       
       <div class="control-group">
         <label class="control-label">企业：</label>
@@ -55,7 +55,7 @@
             <div class="control-group">
         <label class="control-label">到场次数:</label>
         <div class="controls">
-          <input type="text"  class="input-small" name="num_ex" id="num_ex" value="<?=$customer['num_ex']?>" disabled="disabled">
+          <input type="text"  class="input-small" name="num_ex" id="num_ex" value="<?=$customer['num_ex']?>" >
         </div>
       </div>
       <div class="control-group">
@@ -154,14 +154,14 @@
       <div class="control-group">
         <label class="control-label">中餐：</label>
         <div class="controls  control-row-auto">
-          <input name="c_food" type="text"  id="c_food" class="input-normal" value="1" >
+          <input name="c_food" type="text"  id="c_food" class="input-normal" value="0" >
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label">西餐：</label>
         <div class="controls  control-row-auto">
-            <input name="e_food" type="text"  id="e_food" class="input-normal" value="1" >
+            <input name="e_food" type="text"  id="e_food" class="input-normal" value="0" >
         </div>
       </div>
 
@@ -180,7 +180,15 @@
         </div>
       </div>
 
-            <div class="control-group">
+      <div class="control-group">
+        <label class="control-label">文件：</label>
+        <div class="controls  control-row-auto">
+          <input name="userfile" type="file"  id="file" class="input-large">
+
+        </div>
+      </div>
+
+      <div class="control-group">
         <label class="control-label">备注：</label>
         <div class="controls  control-row-auto">
           <textarea name="remarks" id="remarks" class="control-row4 input-large"></textarea>
@@ -196,10 +204,10 @@
     </form>
       </div>
     </div>  
-    <script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
+<script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
 <script src="http://g.tbcdn.cn/fi/bui/seed-min.js?t=201212261326"></script> 
-    <script type="text/javascript" src="<?=base_url()?>static/layer/layer.js"></script>
-
+<script type="text/javascript" src="<?=base_url()?>static/layer/layer.js"></script>
+<script src="<?=base_url()?>static/plus/selected/chosen.jquery.js" type="text/javascript"></script>
 <!-- script start --> 
     <script type="text/javascript">
       BUI.use('bui/form',function(Form){

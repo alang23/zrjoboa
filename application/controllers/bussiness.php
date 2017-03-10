@@ -145,31 +145,72 @@ class Bussiness extends Zrjoboa
 				$add['addtime'] = time();
 				
 				if($this->bussiness_exhibition->add($add)){
+
+					$bid = $this->bussiness_exhibition->insert_id();
+
+					if(!empty($_FILES['userfile']['name'])){
+
+		                $config['upload_path'] = FCPATH.'/uploads/ex/';
+		                
+		                $config['allowed_types'] = '*';
+		                $config['file_name']  =date("YmdHis");
+
+		                $this->load->library('upload', $config);
+
+		                if ( ! $this->upload->do_upload('userfile')){
+
+		                    $error = array('error' => $this->upload->display_errors());
+		                    echo json_encode($error);
+
+		                }else{
+
+		                    $data = array('upload_data' => $this->upload->data());
+		                    $picname = $data['upload_data']['orig_name'];
+		                    $dataarr['title'] = $picname;
+		                    $dataarr['file'] = $picname;
+		                    $dataarr['addtime'] = time();
+		                    $dataarr['bussiness_id'] = $bussiness_id;
+		                    $dataarr['bid'] = $bid;
+		                    $dataarr['type_id'] = 1;
+
+		                  	if( !$this->ad_file->add($dataarr) )
+		                   {
+		                   		exit('upload error');
+		                   }
+
+		                }
+		            }
 					//修改参展数据
 					$update_config = array('id'=>$bussiness_id);
 					$update_data['num_ex'] = $num_ex+1;
-					$this->customer->update($update_config,$update_data);
-					$mobile = $phone;
-					if(!empty($mobile)){
-						$msg_mm = '【汇佳购物】尊敬的用户您好：您已成功订购汇佳购物的商品，我们将在2-3天给您送货上门（春节期间的订单将于2月5号统一发出）如需帮助请致电4001689690，感谢您的支持';
-						$result = $this->smsapi->sendSMS( $mobile, $msg_mm);
-						if($result[1]==0){
-							
-						}else{
-							
+
+					if($this->customer->update($update_config,$update_data)){
+						$mobile = $phone;
+						if(!empty($mobile)){
+							$msg_mm = '【汇佳购物】尊敬的用户您好：您已成功订购汇佳购物的商品，我们将在2-3天给您送货上门（春节期间的订单将于2月5号统一发出）如需帮助请致电4001689690，感谢您的支持';
+							$result = $this->smsapi->sendSMS( $mobile, $msg_mm);
+							if($result[1]==0){
+								
+							}else{
+								
+							}
 						}
+
+						$msg['title'] = '添加成功';
+						$msg['msg'] = '<a href="'.base_url().'bussiness/index">返回列表</a> | <a href="'.base_url().'bussiness/add_ex">继续添加</a>';
+						$this->tpl('msg/msg_success',$msg);
+
+					}else{
+						exit('error');
 					}
 
-					$msg['title'] = '添加成功';
-					$msg['msg'] = '<a href="'.base_url().'bussiness/index">返回列表</a> | <a href="'.base_url().'bussiness/add_ex">继续添加</a>';
-					$this->tpl('msg/msg_success',$msg);
 				}else{
-					$msg['title'] = '修改失败';
+					$msg['title'] = '添加失败';
 					$msg['msg'] = '<a href="'.base_url().'bussiness/index">返回列表</a>';
 					$this->tpl('msg/msg_errors',$msg);
 				}
 			}else{
-					$msg['title'] = '修改失败-信息不完整';
+					$msg['title'] = '添加失败-信息不完整';
 					$msg['msg'] = '<a href="'.base_url().'bussiness/index">返回列表</a>';
 					$this->tpl('msg/msg_errors',$msg);
 			}
@@ -219,8 +260,8 @@ class Bussiness extends Zrjoboa
 			$_info = array();
 			$_info = explode('-', $bussiness_id);
 
-			$_ad = array();
-			$_ad = explode('-', $ad_type);
+			//$_ad = array();
+			//$_ad = explode('-', $ad_type);
 
 			//客户代表
 			$account_info = array();
@@ -246,8 +287,8 @@ class Bussiness extends Zrjoboa
 				$add['pay_project'] = $pay_project;
 				$add['contacts']= $contacts;
 				$add['phone'] = $phone;
-				$add['ad_type'] = $_ad[0];
-				$add['ad_type_name'] = $_ad[1];
+				$add['ad_type'] = 2;
+				$add['ad_type_name'] = $ad_type;
 				$add['addtime'] = time();
 				$add['remarks'] = $remarks;
 
@@ -279,6 +320,7 @@ class Bussiness extends Zrjoboa
 		                    $dataarr['addtime'] = time();
 		                    $dataarr['bussiness_id'] = $bussiness_id;
 		                    $dataarr['bid'] = $bid;
+		                    $dataarr['type_id'] = 2;
 
 		                    $update_config = array('id'=>$bid);
 		                    $update_data = array('is_upload'=>'1');
@@ -322,6 +364,116 @@ class Bussiness extends Zrjoboa
 			$msg['title'] = '修改失败,提交内容为空';
 			$msg['msg'] = '<a href="'.base_url().'bussiness/ad">返回列表</a>';
 			$this->tpl('msg/msg_errors',$msg);
+		}
+		
+	}
+
+	public function edit_ad()
+	{
+		if(!empty($_POST)){
+
+			$bussiness_time = $this->input->post('bussiness_time');
+			$show_time = $this->input->post('show_time');
+			$end_time = $this->input->post('end_time');
+			$bussiness_id = $this->input->post('bussiness_id');
+			$payment = $this->input->post('payment');
+			$invoice = $this->input->post('invoice');
+			$ad_type = $this->input->post('ad_type');
+
+			$pay_type = $this->input->post('pay_type');
+			$y_amount = $this->input->post('y_amount');
+			$s_amount = $this->input->post('s_amount');
+			$pay_project = $this->input->post('pay_project');
+			$remarks = $this->input->post('remarks');
+			$id = $this->input->post('id');
+
+			$contacts = $this->input->post('contacts');
+			$phone = $this->input->post('phone');
+
+
+			if(!empty($ad_type) && !empty($id)){
+
+				$add['show_time'] = strtotime($show_time);
+				$add['bussiness_time'] = strtotime($bussiness_time);
+				$add['end_time'] = strtotime($end_time);
+				$add['payment'] = intval($payment);
+				$add['invoice'] = intval($invoice);
+				$add['pay_type'] = $pay_type;
+				$add['y_amount'] = $y_amount;
+				$add['s_amount'] = $s_amount;
+				$add['pay_project'] = $pay_project;
+				$add['contacts']= $contacts;
+				$add['phone'] = $phone;
+				$add['ad_type'] = 2;
+				$add['ad_type_name'] = $ad_type;
+				$add['remarks'] = $remarks;
+
+				$updata_config = array('id'=>$id);
+
+				if($this->bussiness_ad->update($updata_config,$add)){
+
+					if(!empty($_FILES['userfile']['name'])){
+
+		                $config['upload_path'] = FCPATH.'/uploads/ad/';
+		                
+		                $config['allowed_types'] = '*';
+		                $config['file_name']  =date("YmdHis");
+
+		                $this->load->library('upload', $config);
+
+		                if ( ! $this->upload->do_upload('userfile')){
+
+		                    $error = array('error' => $this->upload->display_errors());
+		                    echo json_encode($error);
+
+		                }else{
+
+		                    $data = array('upload_data' => $this->upload->data());
+		                    $picname = $data['upload_data']['orig_name'];
+		                    $dataarr['title'] = $picname;
+		                    $dataarr['file'] = $picname;
+		                    $dataarr['addtime'] = time();
+		                    $dataarr['bussiness_id'] = $bussiness_id;
+		                    $dataarr['bid'] = $bid;
+		                    $dataarr['type_id'] = 2;
+
+		                    $update_config = array('id'=>$bid);
+		                    $update_data = array('is_upload'=>'1');
+
+		                   if( $this->ad_file->add($dataarr) )
+		                   {
+		                   		exit('文件上传失败');
+		                   	}
+
+		                }
+
+		            }
+
+		            $msg['title'] = '修改成功';
+					$msg['msg'] = '<a href="'.base_url().'bussiness/ad">返回列表</a>';
+					$this->tpl('msg/msg_success',$msg);
+
+				}else{
+						$msg['title'] = '修改失败,请重试';
+						$msg['msg'] = '<a href="'.base_url().'bussiness/ad">返回列表</a>';
+						$this->tpl('msg/msg_errors',$msg);
+				}
+			}else{
+					$msg['title'] = '修改失败,缺少必要参数';
+					$msg['msg'] = '<a href="'.base_url().'bussiness/ad">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
+			}
+
+		}else{
+
+			$id = $this->input->get('id');
+			$info = array();
+			$where['where'] = array('id'=>$id);
+			$info = $this->bussiness_ad->get_one_by_where($where);
+			$data['info'] = $info;
+
+			$this->tpl('oa/bussiness_ad_edit_tpl',$data);
+
 		}
 		
 	}
@@ -406,6 +558,30 @@ class Bussiness extends Zrjoboa
 			$data['info'] = $info;
 
 			$this->tpl('oa/bussiness_exhibition_edit_tpl',$data);
+		}
+	}
+
+	public function del_ad()
+	{
+		$id = $this->input->get('id');
+		$del_config = array('id'=>$id);
+		$del_data['isdel'] = 1;
+		if($this->bussiness_ad->update($del_config,$del_data)){
+			echo 'ok';
+		}else{
+			echo 'err';
+		}
+	}
+
+	public function del_ex()
+	{
+		$id = $this->input->get('id');
+		$del_config = array('id'=>$id);
+		$del_data['isdel'] = 1;
+		if($this->bussiness_exhibition->update($del_config,$del_data)){
+			redirect('/bussiness/scene');
+		}else{
+			echo 'err';
 		}
 	}
 
@@ -537,6 +713,7 @@ class Bussiness extends Zrjoboa
         $where['limit'] = $limit;
         $where['offset'] = $offset;
         $where['where']['isdel'] = '0';
+        $where['order'] = array('key'=>'id','value'=>'DESC');
 
         if(!empty($start_time)){
         	$s_time = strtotime($start_time);
