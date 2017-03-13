@@ -29,7 +29,7 @@
       <button class="button   button-success">现场业务</button>
       <a href="<?=base_url()?>bussiness/index?type=ad&bussiness_id=<?=$bussiness_id?>"><button class="button">广告业务</button></a>       
       <hr>
-      <form id="J_Form" name="form1" method="post" action="<?=base_url()?>bussiness/edit_ex" class="form-horizontal">
+      <form id="J_Form" name="form1" method="post" action="<?=base_url()?>bussiness/edit_ex" class="form-horizontal" enctype="multipart/form-data">
       
       <div class="control-group">
         <label class="control-label">企业：</label>
@@ -157,6 +157,12 @@
 
         </div>
       </div>
+      <div class="control-group">
+        <label class="control-label">文件：</label>
+        <div class="controls  control-row-auto">
+          <input name="userfile" type="file"  id="file" class="input-large">
+        </div>
+      </div>
 
             <div class="control-group">
         <label class="control-label">备注：</label>
@@ -168,6 +174,8 @@
       <div class="row actions-bar">       
           <div class="form-actions span13 offset3">
           <input type="hidden" name="id" value="<?=$info['id']?>" />
+          <input type="hidden" name="bussiness_id" value="<?=$info['bussiness_id']?>" />
+
             <button type="button" onclick="do_post();" class="button button-primary">保存</button>
             <button type="reset" class="button">重置</button>
           </div>

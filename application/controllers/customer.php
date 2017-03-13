@@ -37,25 +37,8 @@ class Customer extends Zrjoboa
         $limit = 20;
         $offset = ($page - 1) * $limit;
         $pagination = '';
-                
-        $countwhere = array('isdel'=>'0');
-        $count = $this->customer->get_count($countwhere);
-        $data['count'] = $count;
-
-        $pageconfig['base_url'] = base_url('/customer/index?');
-        $pageconfig['count'] = $count;
-        $pageconfig['limit'] = $limit;
-        $data['page'] = home_page($pageconfig);
-
-		$list = array();
-		$where['page'] = true;
-        $where['limit'] = $limit;
-        $where['offset'] = $offset;
-        $where['where'] = array('isdel'=>'0');
-        if($userinfo['company_id'] != '0'){
-        	$where['where']['company_id'] = $userinfo['company_id'];
-        }
-
+        
+        $where = array();
         if(!empty($c_name)){
         	$where['like'] = array('key'=>'c_name','value'=>$c_name);
         }
@@ -69,6 +52,26 @@ class Customer extends Zrjoboa
         if(!empty($phone)){
         	$where['where']['tel'] = $phone;
         }
+        $countwhere = array('isdel'=>'0');
+        $count = $this->customer->get_count($countwhere);
+        $data['count'] = $count;
+
+        $pageconfig['base_url'] = base_url('/customer/index?');
+        $pageconfig['count'] = $count;
+        $pageconfig['limit'] = $limit;
+        $data['page'] = home_page($pageconfig);
+
+		$list = array();
+		$where['page'] = true;
+        $where['limit'] = $limit;
+        $where['offset'] = $offset;
+        $where['where']['isdel'] = '0';
+        
+        if($userinfo['company_id'] != '0'){
+        	$where['where']['company_id'] = $userinfo['company_id'];
+        }
+        
+
         $where['order'] = array('key'=>'id','value'=>'DESC');
 		$list = $this->customer->getList($where);	
 		$data['list'] = $list;
@@ -98,6 +101,11 @@ class Customer extends Zrjoboa
 			$c_name = $this->input->post('c_name');
 			$contacts = $this->input->post('contacts');
 			$tel = $this->input->post('tel');
+			$phone = $this->input->post('phone');
+			$fax = $this->input->post('fax');
+			$qq = $this->input->post('qq');
+			$webchat = $this->input->post('webchat'); 
+			$birday = $this->input->post('birday');
 			$address = $this->input->post('address');
 			$remarks = $this->input->post('remarks');
 			$industry = $this->input->post('industry');
@@ -194,6 +202,11 @@ class Customer extends Zrjoboa
 				$add['remarks'] = $remarks;
 				$add['addtime'] = time();
 				$add['company_id'] = $userinfo['company_id'];
+				$add['phone'] = $phone;
+				$add['fax'] = $fax;
+				$add['qq'] = $qq;
+				$add['webchat'] = $webchat;
+				$add['birday'] = $birday;
 
 				$add['industry'] = $_industry[0];
 				$add['industry_cn'] = $_industry[1];
@@ -288,6 +301,11 @@ class Customer extends Zrjoboa
 			$id = $this->input->post('id');
 			$bus_line = $this->input->post('bus_line');
 			$url = $this->input->post('url');
+			$phone = $this->input->post('phone');
+			$fax = $this->input->post('fax');
+			$qq = $this->input->post('qq');
+			$webchat = $this->input->post('webchat'); 
+			$birday = $this->input->post('birday');
 		
 			$_nature = array();
 			$_nature = explode(':', $nature);
@@ -361,6 +379,11 @@ class Customer extends Zrjoboa
 				$add['remarks'] = $remarks;
 				$add['addtime'] = time();
 				$add['company_id'] = $userinfo['company_id'];
+				$add['phone'] = $phone;
+				$add['fax'] = $fax;
+				$add['qq'] = $qq;
+				$add['webchat'] = $webchat;
+				$add['birday'] = $birday;
 
 				$add['industry'] = $_industry[0];
 				$add['industry_cn'] = $_industry[1];

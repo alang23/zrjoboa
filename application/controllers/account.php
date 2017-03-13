@@ -97,7 +97,6 @@ class Account extends Zrjoboa
 			//$company_id = $this->input->post('company_id');
 			$role = $this->input->post('role');
 			$remark = $this->input->post('remark');
-			$role = $this->input->post('role');
 
 			if($userinfo['role_tag'] == 'root' && $userinfo['company_id'] != '0'){
 				$company_id = $userinfo['company_id'];
@@ -144,11 +143,13 @@ class Account extends Zrjoboa
 
 		}else{
 
+			
 			$roles = $this->userlib->check_role('access_add');
 			
 			$data['roles'] = $roles;
 			$company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
 			$data['company_id'] = $company_id;
+			
 
 			if($userinfo['company_id'] == '0'){
 

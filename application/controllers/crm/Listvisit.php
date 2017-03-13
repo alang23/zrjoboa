@@ -21,7 +21,6 @@ class Listvisit extends Zrjoboa
 
 		$userinfo = $this->userinfo;
 		$data['userinfo'] = $userinfo;
-		//print_r($userinfo);
 
 		$page = isset($_GET['page']) ? $_GET['page'] : 0;
         $page = ($page && is_numeric($page)) ? intval($page) : 1;
@@ -43,7 +42,7 @@ class Listvisit extends Zrjoboa
         $count = $this->customer->get_count($countwhere);
         $data['count'] = $count;
 
-        $pageconfig['base_url'] = base_url('/listvisit/index?');
+        $pageconfig['base_url'] = base_url('/crm/listvisit/index?');
         $pageconfig['count'] = $count;
         $pageconfig['limit'] = $limit;
         $data['page'] = home_page($pageconfig);
@@ -52,7 +51,7 @@ class Listvisit extends Zrjoboa
 		$where['page'] = true;
         $where['limit'] = $limit;
         $where['offset'] = $offset;
-        $where['where'] = array('isdel'=>'0');
+        $where['where']['isdel'] = '0';
         if($userinfo['company_id'] != '0'){
         	$where['where']['company_id'] = $userinfo['company_id'];
         }
@@ -146,6 +145,11 @@ class Listvisit extends Zrjoboa
 		if(!empty($result) && !empty($v_type) && !empty($contacts) && !empty($v_value) && !empty($n_v_time) && !empty($content) && !empty($company_id)){
 
 			if($this->visit_log->add($add)){
+				//修改下次回访记录
+				$update_config = array('id'=>$company_id);
+				$update_data['n_v_time'] = strtotime($n_v_time);
+				$update_data['l_v_time'] = strtotime($v_time);
+				$this->customer->update($update_config,$update_data);
 
 				$msg = array(
 				'code'=>'0',
@@ -307,6 +311,80 @@ class Listvisit extends Zrjoboa
 		}
 		echo json_encode($msg);
 		exit;
+	}
+
+	//今日回访
+	public function theday()
+	{
+		$userinfo = $this->userinfo;
+		$data['userinfo'] = $userinfo;
+
+		$day = strtotime(date("Y-m-d"));
+
+		$page = isset($_GET['page']) ? $_GET['page'] : 0;
+        $page = ($page && is_numeric($page)) ? intval($page) : 1;
+
+        $c_name = isset($_GET['c_name']) ? $_GET['c_name'] : '';
+        $uid = isset($_GET['uid']) ? $_GET['uid'] : '';
+        $contacts = isset($_GET['contacts']) ? $_GET['contacts'] : '';
+        $phone = isset($_GET['phone']) ? $_GET['phone'] : '';
+        $data['c_name'] = $c_name;
+        $data['uid'] = $uid;
+        $data['contacts'] = $contacts;
+        $data['phone'] = $phone;
+
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+        $pagination = '';
+                
+        $countwhere['isdel'] = '0';
+        $countwhere['uid'] = $userinfo['id'];
+        $countwhere['n_v_time'] = $day;
+        $count = $this->customer->get_count($countwhere);
+        $data['count'] = $count;
+
+        $pageconfig['base_url'] = base_url('/crm/listvisit/index?');
+        $pageconfig['count'] = $count;
+        $pageconfig['limit'] = $limit;
+        $data['page'] = home_page($pageconfig);
+
+		$list = array();
+		$where['page'] = true;
+        $where['limit'] = $limit;
+        $where['offset'] = $offset;
+        $where['where']['isdel'] = '0';
+        if($userinfo['company_id'] != '0'){
+        	$where['where']['company_id'] = $userinfo['company_id'];
+        }
+
+        if(!empty($c_name)){
+        	$where['like'] = array('key'=>'c_name','value'=>$c_name);
+        }
+        if(!empty($uid)){
+        	$where['where']['uid'] = $uid;
+        }
+        if(!empty($contacts)){
+        	$where['where']['contacts'] = $contacts;
+        }
+
+        if(!empty($phone)){
+        	$where['where']['phone'] = $phone;
+        }
+        $where['where']['n_v_time'] = $day;
+        $where['order'] = array('key'=>'id','value'=>'DESC');
+		$list = $this->customer->getList($where);	
+		$data['list'] = $list;
+
+		//客户代表
+		$account = array();
+		$c_where['where'] = array('isdel'=>'0');
+		if( !empty($userinfo['company_id']) ){
+			$c_where['where']['company_id'] = $userinfo['company_id'];
+		}
+		$account = $this->get_account($c_where);
+		$data['account'] = $account;
+
+		$this->tpl('crm/crm_listvisit_theday_tpl',$data);
 	}
 
 	//检查企业名称

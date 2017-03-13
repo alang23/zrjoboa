@@ -93,7 +93,8 @@
             menu:[{
                 text:'客户关系管理',
                 items:[
-                  {id:'code',text:'回访客户列表',href:'<?=base_url()?>crm/listvisit'}
+                  {id:'code',text:'回访客户列表',href:'<?=base_url()?>crm/listvisit'},
+                  {id:'visity_day',text:'今日回访客户',href:'<?=base_url()?>crm/listvisit/theday'}
                   /*
                   {id:'example',text:'表单示例',href:'form/example.html'},
                   {id:'introduce',text:'表单简介',href:'form/introduce.html'},

@@ -107,7 +107,7 @@ function flush(msg,url){
               <td><?=$v['province_cn']?>-<?=$v['city_cn']?></td>
               <td><?=$v['realname']?></td>
               <td><?=customer_type($v['c_type'])?></td>
-              <td><?php if(!empty($v['v_time'])){ echo date("Y-m-d",$v['v_time']);}else{ echo '无';} ?></td>
+              <td><?php if(!empty($v['l_v_time'])){ echo date("Y-m-d",$v['l_v_time']);}else{ echo '无';} ?></td>
               <td>
               <?php
                 if($userinfo['id'] == $v['uid']){

@@ -51,6 +51,14 @@ class Bussiness extends Zrjoboa
 		$bussiness = array();
 		$bussiness = $this->get_customer();
 		$data['bussiness'] = $bussiness;
+		$_bussiness = array();
+		foreach($bussiness as $k => $v){
+			$_bussiness['id'] = $v['id'];
+			$_bussiness['name'] = $v['c_name'];
+			$_tmp[] = $_bussiness;
+		}
+		$bussiness_json = json_encode($_tmp);
+		$data['bussiness_josn'] = $bussiness_json;
 
 		//广告类型
 		$ad_type = array();
@@ -86,6 +94,29 @@ class Bussiness extends Zrjoboa
 
 	}
 
+	public function get_companyname_ajax()
+	{
+				//企业列表
+		$bussiness = array();
+		$bussiness = $this->get_customer();
+		$data['bussiness'] = $bussiness;
+		$_bussiness = array();
+		$_tmp = array();
+		foreach($bussiness as $k => $v){
+			$_bussiness['id'] = $v['id'];
+			$_bussiness['name'] = $v['c_name'];
+			$_tmp[] = $_bussiness;
+		}
+
+		$msg = array(
+			'code'=>'0',
+			'msg'=>'ok',
+			'data'=>$_tmp
+			);
+
+		echo json_encode($msg);
+	}
+
 	public function add_ex()
 	{
 		if(!empty($_POST)){
@@ -110,8 +141,6 @@ class Bussiness extends Zrjoboa
 			$_info = array();
 			$_info = explode(':', $bussiness_id);
 
-			//$_ad = array();
-			//$_ad = explode(':', $no_id);
 
 			//客户代表
 			$account_info = array();
@@ -259,9 +288,6 @@ class Bussiness extends Zrjoboa
 
 			$_info = array();
 			$_info = explode('-', $bussiness_id);
-
-			//$_ad = array();
-			//$_ad = explode('-', $ad_type);
 
 			//客户代表
 			$account_info = array();
@@ -497,10 +523,8 @@ class Bussiness extends Zrjoboa
 			$contacts = $this->input->post('contacts');
 			$phone = $this->input->post('phone');
 			$id = $this->input->post('id');
-
-
-			//$_ad = array();
-			//$_ad = explode(':', $no_id);
+			$bussiness_id = $this->input->post('bussiness_id');
+			$remarks = $this->input->post('remarks');
 			
 			if(!empty($show_time) && !empty($id)){
 
@@ -518,6 +542,45 @@ class Bussiness extends Zrjoboa
 				$add['e_food'] = $e_food;
 				$add['contacts']= $contacts;
 				$add['phone'] = $phone;
+				$add['remarks'] = $remarks;
+
+
+				if(!empty($_FILES['userfile']['name'])){
+
+		                $config['upload_path'] = FCPATH.'/uploads/ex/';
+		                
+		                $config['allowed_types'] = '*';
+		                $config['file_name']  =date("YmdHis");
+
+		                $this->load->library('upload', $config);
+
+		                if ( ! $this->upload->do_upload('userfile')){
+
+		                    $error = array('error' => $this->upload->display_errors());
+		                    echo json_encode($error);
+
+		                }else{
+
+		                    $data = array('upload_data' => $this->upload->data());
+		                    $picname = $data['upload_data']['orig_name'];
+		                    $dataarr['title'] = $picname;
+		                    $dataarr['file'] = $picname;
+		                    $dataarr['addtime'] = time();
+		                    $dataarr['bussiness_id'] = $bussiness_id;
+		                    $dataarr['bid'] = $id;
+		                    $dataarr['type_id'] = 1;
+
+		                    $update_config = array('id'=>$id);
+		                    $update_data = array('is_upload'=>'1');
+
+		                   if( $this->ad_file->add($dataarr) )
+		                   {
+		                   		$add['is_upload'] = 1;
+		                   }
+		               }
+
+		        }
+
 				
 				$config = array('id'=>$id);
 				if($this->bussiness_exhibition->update($config,$add)){

@@ -56,9 +56,39 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label"><s>*</s>联系电话：</label>
+        <label class="control-label"><s>*</s>工作电话：</label>
         <div class="controls">
           <input type="text" class="input-large" id="tel" name="tel" onblur="check_tel();">
+        </div>
+      </div>
+            <div class="control-group">
+        <label class="control-label">手机：</label>
+        <div class="controls">
+          <input type="text" class="input-large" id="phone" name="phone" >
+        </div>
+      </div>
+            <div class="control-group">
+        <label class="control-label">传真：</label>
+        <div class="controls">
+          <input type="text" class="input-large" id="fax" name="fax" >
+        </div>
+      </div>
+            <div class="control-group">
+        <label class="control-label">QQ：</label>
+        <div class="controls">
+          <input type="text" class="input-large" id="qq" name="qq" >
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">微信：</label>
+        <div class="controls">
+          <input type="text" class="input-large" id="webchat" name="webchat" >
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">生日：</label>
+        <div class="controls">
+                  <input type="text" class="calendar" name="birday" id="birday" >
         </div>
       </div>
       <div class="control-group">
@@ -179,7 +209,14 @@
     </div>  
     <script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
 <script src="http://g.tbcdn.cn/fi/bui/seed-min.js?t=201212261326"></script>    
-
+<script type="text/javascript">
+        BUI.use('bui/calendar',function(Calendar){
+          var datepicker = new Calendar.DatePicker({
+            trigger:'.calendar',
+            autoRender : true
+          });
+        });
+</script>
 <script>
 //检查密码
 function check_name()

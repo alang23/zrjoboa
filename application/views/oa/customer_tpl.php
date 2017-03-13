@@ -49,7 +49,7 @@ function flush(msg,url){
                 <?php
                     foreach($account as $_ak => $_av){
                 ?>
-                    <option value="<?=$_av['id']?>" <?php if($_av['id'] == $uid){ ?> selected <?php } ?>><?=$_av['realname']?></option>
+                    <option value="<?=$_av['id']?>" <?php if($_av['id'] == $uid){ ?> selected <?php } ?> <?php if($userinfo['id'] == $_av['id']){?> selected <?php } ?>><?=$_av['realname']?></option>
 
                 <?php
                   }
@@ -88,9 +88,9 @@ function flush(msg,url){
               <th>ID</th>
               <th>企业名称</th>
               <th>客户代表</th>
-              <th>企业联系人</th>
-              <th>联系电话</th>
-
+              <th>企业性质</th>
+              <th>地区</th>
+              <th>地址</th>
               <th>#</th>
             </tr>
           </thead>
@@ -103,9 +103,10 @@ function flush(msg,url){
               <td ><?=$v['id']?></td>
               <td><?=$v['c_name']?> <a href="<?=base_url()?>customer/detail?id=<?=$v['id']?>"><span class="label label-info">查看</span></a></td>
               <td><?=$v['realname']?></td>
-              <td><?=$v['contacts']?></td>
-              <td><?=$v['tel']?></td>
-
+              
+              <td><?=$v['nature_cn']?></td>
+              <td><?=$v['province_cn']?>/<?=$v['city_cn']?></td>
+              <td><?=$v['address']?></td>
               <td>
               <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$v['id']?>"><button class="button button-small button-success">办理业务</button></a>
               <a href="<?=base_url()?>jobs/index?company_id=<?=$v['id']?>"><button class="button button-small button-info" >职位管理</button></a>

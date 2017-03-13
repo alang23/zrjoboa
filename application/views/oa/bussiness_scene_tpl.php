@@ -125,6 +125,8 @@ function flush(msg,url){
               <th>缴费</th>
               <th>付款方式</th>
               <th>扣税</th>
+              <th>资料上传</th>
+              <th>备注</th>
               <th>#</th>
             </tr>
           </thead>
@@ -144,7 +146,8 @@ function flush(msg,url){
               <td><?=payment_status($v['payment'])?></td>
               <td><?=pay_type($v['pay_type'])?></td>
               <td><?=get_invoice($v['invoice'])?></td>
-
+              <td><?=is_upload($v['is_upload'])?></td>
+               <td><?=$v['remarks']?></td>
               <td>
               <a href="<?=base_url()?>bussiness/edit_ex?id=<?=$v['id']?>"><button class="button button-small button-warning">编辑</button></a>
               <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>bussiness/del_ex?id=<?=$v['id']?>')"><button class="button button-small button-danger">删除</button></a> 

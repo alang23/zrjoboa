@@ -7,7 +7,8 @@
  
   <link href="<?=base_url()?>static/assets/css/bs3/dpl.css" rel="stylesheet">
   <link href="<?=base_url()?>static/assets/css/bs3/bui.css" rel="stylesheet">
- <link rel="stylesheet" href="<?=base_url()?>static/plus/selected/chosen.css" />
+
+  <link rel="Stylesheet" href="<?=base_url()?>static/plus/selected/css/jquery.autocomplete.css" />
 </head>
 <body>
   <div class="container">
@@ -43,6 +44,13 @@
                   }
                 ?>
                 </select>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">参展时间:</label>
+        <div class="controls">
+          <input id="keyword" />
         </div>
       </div>
 
@@ -207,7 +215,7 @@
 <script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
 <script src="http://g.tbcdn.cn/fi/bui/seed-min.js?t=201212261326"></script> 
 <script type="text/javascript" src="<?=base_url()?>static/layer/layer.js"></script>
-<script src="<?=base_url()?>static/plus/selected/chosen.jquery.js" type="text/javascript"></script>
+  <script type="text/javascript" src="<?=base_url()?>static/plus/selected/js/jquery.autocomplete.min.js"></script>
 <!-- script start --> 
     <script type="text/javascript">
       BUI.use('bui/form',function(Form){
@@ -290,6 +298,8 @@ function get_customer_info()
 }
 
 
+
+
 function do_post()
 {
   if(check_shouwtime() && check_amoutn()){
@@ -297,6 +307,145 @@ function do_post()
   }
 }
 </script>
+
+<script type="text/javascript">
+
+var company;
+
+function get_companyname_ajax()
+{
+            var aj = $.ajax( {
+              url:'<?=base_url()?>bussiness/get_companyname_ajax',
+              data:{                 
+                                
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+               
+                if(data.code == 0){
+                 //alert(data.data);
+                  company = data.data;
+                  $('#keyword').autocomplete(company, {
+                      max: 12,    //列表里的条目数
+                      minChars: 0,    //自动完成激活之前填入的最小字符
+                      width: 400,     //提示的宽度，溢出隐藏
+                      scrollHeight: 300,   //提示的高度，溢出显示滚动条
+                      matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
+                      autoFill: false,    //自动填充
+                      formatItem: function(row, i, max) {
+                          return i + '/' + max + ':"' + row.name + '"[' + row.id + ']';
+                      },
+                      formatMatch: function(row, i, max) {
+                          return row.name + row.id;
+                      },
+                      formatResult: function(row) {
+                          return row.name;
+                      }
+                  }).result(function(event, row, formatted) {
+                      alert(row.name);
+                  });
+                }else{
+                    alert(data.msg);
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+  });
+}
+get_companyname_ajax();
+    /*
+        var emails = [
+            { name: "Peter Pan", to: "peter@pan.de" },
+            { name: "Molly", to: "molly@yahoo.com" },
+            { name: "Forneria Marconi", to: "live@japan.jp" },
+            { name: "Master <em>Sync</em>", to: "205bw@samsung.com" },
+            { name: "Dr. <strong>Tech</strong> de Log", to: "g15@logitech.com" },
+            { name: "Don Corleone", to: "don@vegas.com" },
+            { name: "Mc Chick", to: "info@donalds.org" },
+            { name: "Donnie Darko", to: "dd@timeshift.info" },
+            { name: "Quake The Net", to: "webmaster@quakenet.org" },
+            { name: "Dr. Write", to: "write@writable.com" },
+            { name: "GG Bond", to: "Bond@qq.com" },
+            { name: "Zhuzhu Xia", to: "zhuzhu@qq.com" }
+        ];
+        */
+       
+
+            $(function() {
+              /*
+                $('#keyword').autocomplete(company, {
+                    max: 12,    //列表里的条目数
+                    minChars: 0,    //自动完成激活之前填入的最小字符
+                    width: 400,     //提示的宽度，溢出隐藏
+                    scrollHeight: 300,   //提示的高度，溢出显示滚动条
+                    matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
+                    autoFill: false,    //自动填充
+                    formatItem: function(row, i, max) {
+                        return i + '/' + max + ':"' + row.c_name + '"[' + row.id + ']';
+                    },
+                    formatMatch: function(row, i, max) {
+                        return row.c_name + row.id;
+                    },
+                    formatResult: function(row) {
+                        return row.c_name;
+                    }
+                }).result(function(event, row, formatted) {
+                    alert(row.c_name);
+                });
+                */
+
+
+                            var aj = $.ajax( {
+                              url:'<?=base_url()?>bussiness/get_companyname_ajax',
+                              data:{                 
+                                                
+                              },
+                              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+                              type:'post',
+                              cache:false,
+                              dataType:'json',
+                              success:function(data){
+                               
+                                if(data.code == 0){
+                                 //alert(data.data);
+                                  company = data.data;
+                                  $('#keyword').autocomplete( company, {
+                                      //max: 12,    //列表里的条目数
+                                      delay : 400,
+                                      autoFill : true,
+                                      minChars: 0,    //自动完成激活之前填入的最小字符
+                                      width: 400,     //提示的宽度，溢出隐藏
+                                     // scrollHeight: 300,   //提示的高度，溢出显示滚动条
+                                      matchContains: false,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
+                                      autoFill: false,    //自动填充
+                                      formatItem: function(row, i, max) {
+                                          return  row.name ;
+                                      },
+                                      formatMatch: function(row, i, max) {
+                                          return row.name;
+                                      },
+                                      formatResult: function(row) {
+                                          return row.name;
+                                      }
+                                  }).result(function(event, row, formatted) {
+                                      alert(row.name);
+                                  });
+                                }else{
+                                    alert(data.msg);
+                                }              
+                              },
+                              error : function() {
+                                  alert("请求失败，请重试");
+                              }
+                  });
+
+                
+            });
+    </script>
 <!-- script end -->
   </div>
 </body>
