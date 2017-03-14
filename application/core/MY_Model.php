@@ -115,7 +115,7 @@ class Zroa_Model extends CI_Model
 
 
     //get data count
-    public function get_count($where = array(),$like = array())
+    public function get_count($where = array(),$like = array(),$where_in = array())
     {
     	if(!empty($where)){
     		$this->db->where($where);
@@ -123,6 +123,11 @@ class Zroa_Model extends CI_Model
 
         if(!empty($like)){
              $this->db->like($like['key'],$like['value']);
+        }
+
+
+        if(!empty($where_in)){
+            $this->db->where_in($where_in['key'], $where_in['value']);
         }
 
 

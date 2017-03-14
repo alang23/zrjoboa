@@ -28,7 +28,8 @@
     </div>
       <div class="span24">
       <button class="button   button-success">现场业务</button>
-      <a href="<?=base_url()?>bussiness/index?type=ad&bussiness_id=<?=$bussiness_id?>"><button class="button">广告业务</button></a>       
+      <a href="<?=base_url()?>bussiness/index?type=ad&bussiness_id=<?=$bussiness_id?>"><button class="button">广告业务</button></a>   
+      <a href="<?=base_url()?>bussiness/index?type=onther&bussiness_id=<?=$bussiness_id?>"><button class="button">其它业务</button></a>    
       <hr>
       <form id="J_Form" name="form1" method="post" action="<?=base_url()?>bussiness/add_ex" class="form-horizontal" enctype="multipart/form-data">
       
@@ -46,14 +47,14 @@
                 </select>
         </div>
       </div>
-
+<!--
       <div class="control-group">
         <label class="control-label">参展时间:</label>
         <div class="controls">
           <input id="keyword" />
         </div>
       </div>
-
+-->
       <div class="control-group">
         <label class="control-label">参展时间:</label>
         <div class="controls">
@@ -356,49 +357,15 @@ function get_companyname_ajax()
               }
   });
 }
-get_companyname_ajax();
-    /*
-        var emails = [
-            { name: "Peter Pan", to: "peter@pan.de" },
-            { name: "Molly", to: "molly@yahoo.com" },
-            { name: "Forneria Marconi", to: "live@japan.jp" },
-            { name: "Master <em>Sync</em>", to: "205bw@samsung.com" },
-            { name: "Dr. <strong>Tech</strong> de Log", to: "g15@logitech.com" },
-            { name: "Don Corleone", to: "don@vegas.com" },
-            { name: "Mc Chick", to: "info@donalds.org" },
-            { name: "Donnie Darko", to: "dd@timeshift.info" },
-            { name: "Quake The Net", to: "webmaster@quakenet.org" },
-            { name: "Dr. Write", to: "write@writable.com" },
-            { name: "GG Bond", to: "Bond@qq.com" },
-            { name: "Zhuzhu Xia", to: "zhuzhu@qq.com" }
-        ];
-        */
+//get_companyname_ajax();
+
+    
        
 
             $(function() {
-              /*
-                $('#keyword').autocomplete(company, {
-                    max: 12,    //列表里的条目数
-                    minChars: 0,    //自动完成激活之前填入的最小字符
-                    width: 400,     //提示的宽度，溢出隐藏
-                    scrollHeight: 300,   //提示的高度，溢出显示滚动条
-                    matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
-                    autoFill: false,    //自动填充
-                    formatItem: function(row, i, max) {
-                        return i + '/' + max + ':"' + row.c_name + '"[' + row.id + ']';
-                    },
-                    formatMatch: function(row, i, max) {
-                        return row.c_name + row.id;
-                    },
-                    formatResult: function(row) {
-                        return row.c_name;
-                    }
-                }).result(function(event, row, formatted) {
-                    alert(row.c_name);
-                });
-                */
 
 
+/*
                             var aj = $.ajax( {
                               url:'<?=base_url()?>bussiness/get_companyname_ajax',
                               data:{                 
@@ -443,7 +410,7 @@ get_companyname_ajax();
                               }
                   });
 
-                
+   */             
             });
     </script>
 <!-- script end -->

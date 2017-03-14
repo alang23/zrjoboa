@@ -54,6 +54,8 @@
                 {id:'add_bussiness',text:'办理业务',href:'<?=base_url()?>bussiness/index'},
                 {id:'second-menu',text:'现场视图',href:'<?=base_url()?>bussiness/scene'},
                 {id:'dyna-menu',text:'广告视图',href:'<?=base_url()?>bussiness/ad'},
+                {id:'dyna-menu-onther',text:'其它业务视图',href:'<?=base_url()?>bussiness/onther'},
+
                 {id:'meal-view',text:'餐票视图',href:'<?=base_url()?>mealview/index'},
                {id:'dyna-jobs',text:'职位列表',href:'<?=base_url()?>jobs/index'}
               ]

@@ -80,7 +80,6 @@ class Bussiness extends Zrjoboa
 			$customer = array();
 			$customer = $this->customer->get_one_by_where($where);
 			$data['customer'] = $customer;
-		 //print_r($customer);
 
 		if($type == 'ex'){
 
@@ -89,6 +88,10 @@ class Bussiness extends Zrjoboa
 		}elseif($type == 'ad'){
 
 			$this->load->view('oa/bussiness_ad_add_tpl',$data);
+
+		}elseif($type == 'onther'){
+
+			$this->load->view('oa/bussiness_onther_add_tpl',$data);
 
 		}
 
@@ -285,6 +288,7 @@ class Bussiness extends Zrjoboa
 
 			$contacts = $this->input->post('contacts');
 			$phone = $this->input->post('phone');
+			$b_type = $this->input->post('b_type');
 
 			$_info = array();
 			$_info = explode('-', $bussiness_id);
@@ -317,6 +321,7 @@ class Bussiness extends Zrjoboa
 				$add['ad_type_name'] = $ad_type;
 				$add['addtime'] = time();
 				$add['remarks'] = $remarks;
+				$add['pay_project'] = $pay_project;
 
 				
 				if($this->bussiness_ad->add($add)){
@@ -777,6 +782,7 @@ class Bussiness extends Zrjoboa
         $where['offset'] = $offset;
         $where['where']['isdel'] = '0';
         $where['order'] = array('key'=>'id','value'=>'DESC');
+        $where['where']['pay_project'] = '2';
 
         if(!empty($start_time)){
         	$s_time = strtotime($start_time);
@@ -788,7 +794,83 @@ class Bussiness extends Zrjoboa
         }
 
         //客户代表
+        if(!empty($uid)){
+        	$where['where']['uid'] = $uid;
+        }
 
+        if(!empty($c_name)){
+        	$where['like'] = array('key'=>'c_name','value'=>$c_name);
+        }
+
+
+
+
+		$list = $this->bussiness_ad->getList($where);
+		$data['list'] = $list;
+
+				//客户代表
+		$account = array();
+		$account = $this->get_account();
+		$data['account'] = $account;
+
+		$this->tpl('oa/bussiness_ad_tpl',$data);
+	}
+
+			//广告视图
+	public function onther()
+	{
+
+		$page = isset($_GET['page']) ? $_GET['page'] : 0;
+        $page = ($page && is_numeric($page)) ? intval($page) : 1;
+        $start_time = isset($_GET['start_time']) ? $_GET['start_time'] : '';
+        $end_time = isset($_GET['end_time']) ? $_GET['end_time'] : '';
+        $data['start_time'] = $start_time;
+        $data['end_time'] = $end_time;
+
+        $uid = isset($_GET['uid']) ? $_GET['uid'] : 0;
+        $data['uid'] = $uid;
+
+        $is_member = isset($_GET['is_member']) ? $_GET['is_member'] : '';
+        $data['is_member'] = $is_member;
+
+        $c_name = isset($_GET['c_name']) ? $_GET['c_name'] : '';
+        $data['c_name'] = $c_name;
+
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+        $pagination = '';
+                
+        $countwhere['isdel'] = '0';
+        $count_in['key'] = 'pay_project';
+        $count_in['value'] = array('3','4','5','6');
+        $count = $this->bussiness_ad->get_count($countwhere,array(),$count_in);
+        $data['count'] = $count;
+
+        $pageconfig['base_url'] = base_url('/bussiness/onther?');
+        $pageconfig['count'] = $count;
+        $pageconfig['limit'] = $limit;
+        $data['page'] = home_page($pageconfig);
+
+		$list = array();
+		
+		$where['page'] = true;
+        $where['limit'] = $limit;
+        $where['offset'] = $offset;
+        $where['where']['isdel'] = '0';
+        $where['order'] = array('key'=>'id','value'=>'DESC');
+        $where['where_in']['key']='pay_project';
+        $where['where_in']['value'] = array('3','4','5','6');
+
+        if(!empty($start_time)){
+        	$s_time = strtotime($start_time);
+        	$where['where']['show_time>='] = $s_time;
+        	if(!empty($end_time)){
+        		$e_time = strtotime($end_time);
+        		$where['where']['show_time <='] = $e_time;
+        	}
+        }
+
+        //客户代表
         if(!empty($uid)){
         	$where['where']['uid'] = $uid;
         }

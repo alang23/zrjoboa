@@ -22,14 +22,14 @@
           <li>
             <a href="#">业务办理</a> <span class="divider">/</span>
           </li>
-          <li class="active">添加广告业务</li>
+          <li class="active">添加其它业务业务</li>
         </ul>
     </div>
       <div class="span24">
       <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$bussiness_id?>"><button class="button">现场业务</button></a>
-      <button class="button  button-success">广告业务</button>
-      <a href="<?=base_url()?>bussiness/index?type=onther&bussiness_id=<?=$bussiness_id?>"><button class="button">其它业务</button></a>
+      <a href="<?=base_url()?>bussiness/index?type=ad&bussiness_id=<?=$bussiness_id?>"><button class="button">广告业务</button></a>    
 
+      <button class="button  button-success">其它业务</button>
         <hr>
       <form id="J_Form" name="form1" method="post" action="<?=base_url()?>bussiness/add_ad" class="form-horizontal" enctype="multipart/form-data">
       
@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label"><s>*</s>广告类型：</label>
+        <label class="control-label"><s>*</s>业务内容：</label>
         <div class="controls">
         <!--
                 <select name="ad_type" class="input-normal"> 
@@ -120,7 +120,7 @@
       </div>
 
       <div class="control-group">
-        <label class="control-label">张贴时间：</label>
+        <label class="control-label">开始时间：</label>
         <div class="controls">
           <input type="text" class="calendar" name="show_time" id="show_time" value="" onblur="check_shouwtime();">
         </div>
@@ -133,7 +133,20 @@
         </div>
       </div>
 
-      <input type="hidden" name="pay_project" value="2" />
+      <div class="control-group">
+        <label class="control-label">收费项目：</label>
+        <div class="controls  control-row-auto">
+                <select name="pay_project" class="input-large"> 
+
+                    <option value="3">网络业务</option>
+                    <option value="4">爆破招聘</option>
+                    <option value="5">高级人才服务</option>
+                    <option value="6">派遣</option>
+
+                </select>
+        </div>
+      </div>
+
       <div class="control-group">
         <label class="control-label">联系人：</label>
         <div class="controls  control-row-auto">
