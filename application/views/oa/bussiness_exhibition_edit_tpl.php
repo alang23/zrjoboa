@@ -204,7 +204,7 @@ function check_shouwtime()
 
   var show_time = '';
   show_time = $("#show_time").val();
-  if(contacts == ''){
+  if(show_time == ''){
       $("#show_time").remove();
       $("#show_time").after('<span class="x-field-error" id="show_time-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">请填写联系人姓名</label></span>');
       return false;

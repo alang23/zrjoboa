@@ -30,6 +30,15 @@ class Jobs extends Zrjoboa
         $company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
         $data['company_id'] = $company_id;
 
+        $jobs_name = isset($_GET['jobs_name']) ? $_GET['jobs_name'] : '';
+        $company_name = isset($_GET['company_name']) ? $_GET['company_name'] : '';
+        $province_cn = isset($_GET['province_cn']) ? $_GET['province_cn'] : '';
+        $city_cn = isset($_GET['city_cn']) ? $_GET['city_cn'] : '';
+        $data['jobs_name'] = $jobs_name;
+        $data['company_name'] = $company_name;
+        $data['province_cn'] = $province_cn;
+        $data['city_cn'] = $city_cn;
+
         $limit = 20;
         $offset = ($page - 1) * $limit;
         $pagination = '';
@@ -37,7 +46,30 @@ class Jobs extends Zrjoboa
         $countwhere['isdel'] = '0';
         if(!empty($company_id)){
         	$countwhere['company_id'] = $company_id;
+        	
         }
+
+        if(!empty($jobs_name)){
+        	$countlike['like'] = array('key'=>'jobs_name','value'=>$jobs_name);
+        }
+
+        if(!empty($company_name)){
+        	$countlike['like'] = array('key'=>'company_name','value'=>$company_name);
+        }
+
+        if(!empty($jobs_name)){
+        	$countlike['like'] = array('key'=>'jobs_name','value'=>$jobs_name);
+        }
+
+        if(!empty($province_cn)){
+        	$countlike['like'] = array('key'=>'province_cn','value'=>$province_cn);
+        }
+
+        if(!empty($city_cn)){
+        	$countlike['like'] = array('key'=>'city_cn','value'=>$city_cn);
+        }
+
+
         $count = $this->jobs->get_count($countwhere);
         $data['count'] = $count;
 
@@ -53,6 +85,26 @@ class Jobs extends Zrjoboa
         $where['where']['isdel'] = '0';
         if(!empty($company_id)){
         	$where['where']['company_id'] = $company_id;
+        }
+
+        if(!empty($jobs_name)){
+        	$where['like'] = array('key'=>'jobs_name','value'=>$jobs_name);
+        }
+
+        if(!empty($company_name)){
+        	$where['like'] = array('key'=>'company_name','value'=>$company_name);
+        }
+
+        if(!empty($jobs_name)){
+        	$where['like'] = array('key'=>'jobs_name','value'=>$jobs_name);
+        }
+
+        if(!empty($province_cn)){
+        	$where['like'] = array('key'=>'province_cn','value'=>$province_cn);
+        }
+
+        if(!empty($city_cn)){
+        	$where['like'] = array('key'=>'city_cn','value'=>$city_cn);
         }
    
         $where['order'] = array('key'=>'id','value'=>'DESC');

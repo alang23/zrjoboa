@@ -28,8 +28,8 @@
     </div>
       <div class="span24">
       <button class="button   button-success">现场业务</button>
-      <a href="<?=base_url()?>bussiness/index?type=ad&bussiness_id=<?=$bussiness_id?>"><button class="button">广告业务</button></a>   
-      <a href="<?=base_url()?>bussiness/index?type=onther&bussiness_id=<?=$bussiness_id?>"><button class="button">其它业务</button></a>    
+      <button class="button" onclick="window.location='<?=base_url()?>bussiness/index?type=ad&bussiness_id=<?=$bussiness_id?>'">广告业务</button>  
+      <button class="button" onclick="window.location='<?=base_url()?>bussiness/index?type=onther&bussiness_id=<?=$bussiness_id?>'">其它业务</button>  
       <hr>
       <form id="J_Form" name="form1" method="post" action="<?=base_url()?>bussiness/add_ex" class="form-horizontal" enctype="multipart/form-data">
       
@@ -133,14 +133,14 @@
             <div class="control-group">
         <label class="control-label">应收金额：</label>
         <div class="controls  control-row-auto">
-          <input name="y_amount" type="text"  id="y_amount" class="input-large" value="0.00" >
+          <input name="y_amount" type="text"  id="y_amount" class="input-large" value="0" >
         </div>
       </div>
 
             <div class="control-group">
         <label class="control-label">实收金额：</label>
         <div class="controls  control-row-auto">
-            <input name="s_amount" type="text"  id="s_amount" class="input-large" value="0.00" >
+            <input name="s_amount" type="text"  id="s_amount" class="input-large" value="0" >
 
         </div>
       </div>
@@ -236,7 +236,7 @@ function check_shouwtime()
 
   var show_time = '';
   show_time = $("#show_time").val();
-  if(contacts == ''){
+  if(show_time == ''){
       $("#show_time").remove();
       $("#show_time").after('<span class="x-field-error" id="show_time-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">请填写联系人姓名</label></span>');
       return false;

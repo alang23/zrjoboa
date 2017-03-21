@@ -19,22 +19,22 @@
           <li>
             <a href="#">求职者管理</a> <span class="divider">/</span>
           </li>
-          <li class="active">添加求职者</li>
+          <li class="active">编辑求职者</li>
         </ul>
     </div>
-    <form id="J_Form" class="form-horizontal" method="post" action="<?=base_url()?>member/add_info">
+    <form id="J_Form" class="form-horizontal" method="post" action="<?=base_url()?>member/edit">
       <h3>基本信息</h3>
       <div class="row">
         <div class="control-group span10">
           <label class="control-label"><s>*</s>姓名：</label>
           <div class="controls">
-            <input name="realname" type="text" value="" class="control-text" >
+            <input name="realname" type="text" value="<?=$info['realname']?>" class="control-text" >
           </div>
         </div>
         <div class="control-group span10">
           <label class="control-label">手机：</label>
           <div class="controls bui-form-field-plain" >
-              <input name="phone" type="text" value="" class="control-text" >
+              <input name="phone" type="text" value="<?=$info['phone']?>" class="control-text" >
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@
               <?php
                 foreach($province as $k => $v){
               ?>
-              <option value="<?=$v['id']?>:<?=$v['categoryname']?>"><?=$v['categoryname']?></option>
+              <option value="<?=$v['id']?>:<?=$v['categoryname']?>" <?php if($info['province'] == $v['id']){ ?> selected <?php } ?>><?=$v['categoryname']?></option>
               <?php
                 }
               ?>
@@ -62,7 +62,7 @@
         <div class="control-group span10">
           <label class="control-label">籍贯：</label>
           <div class="controls bui-form-field-plain" >
-              <input name="household" type="text" value="" class="control-text" >
+              <input name="household" type="text" value="<?=$info['household']?>" class="control-text" >
           </div>
         </div>
       </div>
@@ -71,15 +71,15 @@
           <label class="control-label">性别：</label>
           <div class="controls">
             <select name="sex">
-              <option value="1">男</option>
-              <option value="2">女</option>
+              <option value="1" <?php if($info['sex'] == '1'){ ?> selected <?php } ?>>男</option>
+              <option value="2" <?php if($info['sex'] == '2'){ ?> selected <?php } ?>>女</option>
             </select>
           </div>
         </div>
         <div class="control-group12 span10">
           <label class="control-label">年龄：</label>
           <div class="controls">
-            <input name="age" type="text" >
+            <input name="age" type="text" value="<?=$info['age']?>">
           </div>
         </div>
       </div>
@@ -92,7 +92,7 @@
                 <?php
                  foreach($education as $ek =>$ev){
                 ?>
-                   <option value="<?=$ev['c_id']?>:<?=$ev['c_name']?>"><?=$ev['c_name']?></option>
+                   <option value="<?=$ev['c_id']?>:<?=$ev['c_name']?>" <?php if($ev['c_id']==$info['education']){ ?> selected <?php } ?>><?=$ev['c_name']?></option>
                 <?php
                   }
                 ?>
@@ -102,7 +102,7 @@
         <div class="control-group12 span10">
           <label class="control-label">微信：</label>
           <div class="controls">
-            <input name="webchat" type="text" >
+            <input name="webchat" type="text" value="<?=$info['webchat']?>" >
           </div>
         </div>
       </div>
@@ -110,13 +110,13 @@
         <div class="control-group span10">
           <label class="control-label">身份证：</label>
           <div class="controls">
-            <input name="id_card" type="text" >
+            <input name="id_card" type="text" value="<?=$info['id_card']?>">
           </div>
         </div>
         <div class="control-group span10">
           <label class="control-label"><s>*</s>求职意向：</label>
           <div class="controls">
-            <input name="intention" type="text" >
+            <input name="intention" type="text" value="<?=$info['intention']?>">
           </div>
         </div>
       </div>
@@ -124,6 +124,7 @@
       
       <div class="row">
         <div class="form-actions offset3">
+        <input type="hidden" name="id" value="<?=$info['id']?>" />
           <button type="submit" class="button button-primary">保存</button>
           <button type="reset" class="button" onclick="history.back();">返回</button>
         </div>
@@ -137,7 +138,7 @@
  
 <!-- script start --> 
 <script type="text/javascript">
-function get_city(id)
+function get_city(id,now)
 {
 
     
@@ -146,7 +147,7 @@ function get_city(id)
               data:{
                   
                   id : id,
-                  
+                  now : now
               },
               contentType:"application/x-www-form-urlencoded; charset=utf-8",
               type:'post',
@@ -171,7 +172,9 @@ function get_city(id)
           });
 } 
  
-      
+$(function(){
+  get_city('<?=$info['province']?>','<?=$info['city']?>');
+})   
 </script>
 <!-- script end -->
   </div>

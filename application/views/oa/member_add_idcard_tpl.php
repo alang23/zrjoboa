@@ -38,11 +38,14 @@
 
     <form id="J_Form" class="form-horizontal" method="post" action="<?=base_url()?>member/add_info">
     <div style="position: absolute; right: 50px; margin-bottom: 10px; top: 80px;">
-    <!--<object name="GT2ICROCX" width="102" height="126" classid="CLSID:220C3AD1-5E9D-4B06-870F-E34662E2DFEA"
-      codebase="IdrOcx.cab#version=1,0,1,2">
-    </object>-->
-
+    
+<!--
+<OBJECT Name="GT2ICROCX" width="120" height="126" CLASSID="CLSID:220C3AD1-5E9D-4B06-870F-E34662E2DFEA" CODEBASE="IdrOcx.cab#version=1,0,1,2"></OBJECT>
+-->
+   
        <OBJECT Name="GT2ICROCX" id="GT2ICROCX" width="102" height="126" CLASSID="CLSID:220C3AD1-5E9D-4B06-870F-E34662E2DFEA" CODEBASE="CAB/IdrOcx.cab#version=1,0,1,3"></OBJECT>  
+       
+    
         <br />
         <input type="button" value="读卡" onclick="StartRead();">
         <input type="button" value="打印" onclick="print();">
@@ -202,12 +205,12 @@
 function get_city(id)
 {
 
-    
+    /*
     var aj = $.ajax( {
               url:'<?=base_url()?>member/get_city_select',
               data:{
                   
-                  id : id,
+                  id : id
                   
               },
               contentType:"application/x-www-form-urlencoded; charset=utf-8",
@@ -231,6 +234,7 @@ function get_city(id)
                   alert("请求失败，请重试");
               }
           });
+          */
 } 
  
       
@@ -317,6 +321,7 @@ function get_city(id)
     }
 
     function StartRead() {
+      alert(GT2ICROCX);
       //GT2ICROCX.PhotoPath = "c:";
       GT2ICROCX.Start();
     }

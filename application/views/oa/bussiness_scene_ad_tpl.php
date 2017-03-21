@@ -79,6 +79,7 @@ function flush(msg,url){
             </li>
           </ul>
         </form>
+
         <table cellspacing="0" class="table table-bordered">
           <thead>
             <tr><th colspan="20">

@@ -207,7 +207,16 @@ class Bussiness extends Zrjoboa
 
 		                  	if( !$this->ad_file->add($dataarr) )
 		                   {
+
+
 		                   		exit('upload error');
+
+		                   }else{
+
+		                   		$upload_config = array('id'=>$bid);
+		                   		$upload_data['is_upload'] = 1;
+		                   		$this->bussiness_exhibition->update($upload_config,$upload_data);
+
 		                   }
 
 		                }
@@ -737,7 +746,23 @@ class Bussiness extends Zrjoboa
 
 		//统计信息
 		$tongji_list = array();
-		//$tongji_list = 
+		$tongji_where['where']['isdel'] = '0';
+		$tongji_list = $this->bussiness_exhibition->getList($tongji_where);
+		$food_cn = 0;
+		$food_en = 0;
+		$y_amount = 0;
+		$s_amount = 0;
+		foreach($tongji_list as $k => $v){
+			$food_cn = $food_cn+$v['c_food'];
+			$food_en = $food_en+$v['e_food'];
+			$y_amount = $y_amount+$v['y_amount'];
+			$s_amount = $s_amount+$v['s_amount'];
+		}
+
+		$data['food_cn'] = $food_cn;
+		$data['food_en'] = $food_en;
+		$data['y_amount'] = $y_amount;
+		$data['s_amount'] = $s_amount;
 
 		$this->tpl('oa/bussiness_scene_tpl',$data);
 	}
@@ -802,9 +827,6 @@ class Bussiness extends Zrjoboa
         	$where['like'] = array('key'=>'c_name','value'=>$c_name);
         }
 
-
-
-
 		$list = $this->bussiness_ad->getList($where);
 		$data['list'] = $list;
 
@@ -812,6 +834,21 @@ class Bussiness extends Zrjoboa
 		$account = array();
 		$account = $this->get_account();
 		$data['account'] = $account;
+
+				//统计信息
+		$tongji_list = array();
+		$tongji_where['where']['isdel'] = '0';
+		$tongji_list = $this->bussiness_ad->getList($tongji_where);
+		$y_amount = 0;
+		$s_amount = 0;
+		foreach($tongji_list as $k => $v){
+
+			$y_amount = $y_amount+$v['y_amount'];
+			$s_amount = $s_amount+$v['s_amount'];
+		}
+
+		$data['y_amount'] = $y_amount;
+		$data['s_amount'] = $s_amount;
 
 		$this->tpl('oa/bussiness_ad_tpl',$data);
 	}

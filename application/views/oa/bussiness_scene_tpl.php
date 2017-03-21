@@ -98,9 +98,13 @@ function flush(msg,url){
             </li>
           </ul>
         </form>
-              <p> 
+       <p> 
         <div class="tips tips-small tips-info tips-no-icon">
-          <div class="tips-content">提示信息</div>
+          <div class="tips-content">
+            业务统计:   中餐:<?=$food_cn?>  西餐:<?=$food_en?>   应收金额: <?=$y_amount?>      实收金额:  <?=$s_amount?>
+            <br/>
+            <font color="red">财务数据:   中餐:<?=$food_cn?>  西餐:<?=$food_en?>   应收金额: <?=$y_amount?>      实收金额:  <?=$s_amount?>   </font> 
+          </div>
         </div>
       </p>
         <table cellspacing="0" class="table table-bordered">
@@ -121,6 +125,8 @@ function flush(msg,url){
               <th>展位</th>
               <th>应收</th>
               <th>实收</th>
+              <th>中餐</th>
+               <th>西餐</th>
               <th>出票</th>
               <th>缴费</th>
               <th>付款方式</th>
@@ -142,6 +148,8 @@ function flush(msg,url){
               <td><?=$v['no_name']?></td>
               <td><?=$v['y_amount']?></td>
               <td><?=$v['s_amount']?></td>
+              <td><?=$v['c_food']?></td>
+              <td><?=$v['e_food']?></td>
               <td><?=do_ticket($v['s_ticket'])?></td>
               <td><?=payment_status($v['payment'])?></td>
               <td><?=pay_type($v['pay_type'])?></td>

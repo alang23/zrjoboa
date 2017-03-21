@@ -9,6 +9,8 @@ class Member extends Zrjoboa
 		parent::__construct();
 		$this->load->model('District_mdl','district');
 		$this->load->model('Member_mdl','member');
+		$this->load->library('Categorylib','categorylib');
+
 	}
 
 
@@ -108,21 +110,29 @@ class Member extends Zrjoboa
 			//省
 			if(!empty($province)){
 				$_province = array();
-				$_province = explode('-', $province);
+				$_province = explode(':', $province);
 			}
 
 			//市
+			if(!empty($education)){
+				$_education = array();
+				$_education = explode(':', $education);
+			}
+
+						//市
 			if(!empty($city)){
 				$_city = array();
-				$_city = explode('-', $city);
+				$_city = explode(':', $city);
 			}
+
 
 			if(!empty($realname) && !empty($phone) && !empty($intention)){
 
 				$add['realname'] = $realname;
 				$add['sex'] = $sex;
 				$add['age'] = $age;
-				$add['education'] = $education;
+				$add['education'] = $_education[0];
+				$add['education_cn'] = $_education[1];
 				$add['province'] = $_province[0];
 				$add['province_name'] = $_province[1];
 				$add['city'] = $_city[0];
@@ -137,18 +147,32 @@ class Member extends Zrjoboa
 
 				$add['addtime'] = time();
 				if($this->member->add($add)){
-					echo 'ok';
+						$msg['title'] = '添加成功';
+						$msg['msg'] = '<a href="'.base_url().'member/index">返回列表</a> | <a href="'.base_url().'member/add_ex">继续添加</a>';
+						$this->tpl('msg/msg_success',$msg);				
 				}else{
-					echo 'error';
+					$msg['title'] = '添加失败';
+					$msg['msg'] = '<a href="'.base_url().'member/index">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
+
 				}
 
 			}else{
-				echo '缺少参数';
+					$msg['title'] = '添加失败,缺少必要蚕食';
+					$msg['msg'] = '<a href="'.base_url().'member/index">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
+
 			}
 		}else{
 
 			$province = $this->get_province();
 			$data['province'] = $province;
+
+			//学历
+			$education = array();
+			$key = 'WRZC_education';
+			$education = $this->categorylib->get_category($key);
+			$data['education'] = $education;
 
 			$this->tpl('oa/member_add_info_tpl',$data);
 		}
@@ -216,6 +240,119 @@ class Member extends Zrjoboa
 			'data'=>$str
 			);
 		echo json_encode($msg);
+
+	}
+
+	public function edit()
+	{
+
+		$userinfo = $this->userinfo;
+		if(!empty($_POST)){
+
+			$realname = $this->input->post('realname');
+			$sex = $this->input->post('sex');
+			$age = $this->input->post('age');
+			$education = $this->input->post('education');
+			$province = $this->input->post('province');
+			$city = $this->input->post('city');
+			$phone = $this->input->post('phone');
+			$webchat = $this->input->post('webchat');
+			$email = $this->input->post('email');
+			$id_card = $this->input->post('id_card');
+			$intention = $this->input->post('intention');
+			$email = $this->input->post('email');
+			$household = $this->input->post('household');
+			$id = $this->input->post('id');
+
+			//省
+			if(!empty($province)){
+				$_province = array();
+				$_province = explode(':', $province);
+			}
+
+			//市
+			if(!empty($education)){
+				$_education = array();
+				$_education = explode(':', $education);
+			}
+
+						//市
+			if(!empty($city)){
+				$_city = array();
+				$_city = explode(':', $city);
+			}
+
+
+			if(!empty($realname) && !empty($phone) && !empty($intention)){
+
+				$add['realname'] = $realname;
+				$add['sex'] = $sex;
+				$add['age'] = $age;
+				$add['education'] = $_education[0];
+				$add['education_cn'] = $_education[1];
+				$add['province'] = $_province[0];
+				$add['province_name'] = $_province[1];
+				$add['city'] = $_city[0];
+				$add['city_name'] = $_city[1];
+				$add['webchat'] = $webchat;
+				$add['email'] = $email;
+				$add['phone'] = $phone;
+				$add['id_card'] = $id_card;
+				$add['intention'] = $intention;
+				$add['company_id'] = $userinfo['company_id'];
+				$add['household'] = $household;
+
+				$update_config = array('id'=>$id);
+
+				if($this->member->update($update_config,$add)){
+						$msg['title'] = '修改成功';
+						$msg['msg'] = '<a href="'.base_url().'member/index">返回列表</a> ';
+						$this->tpl('msg/msg_success',$msg);				
+				}else{
+					$msg['title'] = '添加失败';
+					$msg['msg'] = '<a href="'.base_url().'member/index">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
+
+				}
+
+			}else{
+					$msg['title'] = '添加失败,缺少必要参数';
+					$msg['msg'] = '<a href="'.base_url().'member/index">返回列表</a>';
+					$this->tpl('msg/msg_errors',$msg);
+
+			}
+		}else{
+
+			$id = $this->input->get('id');
+			$where['where'] = array('id'=>$id);
+			$info = $this->member->get_one_by_where($where);
+			$data['info'] = $info;
+
+			$province = $this->get_province();
+			$data['province'] = $province;
+
+			//学历
+			$education = array();
+			$key = 'WRZC_education';
+			$education = $this->categorylib->get_category($key);
+			$data['education'] = $education;
+
+			$this->tpl('oa/member_edit_info_tpl',$data);
+		}
+	}
+
+	//删除
+	public function del()
+	{
+		$id = $this->input->get('id');
+		$update_config = array('id'=>$id);
+		$update_data['isdel'] = 1;
+
+		if($this->member->update($update_config,$update_data)){
+			redirect('member/index');
+		}
+
+
 
 	}
 }

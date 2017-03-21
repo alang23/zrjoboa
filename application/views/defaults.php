@@ -86,7 +86,7 @@
               text:'会议管理',
               items:[
                 {id:'meetting',text:'会议列表',href:'meetting/index'},
-                {id:'meetting_add',text:'添加会议',href:'meetting/index'}  
+                {id:'meetting_add',text:'添加会议',href:'meetting/add'}  
               ]
             }]
           },

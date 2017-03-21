@@ -39,26 +39,11 @@ function flush(msg,url){
           </li>
           <li class="active">价格规则列表</li>
         </ul>
-        <form class="form-panel" method="get" action="<?=base_url()?>bussiness/scene">
+        <form class="form-panel" method="get" action="<?=base_url()?>mealview/index">
           <div class="panel-title">
             <span>
               <label>参展日期：</label><input type="text" class="calendar" name="start_time" value="<?=$start_time?>"/> <label>至</label> <input type="text" class="calendar" name="end_time" value="<?=$end_time?>" />
             </span>
-            <span>
-              <label>客户代表：</label>
-                <select name="uid">
-
-                  <option value="0">客户代表</option>
-                <?php
-                    foreach($account as $ak => $av){
-                ?>
-                <option value="<?=$av['id']?>" <?php if($uid == $av['id']){ ?> selected <?php } ?>><?=$av['realname']?></option>
-                <?php
-                  }
-                ?>
-                </select>
-              </span>
-
             <span>
               <label>是否会员：</label>
                 <select name="is_member">
@@ -121,6 +106,8 @@ function flush(msg,url){
               <th>展位</th>
               <th>应收</th>
               <th>实收</th>
+              <th>中餐</th>
+              <th>西餐</th>
               <th>出票</th>
               <th>缴费</th>
               <th>付款方式</th>
@@ -140,6 +127,8 @@ function flush(msg,url){
               <td><?=$v['no_name']?></td>
               <td><?=$v['y_amount']?></td>
               <td><?=$v['s_amount']?></td>
+              <td><?=$v['c_food']?></td>
+              <td><?=$v['e_food']?></td>
               <td><?=do_ticket($v['s_ticket'])?></td>
               <td><?=payment_status($v['payment'])?></td>
               <td><?=pay_type($v['pay_type'])?></td>

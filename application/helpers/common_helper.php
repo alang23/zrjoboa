@@ -374,6 +374,34 @@ if( !function_exists('pay_type') ){
 }
 
 
+//会议级别
+if( !function_exists('meetting_level') ){
+
+    function meetting_level($v)
+    {
+        $result = '未知';
+        switch($v){
+            case 0:
+                $result = '<span class="label">普通</span>';
+                break;
+            case 1:
+                $result = '<span class="label label-success">重要</span>';
+                break;
+            case 2:
+                $result = '<span class="label label-important">紧急</span>';
+                break;
+            case 3:
+                $resul = '<span class="label label-info">例会</span>';
+                break;
+            default:
+                $resul = '未知';
+                break;
+        }
+
+        return $result;
+    }
+}
+
 if ( ! function_exists('get_ip'))
 {
     function get_ip()

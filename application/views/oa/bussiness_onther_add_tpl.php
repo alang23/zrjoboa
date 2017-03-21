@@ -26,8 +26,8 @@
         </ul>
     </div>
       <div class="span24">
-      <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$bussiness_id?>"><button class="button">现场业务</button></a>
-      <a href="<?=base_url()?>bussiness/index?type=ad&bussiness_id=<?=$bussiness_id?>"><button class="button">广告业务</button></a>    
+      <button class="button" onclick="window.location='<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$bussiness_id?>'">现场业务</button>
+      <button class="button" onclick="window.location='<?=base_url()?>bussiness/index?type=ad&bussiness_id=<?=$bussiness_id?>'">广告业务</button>   
 
       <button class="button  button-success">其它业务</button>
         <hr>
@@ -107,14 +107,14 @@
             <div class="control-group">
         <label class="control-label">应收金额：</label>
         <div class="controls  control-row-auto">
-          <input name="y_amount" type="text"  id="y_amount" class="input-large" value="0.00" >
+          <input name="y_amount" type="text"  id="y_amount" class="input-large" value="0" >
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label">实收金额：</label>
         <div class="controls  control-row-auto">
-            <input name="s_amount" type="text"  id="s_amount" class="input-large" value="0.00" >
+            <input name="s_amount" type="text"  id="s_amount" class="input-large" value="0" >
 
         </div>
       </div>

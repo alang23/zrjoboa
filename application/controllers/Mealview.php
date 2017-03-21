@@ -27,67 +27,60 @@ class Mealview extends Zrjoboa
 	public function index()
 	{
 
+                $userinfo = $this->userinfo;
 		$page = isset($_GET['page']) ? $_GET['page'] : 0;
-        $page = ($page && is_numeric($page)) ? intval($page) : 1;
-        $start_time = isset($_GET['start_time']) ? $_GET['start_time'] : '';
-        $end_time = isset($_GET['end_time']) ? $_GET['end_time'] : '';
-        $data['start_time'] = $start_time;
-        $data['end_time'] = $end_time;
+                $page = ($page && is_numeric($page)) ? intval($page) : 1;
+                $start_time = isset($_GET['start_time']) ? $_GET['start_time'] : '';
+                $end_time = isset($_GET['end_time']) ? $_GET['end_time'] : '';
+                $data['start_time'] = $start_time;
+                $data['end_time'] = $end_time;
 
-        $uid = isset($_GET['uid']) ? $_GET['uid'] : 0;
-        $data['uid'] = $uid;
+                $is_member = isset($_GET['is_member']) ? $_GET['is_member'] : '';
+                $data['is_member'] = $is_member;
 
-        $is_member = isset($_GET['is_member']) ? $_GET['is_member'] : '';
-        $data['is_member'] = $is_member;
+                $c_name = isset($_GET['c_name']) ? $_GET['c_name'] : '';
+                $data['c_name'] = $c_name;
 
-        $c_name = isset($_GET['c_name']) ? $_GET['c_name'] : '';
-        $data['c_name'] = $c_name;
+                $limit = 20;
+                $offset = ($page - 1) * $limit;
+                $pagination = '';
+                        
+                $countwhere = array('isdel'=>'0');
+                $count = $this->bussiness_exhibition->get_count($countwhere);
+                $data['count'] = $count;
 
-        $limit = 20;
-        $offset = ($page - 1) * $limit;
-        $pagination = '';
-                
-        $countwhere = array('isdel'=>'0');
-        $count = $this->bussiness_exhibition->get_count($countwhere);
-        $data['count'] = $count;
+                $pageconfig['base_url'] = base_url('/mealview/index?');
+                $pageconfig['count'] = $count;
+                $pageconfig['limit'] = $limit;
+                $data['page'] = home_page($pageconfig);
 
-        $pageconfig['base_url'] = base_url('/mealview/index?');
-        $pageconfig['count'] = $count;
-        $pageconfig['limit'] = $limit;
-        $data['page'] = home_page($pageconfig);
+        	$list = array();
+        		
+        	$where['page'] = true;
+                $where['limit'] = $limit;
+                $where['offset'] = $offset;
+                $where['where']['isdel'] = '0';
+                $where['order'] = array('key'=>'id','value'=>'DESC');
 
-		$list = array();
-		
-		$where['page'] = true;
-        $where['limit'] = $limit;
-        $where['offset'] = $offset;
-        $where['where']['isdel'] = '0';
-        $where['order'] = array('key'=>'id','value'=>'DESC');
-
-        if(!empty($start_time)){
-        	$s_time = strtotime($start_time);
-        	$where['where']['show_time>='] = $s_time;
-        	if(!empty($end_time)){
-        		$e_time = strtotime($end_time);
-        		$where['where']['show_time <='] = $e_time;
-        	}
-        }
-
-        //客户代表
-
-        if(!empty($uid)){
-        	$where['where']['uid'] = $uid;
-        }
-
-        if(!empty($c_name)){
-        	$where['like'] = array('key'=>'c_name','value'=>$c_name);
-        }
+                if(!empty($start_time)){
+                	$s_time = strtotime($start_time);
+                	$where['where']['show_time>='] = $s_time;
+                	if(!empty($end_time)){
+                		$e_time = strtotime($end_time);
+                		$where['where']['show_time <='] = $e_time;
+                	}
+                }
 
 
+                if(!empty($c_name)){
+                	$where['like'] = array('key'=>'c_name','value'=>$c_name);
+                }
+
+                $where['where']['y_amount'] = '0';
 		$list = $this->bussiness_exhibition->getList($where);
 		$data['list'] = $list;
 
-				//客户代表
+	        //客户代表
 		$account = array();
 		$account = $this->get_account();
 		$data['account'] = $account;
@@ -96,9 +89,10 @@ class Mealview extends Zrjoboa
 		$tongji_list = array();
 		
 		$this->tpl('oa/mealview_tpl',$data);
+
 	}
 
-		private function get_account()
+	private function get_account()
 	{
 			//客户代表
 		$account = array();

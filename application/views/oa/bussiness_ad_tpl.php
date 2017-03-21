@@ -98,6 +98,15 @@ function flush(msg,url){
             </li>
           </ul>
         </form>
+       <p> 
+        <div class="tips tips-small tips-info tips-no-icon">
+          <div class="tips-content">
+            业务统计:   应收金额: <?=$y_amount?>      实收金额:  <?=$s_amount?>
+            <br/>
+            <font color="red">财务数据:   应收金额: <?=$y_amount?>      实收金额:  <?=$s_amount?>   </font> 
+          </div>
+        </div>
+      </p>
         <table cellspacing="0" class="table table-bordered">
           <thead>
             <tr><th colspan="20">
@@ -117,6 +126,7 @@ function flush(msg,url){
               <th>缴费</th>
               <th>是否作废</th>
               <th>扣税</th>
+              <th>资料上传</th>
               <th>#</th>
             </tr>
           </thead>
@@ -136,7 +146,7 @@ function flush(msg,url){
               <td><?=payment_status($v['payment'])?></td>
               <td><?=bussiness_status($v['status'])?></td>
               <td><?=get_invoice($v['invoice'])?></td>
-
+              <td><?=is_upload($v['is_upload'])?></td>
               <td>
               <a href="<?=base_url()?>bussiness/edit_ad?id=<?=$v['id']?>"><button class="button button-small button-warning">编辑</button></a> 
               <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>bussiness/del_ad?id=<?=$v['id']?>')"><button class="button button-small button-danger">删除</button></a> 

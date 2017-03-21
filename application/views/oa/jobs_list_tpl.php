@@ -41,20 +41,18 @@ function flush(msg,url){
         <form class="form-panel" method="get" action="<?=base_url()?>jobs/index">
           <div class="panel-title">
             <span>
-              <label>公司名称：</label><input type="text" name="jobs_name" value="" class="input-large control-text bui-form-field" /> 
-              <label>客户代表：</label>
+              <label>职位：</label><input type="text" name="jobs_name" value="<?=$jobs_name?>" class="input-large control-text bui-form-field" /> 
+              <label>公司：</label><input type="text" name="company_name" value="<?=$company_name?>" class="input-large control-text bui-form-field" /> 
 
               
-              <label>联系人：</label><input type="text" name="contacts" value="" class="input-large control-text bui-form-field" /> 
-              <label>电话：</label><input type="text" name="phone" value="" class="input-large control-text bui-form-field" /> 
+              <label>省份：</label><input type="text" name="province_cn" value="<?=$province_cn?>" class="input-large control-text bui-form-field" /> 
+              <label>城市：</label><input type="text" name="city_cn" value="<?=$city_cn?>" class="input-large control-text bui-form-field" /> 
               <button id="btnSearch" type="submit" class="button button-primary">搜索</button>
               <label><a href="<?=base_url()?>jobs/index">全部</a></label>
 
            </span>
           </div>
           <ul class="panel-content">
-
-
           </ul>
         </form>
         <table cellspacing="0" class="table table-bordered">
