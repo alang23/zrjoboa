@@ -8,6 +8,10 @@
   <link href="<?=base_url()?>static/assets/css/bs3/dpl.css" rel="stylesheet">
   <link href="<?=base_url()?>static/assets/css/bs3/bui.css" rel="stylesheet">
  
+<script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
+<link href="<?=base_url()?>static/plus/chosen/chosen.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="<?=base_url()?>static/plus/chosen/chosen.jquery.js"></script>
+
 </head>
 <body>
   <div class="container">
@@ -36,15 +40,15 @@
       <div class="control-group">
         <label class="control-label">企业：</label>
         <div class="controls  control-row-auto">
-                <select name="bussiness_id" class="input-large"> 
-                <?php
-                  foreach($bussiness as $bk => $bv){
-                ?>
-                  <option value="<?=$bv['id']?>-<?=$bv['c_name']?>" <?php if($bussiness_id == $bv['id']){?> selected <?php } ?> ><?=$bv['c_name']?></option>
-                <?php
-                  }
-                ?>
-                </select>
+                      <select  style="width:400px;" name="bussiness_id" id="bussiness_id" class="dept_select" onchange="get_customer_info()"> 
+         <?php
+            foreach($bussiness as $bk => $bv){
+          ?>
+                  <option value="<?=$bv['id']?>:<?=$bv['c_name']?>" <?php if($bussiness_id == $bv['id']){?> selected <?php } ?> ><?=$bv['c_name']?></option>
+          <?php
+            }
+          ?>
+      </select>
         </div>
       </div>
 
@@ -186,7 +190,6 @@
     </form>
       </div>
     </div>  
-    <script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
 <script src="http://g.tbcdn.cn/fi/bui/seed-min.js?t=201212261326"></script>    
 <!-- script start --> 
     <script type="text/javascript">
@@ -196,6 +199,16 @@
             autoRender : true
           });
         });
+
+  $(function(){
+
+    $('.dept_select').chosen({
+      no_results_text: "My language message.", 
+      placeholder_text : "My language message.", 
+      search_contains: true,
+      disable_search_threshold: 10
+    });
+  })
     </script>
 
 <!-- script start --> 

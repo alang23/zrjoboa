@@ -78,8 +78,8 @@
                 {id:'member',text:'求职者列表',href:'member/index'},
                 {id:'website_member',text:'网站求职者',href:'member/website'},
                 {id:'add_member',text:'求职者登记',href:'member/add_info'},
-                {id:'add_member_idcard',text:'求职者登记id',href:'member/add_idcard'},
-                {id:'print_jobs',text:'求职打印',href:'<?=base_url()?>advert/scene'}  
+                {id:'add_member_idcard',text:'身份证登记',href:'member/add_idcard'},
+                {id:'print_jobs',text:'求职打印',href:'<?=base_url()?>jobs/index'}  
  
               ]
             },{

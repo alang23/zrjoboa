@@ -300,7 +300,7 @@ class Bussiness extends Zrjoboa
 			$b_type = $this->input->post('b_type');
 
 			$_info = array();
-			$_info = explode('-', $bussiness_id);
+			$_info = explode(':', $bussiness_id);
 
 			//客户代表
 			$account_info = array();
@@ -927,7 +927,7 @@ class Bussiness extends Zrjoboa
 		$account = $this->get_account();
 		$data['account'] = $account;
 
-		$this->tpl('oa/bussiness_ad_tpl',$data);
+		$this->tpl('oa/bussiness_onther_tpl',$data);
 	}
 
 	//业务-现场详情
@@ -956,6 +956,16 @@ class Bussiness extends Zrjoboa
 		$this->tpl('oa/ad_detail_tpl',$data);
 	}
 
+	public function uploadfile()
+	{
+		$id = $this->input->get('id');
+		$where['where'] = array('bid'=>$id);
+		$list = $this->ad_file->getList($where);
+		$data['list'] = $list;
+
+		$this->tpl('oa/uploadfile_tpl',$data);
+	}
+
 
 	private function get_account()
 	{
@@ -980,6 +990,8 @@ class Bussiness extends Zrjoboa
 			);
 		echo json_encode($msg);
 	}
+
+
 
 	//企业
 	private function get_customer()

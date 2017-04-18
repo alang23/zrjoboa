@@ -108,8 +108,8 @@ function flush(msg,url){
               <td><?=$v['province_cn']?>/<?=$v['city_cn']?></td>
               <td><?=$v['address']?></td>
               <td>
-              <a href="<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$v['id']?>"><button class="button button-small button-success">办理业务</button></a>
-              <a href="<?=base_url()?>jobs/index?company_id=<?=$v['id']?>"><button class="button button-small button-info" >职位管理</button></a>
+              <button onclick="window.location='<?=base_url()?>bussiness/index?type=ex&bussiness_id=<?=$v['id']?>'" class="button button-small button-success">办理业务</button>
+              <button onclick="window.location='<?=base_url()?>jobs/index?company_id=<?=$v['id']?>'" class="button button-small button-info" >职位管理</button>
             
               </td>
             </tr>

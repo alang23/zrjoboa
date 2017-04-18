@@ -88,7 +88,7 @@
             <tr id="contact_<?=$cv['id']?>">
               <td><?=$cv['realname']?></td>
               <td><?=$cv['job']?></td>
-              <td><?=$cv['sex']?></td>
+              <td><?=get_gender($cv['sex'])?></td>
               <td><?=$cv['tel']?></td>
               <td><?=$cv['phone']?></td>
               <td><?=$cv['email']?></td>

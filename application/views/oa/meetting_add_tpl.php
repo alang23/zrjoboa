@@ -83,9 +83,9 @@
 
       <hr/>
       <div class="control-group">
-          <label class="control-label">备注：</label>
+          <label class="control-label">会议事项：</label>
           <div class="controls control-row4">
-              <textarea type="text" class="input-large" data-valid="{}" name="content"></textarea>
+              <textarea  name="content" width="600px" height="1000px"></textarea>
           </div>
       </div>
       <hr/>

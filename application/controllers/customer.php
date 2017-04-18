@@ -11,6 +11,7 @@ class Customer extends Zrjoboa
 		$this->load->model('Account_mdl','account');
 		$this->load->library('Categorylib','categorylib');
 		$this->load->model('District_mdl','district');
+		$this->load->model('Contacts_mdl','contacts');
 
 	}
 
@@ -105,7 +106,7 @@ class Customer extends Zrjoboa
 			$fax = $this->input->post('fax');
 			$qq = $this->input->post('qq');
 			$webchat = $this->input->post('webchat'); 
-			$birday = $this->input->post('birday');
+			$birthday = $this->input->post('birthday');
 			$address = $this->input->post('address');
 			$remarks = $this->input->post('remarks');
 			$industry = $this->input->post('industry');
@@ -115,6 +116,9 @@ class Customer extends Zrjoboa
 			$city = $this->input->post('city');
 			$bus_line = $this->input->post('bus_line');
 			$url = $this->input->post('url');
+			$job = $this->input->post('job');
+			$sex = $this->input->post('sex');
+			$email = $this->input->post('email');
 
 			//检查企业名称
 			$check_name = $this->check_company_name($c_name);
@@ -206,7 +210,7 @@ class Customer extends Zrjoboa
 				$add['fax'] = $fax;
 				$add['qq'] = $qq;
 				$add['webchat'] = $webchat;
-				$add['birday'] = $birday;
+				$add['birday'] = $birthday;
 
 				$add['industry'] = $_industry[0];
 				$add['industry_cn'] = $_industry[1];
@@ -224,12 +228,42 @@ class Customer extends Zrjoboa
 
 				$add['bus_line'] = $bus_line;
 				$add['url'] = $url;
+
+				$add['job'] = $job;
+				$add['email'] = $email;
+				$add['sex'] = $sex;
  
 				
 				if($this->customer->add($add)){
-					$msg['title'] = '添加成功';
-					$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a> | <a href="'.base_url().'customer/add">继续添加</a>';
-					$this->tpl('msg/msg_success',$msg);
+					$company_id = $this->customer->insert_id();
+					//添加联系人
+					$add_contacts['company_id'] = $company_id;
+					$add_contacts['realname'] = $contacts;
+					$add_contacts['birthday'] = $birthday;
+					$add_contacts['phone'] = $phone;
+					$add_contacts['tel'] = $tel;
+					$add_contacts['fax'] = $fax;
+					//$add_contacts['email'] = $email;
+					$add_contacts['qq'] = $qq;
+					$add_contacts['webchat'] = $webchat;
+					$add_contacts['addtime'] = time();
+
+					$add_contacts['job'] = $job;
+					$add_contacts['email'] = $email;
+					$add_contacts['sex'] = $sex;
+
+					if($this->contacts->add($add_contacts)){
+
+						$msg['title'] = '添加成功';
+						$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a> | <a href="'.base_url().'customer/add">继续添加</a>';
+						$this->tpl('msg/msg_success',$msg);
+
+					}else{
+						$msg['title'] = '添加联系人失败';
+						$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a> | <a href="'.base_url().'customer/add">继续添加</a>';
+						$this->tpl('msg/msg_errors',$msg);
+					}
+
 				}else{
 					$msg['title'] = '添加失败';
 					$msg['msg'] = '<a href="'.base_url().'customer/index">返回列表</a> | <a href="'.base_url().'customer/add">继续添加</a>';
@@ -242,7 +276,6 @@ class Customer extends Zrjoboa
 			}
 
 		}else{
-
 			//客户代表
 			$account = array();
 			$where['where']['isdel'] = '0';
@@ -254,7 +287,7 @@ class Customer extends Zrjoboa
 
 			//企业性质
 			$nature = array();
-			$key = 'WRZC_company_type';
+			$key = 'QS_company_type';
 			$nature = $this->categorylib->get_category($key);
 			$data['nature'] = $nature;
 
@@ -263,13 +296,13 @@ class Customer extends Zrjoboa
 
 			//行业
 			$industry = array();
-			$indu_key = 'WRZC_trade';
+			$indu_key = 'QS_trade';
 			$industry = $this->categorylib->get_category($indu_key);
 			$data['industry'] = $industry;
 
 			//公司规模
 			$scale = array();
-			$scale_key = 'WRZC_scale';
+			$scale_key = 'QS_scale';
 			$scale = $this->categorylib->get_category($scale_key);
 			$data['scale'] = $scale;
 
@@ -305,7 +338,10 @@ class Customer extends Zrjoboa
 			$fax = $this->input->post('fax');
 			$qq = $this->input->post('qq');
 			$webchat = $this->input->post('webchat'); 
-			$birday = $this->input->post('birday');
+			$birthday = $this->input->post('birthday');
+			$job = $this->input->post('job');
+			$sex = $this->input->post('sex');
+			$email = $this->input->post('email');
 		
 			$_nature = array();
 			$_nature = explode(':', $nature);
@@ -383,7 +419,7 @@ class Customer extends Zrjoboa
 				$add['fax'] = $fax;
 				$add['qq'] = $qq;
 				$add['webchat'] = $webchat;
-				$add['birday'] = $birday;
+				$add['birday'] = $birthday;
 
 				$add['industry'] = $_industry[0];
 				$add['industry_cn'] = $_industry[1];
@@ -400,6 +436,10 @@ class Customer extends Zrjoboa
 				$add['city_cn'] = $_city[1];
 				$add['bus_line'] = $bus_line;
 				$add['url'] = $url;
+
+				$add['job'] = $job;
+				$add['email'] = $email;
+				$add['sex'] = $sex;
  
 				$config = array('id'=>$id);
 				if($this->customer->update($config,$add)){

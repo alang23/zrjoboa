@@ -373,7 +373,54 @@ if( !function_exists('pay_type') ){
     }
 }
 
+if(!function_exists('person_type')){
 
+    function person_type($status)
+    {
+        $result = '';
+        switch($status){
+            case 0:
+                $result = '<font color="green">普通人才</font>';
+                break;
+            case 1:
+                $result = '<font color="red">高级人才</font>';
+                break;
+            default:
+                $result = '<font color="green">普通人才</font>';
+                break;
+        }
+
+        return $result;
+    }
+}
+
+if(!function_exists('request_post')){
+/**
+     * 模拟post进行url请求
+     * @param string $url
+     * @param string $param
+     */
+    function request_post($url = '', $param = '') {
+        if (empty($url) || empty($param)) {
+            return false;
+        }
+        
+        $postUrl = $url;
+        $curlPost = $param;
+        $ch = curl_init();//初始化curl
+        curl_setopt($ch, CURLOPT_URL,$postUrl);//抓取指定网页
+        curl_setopt($ch, CURLOPT_HEADER, 0);//设置header
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+        curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
+        $data = curl_exec($ch);//运行curl
+        curl_close($ch);
+        
+        return $data;
+    }
+    
+
+}
 //会议级别
 if( !function_exists('meetting_level') ){
 

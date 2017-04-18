@@ -77,6 +77,10 @@ class Zroa_Model extends CI_Model
             $this->db->order_by($where['order']['key'],$where['order']['value']);
         }
 
+        if(!empty($where['like'])){
+            $this->db->like($where['like']['key'],$where['like']['value']);
+        }
+
         $info = $this->db->get($this->table_name)->row_array();
 
         return $info;

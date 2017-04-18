@@ -45,7 +45,8 @@ class Mealview extends Zrjoboa
                 $offset = ($page - 1) * $limit;
                 $pagination = '';
                         
-                $countwhere = array('isdel'=>'0');
+                $countwhere['isdel'] = '0';
+                $countwhere['y_amount'] = '0';
                 $count = $this->bussiness_exhibition->get_count($countwhere);
                 $data['count'] = $count;
 

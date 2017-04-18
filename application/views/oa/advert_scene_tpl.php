@@ -86,10 +86,10 @@ function flush(msg,url){
               <td><?=get_invoice($v['invoice'])?></td>
 
               <td>
-              <a href="<?=base_url()?>company/edit?id=<?=$v['id']?>">编辑</a> |
-              <a href="javascript:void(0);" onclick="flush('删除后不能恢复，确定删除吗?','<?=base_url()?>company/del?id=<?=$v['id']?>')">删除</a> |
-              <a href="<?=base_url()?>bussiness/scene_detail?id=<?=$v['id']?>">查看详情</a>
-
+          
+              <button onclick="window.location='<?=base_url()?>bussiness/scene_detail?id=<?=$v['id']?>'" class="button button-small button-success">查看详情</button>
+              <button onclick="whowfrm('<?=base_url()?>uploadfile/index?id=<?=$v['id']?>&bussiness_id=<?=$v['bussiness_id']?>&type_id=1&role=2');" class="button button-small button-success">上传管理</button>
+    
               </td>
             </tr>
             <?php
@@ -110,5 +110,12 @@ function flush(msg,url){
     </div> 
 <!-- script end -->
   </div>
+  <script>
+        function whowfrm(url)
+        {
+          window.open (url,'newwindow','height=600,width=800,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')
+        }
+
+  </script>
     </body>
     </html>       

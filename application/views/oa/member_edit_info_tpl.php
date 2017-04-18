@@ -31,10 +31,10 @@
             <input name="realname" type="text" value="<?=$info['realname']?>" class="control-text" >
           </div>
         </div>
-        <div class="control-group span10">
-          <label class="control-label">手机：</label>
+        <div class="control-group span14">
+          <label class="control-label"><s>*</s>手机：</label>
           <div class="controls bui-form-field-plain" >
-              <input name="phone" type="text" value="<?=$info['phone']?>" class="control-text" >
+              <input name="phone" type="text" id="phone" value="<?=$info['phone']?>" class="control-text" onblur="check_phone();" >
           </div>
         </div>
       </div>
@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="control-group span10">
-          <label class="control-label">籍贯：</label>
+          <label class="control-label"><s>*</s>籍贯：</label>
           <div class="controls bui-form-field-plain" >
               <input name="household" type="text" value="<?=$info['household']?>" class="control-text" >
           </div>
@@ -71,15 +71,15 @@
           <label class="control-label">性别：</label>
           <div class="controls">
             <select name="sex">
-              <option value="1" <?php if($info['sex'] == '1'){ ?> selected <?php } ?>>男</option>
-              <option value="2" <?php if($info['sex'] == '2'){ ?> selected <?php } ?>>女</option>
+              <option value="1" <?php if($info['sex']==1){?> checked="true" <?php } ?> >男</option>
+              <option value="2" <?php if($info['sex']==2){?> checked="true" <?php } ?>>女</option>
             </select>
           </div>
         </div>
         <div class="control-group12 span10">
-          <label class="control-label">年龄：</label>
+          <label class="control-label">出生年份：</label>
           <div class="controls">
-            <input name="age" type="text" value="<?=$info['age']?>">
+            <input name="birthday" type="text" id="birthday"  value="<?=$info['birthday']?>" />
           </div>
         </div>
       </div>
@@ -100,12 +100,45 @@
           </div>
         </div>
         <div class="control-group12 span10">
-          <label class="control-label">微信：</label>
+          <label class="control-label">薪资要求：</label>
           <div class="controls">
-            <input name="webchat" type="text" value="<?=$info['webchat']?>" >
+            <select name="wage">
+                <option value="0:无">==无==</option>
+                <?php
+                 foreach($wage as $wk =>$wv){
+                ?>
+                   <option value="<?=$wv['c_id']?>:<?=$wv['c_name']?>" <?php if($wv['c_id']==$info['wage']){ ?> selected <?php } ?>><?=$wv['c_name']?></option>
+                <?php
+                  }
+                ?>
+            </select>
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="control-group span10">
+          <label class="control-label"><s>*</s>工作经验：</label>
+          <div class="controls">
+            <select name="experience">
+                <option value="0:无">==无==</option>
+                <?php
+                 foreach($experience as $eek =>$eev){
+                ?>
+                   <option value="<?=$eev['c_id']?>:<?=$eev['c_name']?>" <?php if($eev['c_id']==$info['experience']){ ?> selected <?php } ?>><?=$eev['c_name']?></option>
+                <?php
+                  }
+                ?>
+            </select>
+          </div>
+        </div>
+        <div class="control-group span10">
+          <label class="control-label"><s>*</s>求职意向：</label>
+          <div class="controls">
+            <input name="intention" type="text" value="<?=$info['intention']?>">
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="control-group span10">
           <label class="control-label">身份证：</label>
@@ -114,9 +147,9 @@
           </div>
         </div>
         <div class="control-group span10">
-          <label class="control-label"><s>*</s>求职意向：</label>
+          <label class="control-label">人才类型：</label>
           <div class="controls">
-            <input name="intention" type="text" value="<?=$info['intention']?>">
+             <input id="person_type" type="radio" name="person_type" value="0" <?php if($info['person_type'] == '0'){ ?> checked="checked" <?php } ?> /><label for="person_type_1">普通人才</label></td><td><input id="person_type" type="radio" name="person_type" value="1" <?php if($info['person_type'] == '1'){ ?> checked="checked" <?php } ?>/><label for="txtw_sex_1">高级人才</label>
           </div>
         </div>
       </div>

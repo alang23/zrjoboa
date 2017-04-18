@@ -36,7 +36,7 @@
           </thead>
     </table>-->
 
-    <form id="J_Form" class="form-horizontal" method="post" action="<?=base_url()?>member/add_info">
+    <form id="J_Form" name="form1" class="form-horizontal" method="post" action="<?=base_url()?>member/add_idcard">
     <div style="position: absolute; right: 50px; margin-bottom: 10px; top: 80px;">
     
 <!--
@@ -67,12 +67,19 @@
 
           </div>
         </div>
-        <div class="control-group span8">
-          <label class="control-label">籍贯：</label>
-          <div class="controls bui-form-field-plain" >
-          <input name="txtw_native_place" type="text" id="txtw_native_place" />
+
+
+
+        <div class="control-group span14">
+          <label class="control-label"><s>*</s>手机号：</label>
+          <div class="controls">
+          <input name="phone" type="text" id="phone"  onblur="check_phone();"/>
           </div>
         </div>
+
+
+
+
 
       </div>
       <div class="row">
@@ -80,41 +87,38 @@
           <label class="control-label">目前所在地：</label>
           <div class="controls">
             <select class="input-small" name="province" id="province" onchange="get_city(this.value);">
-              <option value="0-无">=省=</option>
+              <option value="0:无">=省=</option>
               <?php
                 foreach($province as $k => $v){
               ?>
-              <option value="<?=$v['id']?>-<?=$v['categoryname']?>"><?=$v['categoryname']?></option>
+              <option value="<?=$v['id']?>:<?=$v['categoryname']?>"><?=$v['categoryname']?></option>
               <?php
                 }
               ?>
             </select>
           
             <select class="input-small" name="city" id="city">
-              <option value="0-无">=市=</option>
+              <option value="0:无">=市=</option>
               
             </select>
           </div>
         </div>
         <div class="control-group12 span8">
-          <label class="control-label">学历：</label>
+          <label class="control-label">人才类型：</label>
           <div class="controls">
-            <select class="input-small" name="education">
-              <option value="0">男</option>
-              <option value="1">女</option>
-            </select>
+  <input id="person_type" type="radio" name="person_type" value="0" checked="checked" /><label for="person_type_1">普通人才</label></td><td><input id="person_type" type="radio" name="person_type" value="1" /><label for="txtw_sex_1">高级人才</label>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="control-group span8">
-          <label class="control-label">性别：</label>
+          <label class="control-label"><s>*</s>性别：</label>
           <div class="controls">
-              <input id="txtw_sex_0" type="radio" name="txtw_sex" value="0" checked="checked" /><label for="txtw_sex_0">男</label></td><td><input id="txtw_sex_1" type="radio" name="txtw_sex" value="1" /><label for="txtw_sex_1">女</label>
+              <input id="txtw_sex_0" type="radio" name="txtw_sex" value="1" checked="checked" /><label for="txtw_sex_0">男</label></td><td><input id="txtw_sex_1" type="radio" name="txtw_sex" value="2" /><label for="txtw_sex_1">女</label>
           </div>
         </div>
         <div class="control-group12 span8">
-          <label class="control-label">出生日期：</label>
+          <label class="control-label"><s>*</s>出生日期：</label>
           <div class="controls">
           <input name="txtw_birthday" type="text" id="txtw_birthday"  class="calendar" />
           </div>
@@ -128,9 +132,18 @@
           </div>
         </div>
         <div class="control-group12 span8">
-          <label class="control-label">微信：</label>
+          <label class="control-label"><s>*</s>薪资要求：</label>
           <div class="controls">
-            <input name="webchat" type="text" >
+            <select name="wage">
+                <option value="0:无">==无==</option>
+                <?php
+                 foreach($wage as $wk =>$wv){
+                ?>
+                   <option value="<?=$wv['c_id']?>:<?=$wv['c_name']?>" <?php if($wv['c_id']=='59'){ ?> selected <?php } ?>><?=$wv['c_name']?></option>
+                <?php
+                  }
+                ?>
+            </select>
           </div>
         </div>
       </div>
@@ -145,25 +158,43 @@
         </div>
         <!--
         -->
-        <div class="control-group span8">
-          <label class="control-label">QQ：</label>
+        <div class="control-group span10">
+          <label class="control-label"><s>*</s>学历：</label>
           <div class="controls">
-            <input name="webchat" type="text" class="input-small">
+            <select name="education">
+                <option value="0:无">==无==</option>
+                <?php
+                 foreach($education as $ek =>$ev){
+                ?>
+                   <option value="<?=$ev['c_id']?>:<?=$ev['c_name']?>" <?php if($ev['c_id']=='66'){ ?> selected <?php } ?>><?=$ev['c_name']?></option>
+                <?php
+                  }
+                ?>
+            </select>
           </div>
         </div>
       </div>
 
       <div class="row">
         <div class="control-group span8">
-          <label class="control-label"><s>*</s>手机号：</label>
-          <div class="controls">
-          <input name="txtw_nationl" type="text" id="txtw_nationl"  />
+          <label class="control-label">籍贯：</label>
+          <div class="controls bui-form-field-plain" >
+          <input name="txtw_native_place" type="text" id="txtw_native_place" />
           </div>
         </div>
-        <div class="control-group12 span8">
-          <label class="control-label">邮箱：</label>
+        <div class="control-group span10">
+          <label class="control-label"><s>*</s>工作经验：</label>
           <div class="controls">
-            <input name="webchat" type="text" >
+            <select name="experience">
+                <option value="0:无">==无==</option>
+                <?php
+                 foreach($experience as $eek =>$eev){
+                ?>
+                   <option value="<?=$eev['c_id']?>:<?=$eev['c_name']?>" <?php if($eev['c_id']=='77'){ ?> selected <?php } ?>><?=$eev['c_name']?></option>
+                <?php
+                  }
+                ?>
+            </select>
           </div>
         </div>
       </div>
@@ -181,7 +212,7 @@
       
       <div class="row">
         <div class="form-actions offset3">
-          <button type="submit" class="button button-primary">保存</button>
+          <button type="button" class="button button-primary" onclick="do_post();">保存</button>
           <button type="reset" class="button" onclick="history.back();">返回</button>
         </div>
       </div>
@@ -205,7 +236,7 @@
 function get_city(id)
 {
 
-    /*
+    
     var aj = $.ajax( {
               url:'<?=base_url()?>member/get_city_select',
               data:{
@@ -234,9 +265,92 @@ function get_city(id)
                   alert("请求失败，请重试");
               }
           });
-          */
+          
 } 
  
+
+ function check_phone()
+{
+
+  var phone = '';
+  phone = $("#phone").val();
+
+  if(phone == ''){
+    $("#phone-err").remove();
+      $("#phone").after('<span class="x-field-error" id="phone-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">手机号不能为空</label></span>');
+      return false;
+  }else{
+
+        var aj = $.ajax( {
+              url:'<?=base_url()?>member/check_phone',
+              data:{                 
+                  phone : phone                 
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+                //alert(data.code);
+                if(data.code != 0){
+                  $("#phone-err").remove();
+                  $("#phone").after('<span class="x-field-error" id="phone-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">'+data.msg+'</label></span>');
+                  return false;
+                }else{
+                  $("#phone-err").remove();
+                  return true;
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
+      $("#phone-err").remove();
+      return true;
+  }
+}
+
+function do_post()
+{
+
+  var phone = '';
+  phone = $("#phone").val();
+
+  if(phone == ''){
+    $("#phone-err").remove();
+      $("#phone").after('<span class="x-field-error" id="phone-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">手机号不能为空</label></span>');
+      return false;
+  }else{
+
+        var aj = $.ajax( {
+              url:'<?=base_url()?>member/check_phone',
+              data:{                 
+                  phone : phone                 
+              },
+              contentType:"application/x-www-form-urlencoded; charset=utf-8",
+              type:'post',
+              cache:false,
+              dataType:'json',
+              success:function(data){
+                //alert(data.code);
+                if(data.code != 0){
+                  $("#phone-err").remove();
+                  $("#phone").after('<span class="x-field-error" id="phone-err"><span class="x-icon x-icon-mini x-icon-error">!</span><label class="x-field-error-text">'+data.msg+'</label></span>');
+                  return false;
+                }else{
+                  $("#phone-err").remove();
+                  //return true;
+                  document.form1.submit();
+                }              
+              },
+              error : function() {
+                  alert("请求失败，请重试");
+              }
+          });
+      $("#phone-err").remove();
+      return true;
+  }
+}
       
 </script>
   <script type="text/javascript" language="JavaScript">
@@ -321,7 +435,7 @@ function get_city(id)
     }
 
     function StartRead() {
-      alert(GT2ICROCX);
+      //alert(GT2ICROCX);
       //GT2ICROCX.PhotoPath = "c:";
       GT2ICROCX.Start();
     }

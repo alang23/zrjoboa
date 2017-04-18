@@ -8,6 +8,10 @@
   <link href="<?=base_url()?>static/assets/css/bs3/dpl.css" rel="stylesheet">
   <link href="<?=base_url()?>static/assets/css/bs3/bui.css" rel="stylesheet">
  
+ <script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
+<link href="<?=base_url()?>static/plus/chosen/chosen.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="<?=base_url()?>static/plus/chosen/chosen.jquery.js"></script>
+
 </head>
 <body>
   <div class="container">
@@ -32,11 +36,11 @@
       <div class="control-group">
         <label class="control-label"><s>*</s>客户代表：</label>
         <div class="controls bui-form-group-select">
-          <select class="input-small" name="uid">
+          <select  name="uid" style="width:400px;" id="uid" class="dept_select">
           <?php
             foreach($account as $ak => $av){
           ?>
-            <option value="<?=$av['id']?>:<?=$av['realname']?>"><?=$av['realname']?></option>
+            <option value="<?=$av['id']?>:<?=$av['realname']?>" <?php if($av['id'] == $userinfo['id']){ ?> selected <?php } ?>><?=$av['realname']?></option>
           <?php
             }
           ?>
@@ -50,13 +54,25 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label"><s>*</s>联系人：</label>
+        <label class="control-label">联系人：</label>
         <div class="controls">
-          <input type="text" class="input-large" name="contacts" id="contacts" onblur="check_contacts();" >
+          <input type="text" class="input-large" name="contacts" id="contacts" >
         </div>
       </div>
+        <div class="control-group">
+        <label class="control-label">职位：</label>
+        <div class="controls">
+          <input type="text" class="input-large" name="job" id="job"  >
+        </div>
+      </div>
+      <div class="control-group ">
+          <label class="control-label">性别：</label>
+          <div class="controls">
+             <input id="person_type" type="radio" name="sex" value="1" checked="checked" /><label for="person_type_1">男</label><input id="person_type" type="radio" name="sex" value="2" /> <label for="txtw_sex_1">女</label>
+          </div>
+        </div>
       <div class="control-group">
-        <label class="control-label"><s>*</s>工作电话：</label>
+        <label class="control-label">工作电话：</label>
         <div class="controls">
           <input type="text" class="input-large" id="tel" name="tel" onblur="check_tel();">
         </div>
@@ -65,6 +81,12 @@
         <label class="control-label">手机：</label>
         <div class="controls">
           <input type="text" class="input-large" id="phone" name="phone" >
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">邮箱：</label>
+        <div class="controls">
+          <input type="text" class="input-large" id="email" name="email" >
         </div>
       </div>
             <div class="control-group">
@@ -88,7 +110,7 @@
       <div class="control-group">
         <label class="control-label">生日：</label>
         <div class="controls">
-                  <input type="text" class="calendar" name="birday" id="birday" >
+                  <input type="text" class="calendar" name="birthday" id="birthday" >
         </div>
       </div>
       <div class="control-group">
@@ -99,7 +121,7 @@
               <?php
                 foreach($province as $k => $v){
               ?>
-              <option value="<?=$v['id']?>:<?=$v['categoryname']?>"><?=$v['categoryname']?></option>
+              <option value="<?=$v['id']?>:<?=$v['categoryname']?>" <?php if($v['id'] == '20'){ ?> selected <?php } ?>><?=$v['categoryname']?></option>
               <?php
                 }
               ?>
@@ -207,7 +229,6 @@
     </form>
       </div>
     </div>  
-    <script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
 <script src="http://g.tbcdn.cn/fi/bui/seed-min.js?t=201212261326"></script>    
 <script type="text/javascript">
         BUI.use('bui/calendar',function(Calendar){
@@ -216,6 +237,16 @@
             autoRender : true
           });
         });
+
+  $(function(){
+
+    $('.dept_select').chosen({
+      no_results_text: "My language message.", 
+      placeholder_text : "My language message.", 
+      search_contains: true,
+      disable_search_threshold: 4
+    });
+  })
 </script>
 <script>
 //检查密码
@@ -336,7 +367,9 @@ function get_city(id)
               }
           });
 } 
- 
+$(function(){
+  get_city(20);
+})
       
 </script>
   </div>

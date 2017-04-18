@@ -8,7 +8,13 @@
   <link href="<?=base_url()?>static/assets/css/bs3/dpl.css" rel="stylesheet">
   <link href="<?=base_url()?>static/assets/css/bs3/bui.css" rel="stylesheet">
 
-  <link rel="Stylesheet" href="<?=base_url()?>static/plus/selected/css/jquery.autocomplete.css" />
+<script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
+<link href="<?=base_url()?>static/plus/chosen/chosen.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="<?=base_url()?>static/plus/chosen//chosen.jquery.js"></script>
+
+<style>
+
+</style>
 </head>
 <body>
   <div class="container">
@@ -36,6 +42,7 @@
       <div class="control-group">
         <label class="control-label">企业：</label>
         <div class="controls  control-row-auto">
+        <!--
                 <select name="bussiness_id" id="bussiness_id" class="input-large" onchange="get_customer_info()"> 
                 <?php
                   foreach($bussiness as $bk => $bv){
@@ -45,6 +52,18 @@
                   }
                 ?>
                 </select>
+                -->
+
+      <select  style="width:400px;" name="bussiness_id" id="bussiness_id" class="dept_select" onchange="get_customer_info()"> 
+         <?php
+            foreach($bussiness as $bk => $bv){
+          ?>
+                  <option value="<?=$bv['id']?>:<?=$bv['c_name']?>" <?php if($bussiness_id == $bv['id']){?> selected <?php } ?> ><?=$bv['c_name']?></option>
+          <?php
+            }
+          ?>
+      </select>
+
         </div>
       </div>
 <!--
@@ -81,7 +100,7 @@
                 ?>
                 </select>
                 -->
-          <input type="text"  class="input-small" name="no_id" id="no_id" value="" >
+          <input type="text"  class="input-small" name="no_id" id="no_id" value="0" >
 
         </div>
       </div>
@@ -213,7 +232,6 @@
     </form>
       </div>
     </div>  
-<script src="<?=base_url()?>static/assets/js/jquery-1.8.1.min.js"></script>
 <script src="http://g.tbcdn.cn/fi/bui/seed-min.js?t=201212261326"></script> 
 <script type="text/javascript" src="<?=base_url()?>static/layer/layer.js"></script>
   <script type="text/javascript" src="<?=base_url()?>static/plus/selected/js/jquery.autocomplete.min.js"></script>
@@ -264,7 +282,12 @@ function check_amoutn()
 
 $(function(){
   get_customer_info();
-
+  $('.dept_select').chosen({
+    no_results_text: "My language message.", 
+    placeholder_text : "My language message.", 
+    search_contains: true,
+    disable_search_threshold: 10
+  });
 })
 
 function get_customer_info()

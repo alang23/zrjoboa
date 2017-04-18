@@ -22,11 +22,11 @@
           <li>
             <a href="#">客户管理</a> <span class="divider">/</span>
           </li>
-          <li class="active">添加客户</li>
+          <li class="active">编辑客户</li>
         </ul>
     </div>
       <div class="span24">
-        <h4>添加客户</h4>
+        <h4>编辑客户</h4>
         <hr>
        <form id="J_Form" name="form1" method="post" action="<?=base_url()?>customer/edit" class="form-horizontal" enctype="multipart/form-data">
       <div class="control-group">
@@ -55,6 +55,18 @@
           <input type="text" class="input-large" name="contacts" id="contacts" onblur="check_contacts();" value="<?=$info['contacts']?>" >
         </div>
       </div>
+            <div class="control-group ">
+          <label class="control-label">性别：</label>
+          <div class="controls">
+             <input id="person_type" type="radio" name="sex" value="1" <?php if($info['sex'] == '1'){ ?> checked="checked"  <?php } ?>/><label for="person_type_1">男</label><input id="person_type" type="radio" name="sex" value="2"  <?php if($info['sex'] == '2'){ ?> checked="checked"  <?php } ?>/> <label for="txtw_sex_1">女</label>
+          </div>
+        </div>
+              <div class="control-group">
+        <label class="control-label"><s>*</s>职位：</label>
+        <div class="controls">
+          <input type="text" class="input-large" name="job" id="job"  value="<?=$info['job']?>" >
+        </div>
+      </div>
       <div class="control-group">
         <label class="control-label"><s>*</s>工作电话：</label>
         <div class="controls">
@@ -66,6 +78,12 @@
         <label class="control-label">手机：</label>
         <div class="controls">
           <input type="text" class="input-large" id="phone" name="phone" value="<?=$info['phone']?>">
+        </div>
+      </div>
+            <div class="control-group">
+        <label class="control-label"><s>*</s>邮箱：</label>
+        <div class="controls">
+          <input type="text" class="input-large" id="email" name="email" value="<?=$info['email']?>">
         </div>
       </div>
       <div class="control-group">
@@ -89,7 +107,7 @@
       <div class="control-group">
         <label class="control-label">生日：</label>
         <div class="controls">
-                  <input type="text" class="calendar" name="birday" id="birday" value="<?=$info['birday']?>">
+                  <input type="text" class="calendar" name="birthday" id="birthday" value="<?=$info['birday']?>">
         </div>
       </div>
       <div class="control-group">

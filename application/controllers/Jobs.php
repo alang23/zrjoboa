@@ -194,7 +194,6 @@ class Jobs extends Zrjoboa
 			$data['company_id'] = $_company[0];
 			$data['company_name'] = $_company[1];
 
-
 			if(!empty($data['jobs_name']) && !empty($data['company_id']) && !empty($data['company_name'])){
 
 				if($this->jobs->add($data)){
@@ -211,7 +210,6 @@ class Jobs extends Zrjoboa
 
 
 
-
 		}else{
 
 			$company_id = isset($_GET['company_id']) ? $_GET['company_id'] : 0;
@@ -224,25 +222,25 @@ class Jobs extends Zrjoboa
 
 			//学历
 			$education = array();
-			$education_key = 'WRZC_education';
+			$education_key = 'QS_education';
 			$education = $this->categorylib->get_category($education_key);
 			$data['education'] = $education;
 
 			//工作经验
 			$age = array();
-			$age_key = 'WRZC_hunter_age';
+			$age_key = 'QS_age';
 			$age = $this->categorylib->get_category($age_key);
 			$data['age'] = $age;
 
 			//		
 			$experience = array();
-			$experience_key = 'WRZC_experience';
+			$experience_key = 'QS_experience';
 			$experience = $this->categorylib->get_category($experience_key);
 			$data['experience'] = $experience;
 
 			//薪资
 			$wage = array();
-			$wage_key = 'WRZC_wage';
+			$wage_key = 'QS_wage';
 			$wage = $this->categorylib->get_category($wage_key);
 			$data['wage'] = $wage;
 
@@ -347,25 +345,25 @@ class Jobs extends Zrjoboa
 
 			//学历
 			$education = array();
-			$education_key = 'WRZC_education';
+			$education_key = 'QS_education';
 			$education = $this->categorylib->get_category($education_key);
 			$data['education'] = $education;
 
 			//工作经验
 			$age = array();
-			$age_key = 'WRZC_hunter_age';
+			$age_key = 'QS_age';
 			$age = $this->categorylib->get_category($age_key);
 			$data['age'] = $age;
 
 			//		
 			$experience = array();
-			$experience_key = 'WRZC_experience';
+			$experience_key = 'QS_experience';
 			$experience = $this->categorylib->get_category($experience_key);
 			$data['experience'] = $experience;
 
 			//薪资
 			$wage = array();
-			$wage_key = 'WRZC_wage';
+			$wage_key = 'QS_wage';
 			$wage = $this->categorylib->get_category($wage_key);
 			$data['wage'] = $wage;
 
@@ -386,6 +384,58 @@ class Jobs extends Zrjoboa
 
 		$data['info'] = $info;
 		$this->tpl('oa/jobs_detail_tpl',$data);
+	}
+
+
+	public function prints()
+	{
+		$jobs_name = isset($_GET['jobs_name']) ? $_GET['jobs_name'] : '';
+
+		$list = array();
+		$where['page'] = true;
+        $where['limit'] = 30;
+        $where['offset'] = 0;
+        $where['where']['isdel'] = '0';
+
+        if(!empty($jobs_name)){
+        	$where['like'] = array('key'=>'jobs_name','value'=>$jobs_name);
+        }
+
+   
+        $where['order'] = array('key'=>'id','value'=>'DESC');
+		$list = $this->jobs->getList($where);	
+		$data['list'] = $list;
+		$data['jobs_name'] = $jobs_name;
+
+		$this->tpl('oa/jobs_list_print_tpl',$data);
+
+	}
+
+	//执行打印
+	public function do_prints()
+	{
+
+		$jobs_name = isset($_GET['jobs_name']) ? $_GET['jobs_name'] : '';
+
+
+		$list = array();
+		$where['page'] = true;
+        $where['limit'] = 30;
+        $where['offset'] = 0;
+        $where['where']['isdel'] = '0';
+
+        if(!empty($jobs_name)){
+        	$where['like'] = array('key'=>'jobs_name','value'=>$jobs_name);
+        }
+
+   
+        $where['order'] = array('key'=>'id','value'=>'DESC');
+		$list = $this->jobs->getList($where);	
+		$data['list'] = $list;
+		//print_r($list);
+
+		$this->tpl('oa/jobs_list_doprint_tpl',$data);
+
 	}
 
 

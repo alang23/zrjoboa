@@ -65,6 +65,10 @@ function flush(msg,url){
                 <button type="button" class="button button-small">
                 <i class="icon-plus"></i>添加职位</button>
                 </li></a>
+                <li class="bui-bar-item-button bui-bar-item bui-inline-block" aria-disabled="false" id="bar-item-button1" aria-pressed="false">
+                <button type="button" class="button button-small" onclick="winopen(1,'<?=base_url()?>jobs/prints?jobs_name=<?=$jobs_name?>');">
+                <i class="icon-plus"></i>打印职位</button>
+                </li></a>
                 </ul>
             </th>
             </tr>
@@ -119,5 +123,21 @@ function flush(msg,url){
     </div> 
 <!-- script end -->
   </div>
+  <script>
+
+var winopen = function (rid, url) {
+      var s_x = screen.availWidth - 822;
+      var s_y = screen.availHeight - 800;
+
+      var winX = s_x / 2;
+      var winX = s_x / 2;
+      var winY = s_y / 2;
+      //var url = url + "?RID=" + rid;
+      //signIn(rid);
+    
+      window.open(url, "Details", "width=600,height=600,resizable=yes,scrollbars=yes");
+
+}
+</script>
     </body>
     </html>       
